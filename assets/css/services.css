@@ -1,0 +1,54 @@
+.services{
+    margin-top: 50px;
+}
+.services h1{
+    text-align: center;
+    margin-bottom: 20px;
+}
+.services .col-md{
+     text-align: center; 
+     width: 60%; 
+     margin-left: 100px;
+}
+.title{
+    background-color: rgba(128, 128, 128, 0.24);
+    padding-top: 10px;
+    font-weight: lighter;
+}
+.data{
+    font-weight: bold;
+}
+.data input{
+    margin-bottom: 10px;
+}
+/* .data:hover{
+    padding-top: 10px;
+    background-color: rgba(128, 128, 128, 0.062);
+} */
+.more{
+    text-align: right;
+}
+.data a{
+    color: #ff7f50;
+    text-decoration: none;
+    
+}
+.data i{
+    padding-top: 0px;
+    text-decoration: none;
+}
+.home{
+    background-color: #ff7f50;
+    margin-bottom: 20px;
+}
+.home a{
+    text-decoration: none;
+    font-weight: bolder;
+    color: white;   
+}
+.row{
+    margin-bottom: 20px;
+}
+.sub a{
+    border-radius: 15px!important;
+}

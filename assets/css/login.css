@@ -1,0 +1,62 @@
+/* column1 */
+.col1{
+    margin-top: 50px;
+}
+.col1 h1{
+    margin-bottom: 50px;
+}
+.col1 input{
+    width: 300px;
+    padding-left: 20px;
+    margin-bottom: 20px;
+    
+}
+
+.col1 input[type="submit"]{
+    border: 0;
+    background-color: #ff7f50;
+    color: white;
+    /* text-align: left; */
+    font-weight: bolder;
+    border-radius: 15px;
+}
+.col1 input[type="submit"]:hover{
+    background-color: #f5ab91;
+}
+.link a{
+    background-color: rgb(22, 22, 150);
+    padding: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    color: white;
+    font-weight: bolder;
+    text-decoration: none;
+    border-radius: 15px;
+
+}
+.link:hover a{
+    background-color: rgb(116, 114, 233);
+}
+/* column1 end */
+/* column2 */
+.col2 h6{
+    margin-top: 140px;
+}
+/* column2 end */
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 1000px) {
+    .col1{
+        text-align: center;
+    }
+    .col2{
+        text-align: center;
+    }
+    /* .navbar{
+        z-index: 2;
+        position: relative;
+    }
+    .s2{
+        position:fixed; bottom:40px; right:40px;
+    } */
+}
+

@@ -1,0 +1,50 @@
+.navbar{
+    background-color: rgb(27, 179, 27);
+}
+.navbar-nav{
+    margin-left: 250px;
+}
+.nav-item a{
+    font-size: 20px;  
+    color: black; 
+    border: white 0px solid;
+    border-radius: 15px;
+    margin-right: 5px;
+    font-weight: bold;
+}
+.nav-item a:hover{
+    color: aliceblue; 
+    cursor: pointer;
+    
+}
+.navbar-brand{
+    margin-left: 20px;
+}
+.navbar-brand img{
+    width: 100px;
+    border-radius: 100px 100px 100px;
+}
+.nav-item ul{
+    /* background-color: transparent; */
+}
+.nav-item ul a{
+    border: 0;
+}
+.nav-item ul a:hover{
+    color: black;
+}
+/* HEADER */
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    .nav-item a{
+        font-size: 15px;
+        margin-bottom: 10px;
+        text-align: center;
+
+    }
+}
+@media only screen and (max-width: 1000px) {
+    .navbar-nav{
+        margin-left: 20px;
+    }
+}

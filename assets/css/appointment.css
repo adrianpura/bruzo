@@ -1,0 +1,36 @@
+.content h5{
+    font-weight: lighter;
+}
+.book-btn{
+    width: 200px;
+    margin-left: 300px;
+    margin-top: 50px;
+    
+}
+.book-btn input{
+    background-color: #8CC540;
+    color: white;
+    font-weight: bold;
+    border-radius: 15px;
+}
+@media screen and (max-width: 1000px) {
+    .col-md-4{
+        margin-bottom: 10px;
+    }
+    .book-btn{
+        margin-left: 0px;
+        margin-top: 0px;
+    }
+  }
+@media screen and (max-width: 700px) {
+    /* .book-btn{
+        margin-left: 0px;
+    } */
+  }
+  
+  @media screen and (max-width: 400px) {
+    .sidebar a {
+      text-align: center;
+      float: none;
+    }
+  }
