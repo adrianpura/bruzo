@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bruzo Admin | Doctors</title>
+    <title>Bruzo Admin | Services</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
     <link href="css/plugins/dataTables/datatables.min.css" rel="stylesheet">
@@ -34,13 +34,13 @@
             </div>
             <div class="row wrapper border-bottom white-bg page-heading">
                 <div class="col-lg-10">
-                    <h2>Doctors</h2>
+                    <h2>Gallery</h2>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
                             <a href="index.html">Home</a>
                         </li>
                         <li class="breadcrumb-item active">
-                            <strong>Doctors</strong>
+                            <strong>Gallery</strong>
                         </li>
                     </ol>
                 </div>
@@ -50,9 +50,20 @@
             <div class="wrapper wrapper-content animated fadeInRight">
                 <div class="row">
                     <div class="col-lg-12">
+                        <a href="#modal-form" class="btn btn-primary" data-toggle="modal">
+                            <i class="fa fa-plus"></i>
+                            Add Image
+                        </a>
+                    </div>
+                    <div class="col-lg-2">
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-lg-12">
                         <div class="ibox ">
                             <div class="ibox-title">
-                                <h5>Doctors</h5>
+                                <h5>Gallery</h5>
                                 <div class="ibox-tools">
                                     <a class="collapse-link">
                                         <i class="fa fa-chevron-up"></i>
@@ -60,35 +71,36 @@
                                 </div>
                             </div>
                             <div class="ibox-content">
-                                <div class="table-responsive">
-                                    <table class="table table-striped table-bordered table-hover dataTables-example">
-                                        <thead>
-                                            <tr>
-                                                <th>Doctor ID</th>
-                                                <th>Name</th>
-                                                <th>Birthdate</th>
-                                                <th>Age</th>
-                                                <th>Sex</th>
-                                                <th>Contact Number</th>
-                                                <th>Address</th>
-                                                <th>Email</th>
-                                                <th>Role</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>000001</td>
-                                                <td>Doc Kwak</td>
-                                                <td>01/01/1996</td>
-                                                <td>27</td>
-                                                <td>Male</td>
-                                                <td>09123456789</td>
-                                                <td>Taguig City</td>
-                                                <td>dummy@gmail.com</td>
-                                                <td>Admin</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                <div id="modal-form" class="modal fade" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <h3 class="m-t-none m-b">New Image</h3>
+                                                <form role="form">
+                                                    <div class="form-group">
+                                                        <input id="logo" type="file">
+                                                    </div>
+                                                    <button class="btn btn-sm btn-primary float-right m-t-n-xs" type="submit"><strong>Add Image</strong></button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="ibox">
+                                            <div class="ibox-content product-box">
+                                                <div class="product-imitation">
+                                                    <img src="/img_services/3f70e4490e0e72aa7c65d5f30bae6f82luffy.jpg" alt="">
+                                                </div>
+                                                <div class="product-desc">
+                                                    <div class="text-right">
+                                                        <a href="#" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> Delete</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -101,6 +113,7 @@
                 </div>
             </div>
         </div>
+
     </div>
     <!-- Mainly scripts -->
     <script src="js/jquery-3.1.1.min.js"></script>
@@ -118,39 +131,7 @@
     <!-- Page-Level Scripts -->
     <script>
         $(document).ready(function() {
-            $('.dataTables-example').DataTable({
-                pageLength: 25,
-                responsive: true,
-                dom: '<"html5buttons"B>lTfgitp',
-                buttons: [{
-                        extend: 'copy'
-                    },
-                    {
-                        extend: 'csv'
-                    },
-                    {
-                        extend: 'excel',
-                        title: 'Appointment History'
-                    },
-                    {
-                        extend: 'pdf',
-                        title: 'Appointment History'
-                    },
-
-                    {
-                        extend: 'print',
-                        customize: function(win) {
-                            $(win.document.body).addClass('white-bg');
-                            $(win.document.body).css('font-size', '10px');
-                            $(win.document.body).find('table')
-                                .addClass('compact')
-                                .css('font-size', 'inherit');
-                        }
-                    }
-                ]
-
-            });
-            $('#doctor').addClass('active').siblings().removeClass('active');
+            $('#gallery').addClass('active').siblings().removeClass('active');
         });
     </script>
 </body>

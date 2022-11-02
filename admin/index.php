@@ -6,7 +6,6 @@
     <title>Bruzo Admin | Appointment</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
-    <!-- <link href="css/plugins/footable/footable.core.css" rel="stylesheet"> -->
     <link href="css/plugins/dataTables/datatables.min.css" rel="stylesheet">
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
@@ -93,7 +92,7 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
-                        <a href="schedule_setup.html" class="btn btn-primary">
+                        <a href="schedule_setup.php" class="btn btn-primary">
                             <i class="fa fa-calendar"></i>
                              Setup Schedule
                         </a>
