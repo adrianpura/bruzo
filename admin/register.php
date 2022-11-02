@@ -23,7 +23,34 @@
             <p>Create account to see it in action.</p>
             <form class="m-t" role="form" action="login.php">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Name" required="">
+                    <input type="text" class="form-control" placeholder="First Name" required="">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Last Name" required="">
+                </div>
+                <div class="form-group text-left">
+                    <label for="date">Birthdate</label>
+                    <div class="input-group date">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input type="text" class="form-control" value="03/04/2014" name="date">
+                    </div>
+                </div>
+                <div class="form-group text-left">
+                    <label for="age">Age</label>
+                    <input type="number" class="form-control" value="18" name="age">
+                </div>
+                <div class="form-group text-left">
+                    <label for="sex" class="text-left">Sex</label>
+                    <select class="form-control m-b" name="sex">
+                        <option>Male</option>
+                        <option>Female</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="contact" class="form-control" placeholder="Contact Number" required="">
+                </div>
+                <div class="form-group">
+                    <input type="address" class="form-control" placeholder="Address" required="">
                 </div>
                 <div class="form-group">
                     <input type="email" class="form-control" placeholder="Email" required="">

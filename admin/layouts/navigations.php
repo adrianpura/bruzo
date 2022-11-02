@@ -28,7 +28,7 @@
                 </a>
             </li>
             <li id="doctors">
-                <a href="#">
+                <a href="doctor.php">
                     <i class="fa fa-history"></i>
                     <span class="nav-label">Doctors</span>
                 </a>
