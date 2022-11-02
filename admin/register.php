@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,34 +24,10 @@
             <p>Create account to see it in action.</p>
             <form class="m-t" role="form" action="login.php">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="First Name" required="">
+                    <input type="text" class="form-control" placeholder="First Name" id="first_name" required="">
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Last Name" required="">
-                </div>
-                <div class="form-group text-left">
-                    <label for="date">Birthdate</label>
-                    <div class="input-group date">
-                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        <input type="text" class="form-control" value="03/04/2014" name="date">
-                    </div>
-                </div>
-                <div class="form-group text-left">
-                    <label for="age">Age</label>
-                    <input type="number" class="form-control" value="18" name="age">
-                </div>
-                <div class="form-group text-left">
-                    <label for="sex" class="text-left">Sex</label>
-                    <select class="form-control m-b" name="sex">
-                        <option>Male</option>
-                        <option>Female</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <input type="contact" class="form-control" placeholder="Contact Number" required="">
-                </div>
-                <div class="form-group">
-                    <input type="address" class="form-control" placeholder="Address" required="">
+                    <input type="text" class="form-control" placeholder="Last Name" id="last_name" required="">
                 </div>
                 <div class="form-group">
                     <input type="email" class="form-control" placeholder="Email" required="">
@@ -61,9 +38,9 @@
                 <div class="form-group text-left">
                     <label for="account" class="text-left">Role</label>
                     <select class="form-control m-b" name="account">
-                        <option>Doctor</option>
-                        <option>Dentist</option>
-                        <option>Admin</option>
+                        <option value="doctor">Doctor/Dentist</option>
+                        <option value="assistant">Assistant</option>
+                        <option value="admin">Admin</option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary block full-width m-b">Register</button>

@@ -1,5 +1,14 @@
+<?php
+require_once("../admin/include/initialize.php");
+if (!isset($_SESSION['email'])) {
+    redirect(web_root . "/admin/login.php");
+}
+
+?>
+
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +19,7 @@
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 </head>
+
 <body>
     <div id="wrapper">
         <?php include('layouts/navigations.php'); ?>
@@ -23,7 +33,7 @@
                     </div>
                     <ul class="nav navbar-top-links navbar-right">
                         <li>
-                            <a href="#">
+                            <a href="<?php echo web_root; ?>/admin/logout.php">
                                 <i class="fa fa-sign-out"></i> Log out
                             </a>
                         </li>
@@ -94,7 +104,7 @@
                     <div class="col-lg-12">
                         <a href="schedule_setup.php" class="btn btn-primary">
                             <i class="fa fa-calendar"></i>
-                             Setup Schedule
+                            Setup Schedule
                         </a>
                     </div>
                     <div class="col-lg-2">
@@ -173,7 +183,7 @@
     <script src="js/inspinia.js"></script>
     <script src="js/plugins/pace/pace.min.js"></script>
     <!-- Page-Level Scripts -->
-     <script>
+    <script>
         $(document).ready(function() {
             $('.dataTables-example').DataTable({
                 pageLength: 25,

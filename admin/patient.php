@@ -1,3 +1,10 @@
+<?php
+require_once("../admin/include/initialize.php");
+if (!isset($_SESSION['email'])) {
+    redirect(web_root . "/admin/login.php");
+}
+
+?>
 <!DOCTYPE html>
 <html>
 
@@ -25,7 +32,7 @@
                     </div>
                     <ul class="nav navbar-top-links navbar-right">
                         <li>
-                            <a href="#">
+                            <a href="<?php echo web_root; ?>/admin/logout.php">
                                 <i class="fa fa-sign-out"></i> Log out
                             </a>
                         </li>
