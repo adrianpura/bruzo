@@ -57,8 +57,8 @@
                         echo '<li><a href="logout.php" class="btn-logout"><i class="bi bi-door-closed-fill" style="font-size:18px;"></i>&nbspLogout</a></li>';
                     }
                     else{
-                        echo '<li><a href="login.php" class="btn-login"><i class="bi bi-door-open-fill" style="font-size:18px;"></i>&nbspLogin</a></li>';
-                        echo '<li><a href="register.php" class="btn-login"><i class="bi bi-person-check-fill" style="font-size:18px;"></i>&nbspRegister</a></li>';
+                        echo '<li><a href="admin/login.php" class="btn-login"><i class="bi bi-door-open-fill" style="font-size:18px;"></i>&nbspLogin</a></li>';
+                        echo '<li><a href="admin/register.php" class="btn-login"><i class="bi bi-person-check-fill" style="font-size:18px;"></i>&nbspRegister</a></li>';
                     }
                     ?>
                 </ul>

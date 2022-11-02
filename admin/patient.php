@@ -104,7 +104,7 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="contact">Contact Number</label>
-                                                        <input type="text" placeholder="Contact Number" class="form-control"  rows="5"  name="contact">
+                                                        <input type="text" placeholder="Contact Number" class="form-control" rows="5" name="contact">
                                                     </div>
                                                     <button class="btn btn-sm btn-primary float-right m-t-n-xs" type="submit"><strong>Add Patient</strong></button>
                                             </div>
@@ -112,59 +112,60 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered table-hover dataTables-example">
+                                        <thead>
+                                            <tr>
+                                                <th>Patient ID</th>
+                                                <th>Name</th>
+                                                <th>Birthdate</th>
+                                                <th>Age</th>
+                                                <th>Sex</th>
+                                                <th>Contact Number</th>
+                                                <th>Address</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>000001</td>
+                                                <td>Kirk Hammett</td>
+                                                <td>11/18/1962</td>
+                                                <td>59</td>
+                                                <td>Male</td>
+                                                <td>09123456789</td>
+                                                <td>San Francisco, California, United States</td>
+                                                <td>
+                                                    <a href="" class="btn btn-success">
+                                                        <i class="fa fa-pencil"></i>
+                                                    </a>
+                                                    <a href="" class="btn btn-danger">
+                                                        <i class="fa fa-trash"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>000002</td>
+                                                <td>Steven Tyler</td>
+                                                <td>03/26/1948</td>
+                                                <td>74</td>
+                                                <td>Male</td>
+                                                <td>09123456789</td>
+                                                <td>New York, United States</td>
+                                                <td>
+                                                    <a href="" class="btn btn-success">
+                                                        <i class="fa fa-pencil"></i>
+                                                    </a>
+                                                    <a href="" class="btn btn-danger">
+                                                        <i class="fa fa-trash"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                            <div class="table-responsive">
-                                <table class="table table-striped table-bordered table-hover dataTables-example">
-                                    <thead>
-                                        <tr>
-                                            <th>Patient ID</th>
-                                            <th>Name</th>
-                                            <th>Birthdate</th>
-                                            <th>Age</th>
-                                            <th>Sex</th>
-                                            <th>Contact Number</th>
-                                            <th>Address</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>000001</td>
-                                            <td>Kirk Hammett</td>
-                                            <td>11/18/1962</td>
-                                            <td>59</td>
-                                            <td>Male</td>
-                                            <td>09123456789</td>
-                                            <td>San Francisco, California, United States</td>
-                                            <td>
-                                                <a href="" class="btn btn-success">
-                                                    <i class="fa fa-pencil"></i>
-                                                </a>
-                                                <a href="" class="btn btn-danger">
-                                                    <i class="fa fa-trash"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>000002</td>
-                                            <td>Steven Tyler</td>
-                                            <td>03/26/1948</td>
-                                            <td>74</td>
-                                            <td>Male</td>
-                                            <td>09123456789</td>
-                                            <td>New York, United States</td>
-                                            <td>
-                                                <a href="" class="btn btn-success">
-                                                    <i class="fa fa-pencil"></i>
-                                                </a>
-                                                <a href="" class="btn btn-danger">
-                                                    <i class="fa fa-trash"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+
                         </div>
                     </div>
                 </div>
