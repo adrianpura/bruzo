@@ -14,7 +14,6 @@ if (!isset($_SESSION['email'])) {
     <title>Bruzo Admin | Patients</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
-    <!-- <link href="css/plugins/footable/footable.core.css" rel="stylesheet"> -->
     <link href="css/plugins/dataTables/datatables.min.css" rel="stylesheet">
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
@@ -177,12 +176,13 @@ if (!isset($_SESSION['email'])) {
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="footer">
+            <div class="footer">
             <div>
                 <strong>Copyright</strong> Bruzo Denta Care Clinic &copy; 2022
             </div>
         </div>
+        </div>
+
     </div>
     </div>
     <!-- Mainly scripts -->

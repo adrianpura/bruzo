@@ -27,19 +27,19 @@
                     <span class="nav-label">Appointment History</span>
                 </a>
             </li>
-            <li id="doctors">
-                <a href="#">
+            <li id="doctor">
+                <a href="doctor.php">
                     <i class="fa fa-history"></i>
                     <span class="nav-label">Doctors</span>
                 </a>
             </li>
-            <li>
-                <a href="#">
+            <li id="service">
+                <a href="services.php">
                     <i class="fa fa-wrench"></i>
                     <span class="nav-label">Services</span>
                 </a>
             </li>
-            <li>
+            <li id="gallery">
                 <a href="gallery.php">
                     <i class="fa fa-photo"></i>
                     <span class="nav-label">Gallery</span>
