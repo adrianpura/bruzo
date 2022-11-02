@@ -1,3 +1,12 @@
+<?php
+require_once("../admin/include/initialize.php");
+
+if (isset($_SESSION['id'])) {
+    redirect(web_root . "/admin/index.php");
+}
+
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -15,18 +24,21 @@
     <div class="middle-box text-center loginscreen animated fadeInDown">
         <div>
             <div>
-                <h1 class="logo-name"><img src="../assets/img/bruzo.png" alt=""  width="100" height="100"></h1>
+                <h1 class="logo-name"><img src="../assets/img/bruzo.png" alt="" width="100" height="100"></h1>
             </div>
             <h3>Welcome to Bruzo Dental Care Clinic</h3>
             <p>Login in. To see it in action.</p>
-            <form class="m-t" role="form" action="index.php">
+
+            <?php check_message(); ?>
+
+            <form class="m-t user" role="form" method="POST" action="include/process.php">
                 <div class="form-group">
-                    <input type="email" class="form-control" placeholder="Username" required="">
+                    <input type="email" class="form-control" placeholder="Email" required name="user_email" id="user_email">
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" placeholder="Password" required="">
+                    <input type="password" class="form-control" placeholder="Password" required name="user_pass" id="user_pass">
                 </div>
-                <button type="submit" class="btn btn-primary block full-width m-b">Login</button>
+                <button type="submit" name="btnLogin" class="btn btn-primary block full-width m-b">Login</button>
 
                 <a href="#"><small>Forgot password?</small></a>
                 <p class="text-muted text-center"><small>Do not have an account?</small></p>
