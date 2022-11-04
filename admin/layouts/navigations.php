@@ -9,22 +9,22 @@
                     <img src="../assets/img/bruzo.png" alt="" width="40" height="40">
                 </div>
             </li>
-            <li id="appointment" class="active">
+            <li id="index" class="active">
                 <a href="index.php">
                     <i class="fa fa-calendar"></i>
-                    <span class="nav-label">Monitor Appointment</span>
+                    <span class="nav-label">Calendar</span>
+                </a>
+            </li>
+            <li id="appointment" class="active">
+                <a href="appointment.php">
+                    <i class="fa fa-calendar"></i>
+                    <span class="nav-label">Appointments</span>
                 </a>
             </li>
             <li id="patient">
                 <a href="patient.php">
                     <i class="fa fa-th-list"></i>
-                    <span class="nav-label">List of Patients</span>
-                </a>
-            </li>
-            <li id="appointment-history">
-                <a href="appointment_history.php">
-                    <i class="fa fa-calendar-times-o"></i>
-                    <span class="nav-label">Appointment History</span>
+                    <span class="nav-label">Patients</span>
                 </a>
             </li>
             <li id="doctor">

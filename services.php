@@ -1,6 +1,6 @@
 <?php
 include('include/config.php');
-$sql = "SELECT * FROM services";
+$sql = "SELECT * FROM cms_services";
 $result = $conn->query($sql);
 include('include/header.php');
 setlocale(LC_MONETARY,"English_Philippines");
