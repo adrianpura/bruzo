@@ -3,22 +3,9 @@ require_once("../admin/include/initialize.php");
 if (!isset($_SESSION['email'])) {
     redirect(web_root . "/admin/login.php");
 }
-
+include("layouts/header.php");
 ?>
-<!DOCTYPE html>
-<html>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bruzo Admin | Appointment History</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
-    <!-- <link href="css/plugins/footable/footable.core.css" rel="stylesheet"> -->
-    <link href="css/plugins/dataTables/datatables.min.css" rel="stylesheet">
-    <link href="css/animate.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-</head>
 
 <body>
     <div id="wrapper">
