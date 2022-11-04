@@ -1,9 +1,13 @@
 <?php
 require_once("../admin/include/initialize.php");
-if (!isset($_SESSION['email'])) {
+if (!isset($_SESSION['id'])) {
     redirect(web_root . "/admin/login.php");
 }
-
+$mydb->setQuery("SELECT status, count(*) as count FROM appointments GROUP BY status ORDER BY status DESC");
+$cur = $mydb->loadResultList();
+$pendingCount = $cur[0]->count;
+$cancelledCount = $cur[1]->count;
+$approvedCount = $cur[2]->count;
 ?>
 
 <!DOCTYPE html>
@@ -63,7 +67,7 @@ if (!isset($_SESSION['email'])) {
                                 <h5>Approved</h5>
                             </div>
                             <div class="ibox-content">
-                                <h1 class="no-margins">0</h1>
+                                <h1 class="no-margins"><?php echo $approvedCount ?></h1>
                                 <div class="stat-percent font-bold text-success">
                                     0% <i class="fa fa-bolt"></i>
                                 </div>
@@ -77,7 +81,7 @@ if (!isset($_SESSION['email'])) {
                                 <h5>Pending</h5>
                             </div>
                             <div class="ibox-content">
-                                <h1 class="no-margins">0</h1>
+                                <h1 class="no-margins"><?php echo $pendingCount ?></h1>
                                 <div class="stat-percent font-bold text-info">
                                     1% <i class="fa fa-level-up"></i>
                                 </div>
@@ -88,14 +92,14 @@ if (!isset($_SESSION['email'])) {
                     <div class="col-lg-3">
                         <div class="ibox ">
                             <div class="ibox-title">
-                                <h5>Rejected</h5>
+                                <h5>Cancelled</h5>
                             </div>
                             <div class="ibox-content">
-                                <h1 class="no-margins">0</h1>
+                                <h1 class="no-margins"><?php echo $cancelledCount ?></h1>
                                 <div class="stat-percent font-bold text-warning">
                                     0% <i class="fa fa-level-up"></i>
                                 </div>
-                                <small>Total Rejected</small>
+                                <small>Total Cancelled</small>
                             </div>
                         </div>
                     </div>
@@ -127,11 +131,9 @@ if (!isset($_SESSION['email'])) {
                                     <table class="table table-striped table-bordered table-hover dataTables-example">
                                         <thead>
                                             <tr>
-                                                <th>Appointment ID</th>
+                                                <th style="width: 20px;">Id</th>
                                                 <th>Patient Name</th>
                                                 <th>Service</th>
-                                                <th>Service Charge</th>
-                                                <th>Tooth Number</th>
                                                 <th>Date</th>
                                                 <th>Time</th>
                                                 <th>Status</th>
@@ -139,20 +141,53 @@ if (!isset($_SESSION['email'])) {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>000002</td>
-                                                <td>Steven Tyler</td>
-                                                <td>Tooth Extraction</td>
-                                                <td>200.00</td>
-                                                <td>10</td>
-                                                <td>11/01/2022</td>
-                                                <td>10:00 PM</td>
-                                                <td>Pending</td>
-                                                <td>
-                                                    <a href="" class="btn btn-success"><i class="fa fa-pencil"></i> Reschedule</a>
-                                                    <a href="" class="btn btn-danger"><i class="fa fa-trash"></i> Cancel</a>
-                                                </td>
-                                            </tr>
+                                            <?php
+                                            $mydb->setQuery("SELECT a.id,
+                                                                    a.patientId,
+                                                                    p.first_name,
+                                                                    p.last_name,
+                                                                    a.appointmentDate,
+                                                                    a.appointmentTime,
+                                                                    a.status 
+                                                                    FROM appointments as a LEFT JOIN patients as p on a.patientId = p.id");
+                                            $cur = $mydb->loadResultList();
+                                            foreach ($cur as $result) {
+                                                if ($result->status === "approved") {
+                                                    $labelClass = 'primary';
+                                                } else if ($result->status === "cancelled") {
+                                                    $labelClass = 'danger';
+                                                } else {
+                                                    $labelClass = 'warning';
+                                                }
+
+                                                $mydb->setQuery("select * from services where patientId = $result->patientId");
+                                                $services = $mydb->loadResultList();
+
+                                                $ser = "";
+                                                foreach ($services as $service) {
+
+                                                    $ser .= '<span class="label label-info b-r-xl">' . ucfirst($service->service) . '</span> ';
+                                                }
+                                                echo '<tr>';
+                                                // `Fullname`, `CompanyName`, `F_Address`, `S_Address`, `ContactNo`
+                                                echo '<td>' . $result->id . '</td>';
+                                                echo '<td>' . $result->first_name . ' ' . $result->last_name . '</td>';
+                                                echo '<td>' . $ser . '</td>';
+                                                echo '<td>' .  date("M d, Y", strtotime($result->appointmentDate)) . '</td>';
+                                                echo '<td>' . $result->appointmentTime . '</td>';
+                                                echo '<td><span class="label label-' . $labelClass . '">' . ucfirst($result->status) . '</span></td>';
+
+
+                                                echo '<td style="float: right"> 
+				  		<a title="View" href="index.php?view=view&id=' . $result->id . '" class="btn btn-info"> <i class="fa fa-eye"></i></a>
+				  		<a title="Approved" href="index.php?view=view&id=' . $result->id . '" class="btn btn-success"> <i class="fa fa-check"></i></a>
+				  		<a title="Reschedule" href="index.php?view=view&id=' . $result->id . '" class="btn btn-warning"> <i class="fa fa-repeat"></i></a>
+				  		<a title="Cancel" href="index.php?view=edit&id=' . $result->id . '" class="btn btn-danger"> <i class="fa fa-trash"></i></a>
+                                                    </td>';
+
+                                                echo '</tr>';
+                                            }
+                                            ?>
                                         </tbody>
                                     </table>
                                 </div>

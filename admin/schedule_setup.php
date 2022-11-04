@@ -21,6 +21,8 @@ if (!isset($_SESSION['email'])) {
     <link href="css/style.css" rel="stylesheet">
     <link href="css/plugins/datapicker/datepicker3.css" rel="stylesheet">
     <link href="css/plugins/clockpicker/clockpicker.css" rel="stylesheet">
+    <link href="css/plugins/select2/select2.min.css" rel="stylesheet">
+    <link href="css/plugins/dualListbox/bootstrap-duallistbox.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -61,7 +63,7 @@ if (!isset($_SESSION['email'])) {
             <div class="wrapper wrapper-content">
                 <div class="row">
                     <div class="col-lg-12">
-                        <a href="#modal-form" class="btn btn-primary" data-toggle="modal">
+                        <a href="#new-schedule-modal" class="btn btn-primary" data-toggle="modal" id="new-schedule">
                             <i class="fa fa-plus"></i>
                             New Schedule
                         </a>
@@ -82,7 +84,7 @@ if (!isset($_SESSION['email'])) {
                                 </div>
                             </div>
                             <div class="ibox-content">
-                                <div id="modal-form" class="modal fade" aria-hidden="true">
+                                <div id="new-schedule-modal" class="modal fade" tabindex="-1" aria-hidden=" true" style="overflow:hidden;">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-body">
@@ -93,22 +95,38 @@ if (!isset($_SESSION['email'])) {
                                                         <input type="text" placeholder="Patient Name" class="form-control" name="patient">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="service">Service</label>
-                                                        <input type="text" placeholder="Service" class="form-control" name="service">
+                                                        <label for="time">Services</label>
+                                                        <div>
+                                                            <select class="form-control select2_demo_2" multiple="multiple" id="select2_demo_2">
+                                                                <option value="Mayotte">Mayotte</option>
+                                                                <option value="Mexico">Mexico</option>
+                                                                <option value="Monaco">Monaco</option>
+                                                                <option value="Mongolia">Mongolia</option>
+                                                                <option value="Montenegro">Montenegro</option>
+                                                                <option value="Montserrat">Montserrat</option>
+                                                                <option value="Morocco">Morocco</option>
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                     <div class="form-group" id="date">
                                                         <label for="date">Date</label>
                                                         <div class="input-group date">
-                                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="03/04/2014">
+                                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                            <input type="text" class="form-control" placeholder="MM/DD/YYYY">
                                                         </div>
                                                     </div>
                                                     <div class="form-group" id="time">
                                                         <label for="time">Time</label>
-                                                        <div class="input-group clockpicker" data-autoclose="true">
-                                                            <input type="text" class="form-control" value="09:30">
-                                                            <span class="input-group-addon">
-                                                                <span class="fa fa-clock-o"></span>
-                                                            </span>
+                                                        <div>
+                                                            <select class="form-control m-b" name="account">
+                                                                <option>9 - 10 am</option>
+                                                                <option>10 - 11 am</option>
+                                                                <option>11 - 12 pm</option>
+                                                                <option>1 - 2 pm</option>
+                                                                <option>2 - 3 pm</option>
+                                                                <option>3 - 4 pm</option>
+                                                                <option>4 - 5 pm</option>
+                                                            </select>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
@@ -155,10 +173,27 @@ if (!isset($_SESSION['email'])) {
     <script src="js/plugins/datapicker/bootstrap-datepicker.js"></script>
     <!-- Clock picker -->
     <script src="js/plugins/clockpicker/clockpicker.js"></script>
+    <!-- Select2 -->
+    <script src="js/plugins/select2/select2.full.min.js"></script>
     <script>
         $(document).ready(function() {
+            // $('#new-schedule-modal').on('show', function() {
+            //     $.fn.modal.Constructor.prototype.enforceFocus = function() {};
+            // });
+            // $("#select2_demo_2").select2();
+            // $('#new-schedule').click(function() {
+            //     $.fn.modal.Constructor.prototype.enforceFocus = function() {};
+            //     $("#new-schedule-modal").modal('show');
+
+            // });
+            // $('#select2_demo_2').select2();
+            // $.fn.modal.Constructor.prototype.enforceFocus = function() {};
+
+
+
             /* initialize the calendar
              -----------------------------------------------------------------*/
+
             var date = new Date();
             var d = date.getDate();
             var m = date.getMonth();
@@ -169,30 +204,84 @@ if (!isset($_SESSION['email'])) {
                     center: 'title',
                     right: 'month,agendaWeek,agendaDay'
                 },
+                weekends: false,
                 editable: true,
-                droppable: true, // this allows things to be dropped onto the calendar
-                drop: function() {
-                    // is the "remove after drop" checkbox checked?
-                    if ($('#drop-remove').is(':checked')) {
-                        // if so, remove the element from the "Draggable Events" list
-                        $(this).remove();
-                    }
+                // droppable: true, // this allows things to be dropped onto the calendar
+                // events: [{
+                //     title: 'All Day Event',
+                //     start: new Date(y, m, 1),
+                //     end: new Date(y, m, 2)
+                // }],
+                events: 'controllers/appointment-controller.php?action=loadevent',
+                eventClick: function(event) {
+                    console.log('eventClick: ', event);
+                    // if (confirm("Are you sure you want to remove it?")) {
+                    //     var id = event.id;
+                    //     $.ajax({
+                    //         url: "appointments/controller.php?action=deleteevent",
+                    //         type: "POST",
+                    //         data: {
+                    //             id: id
+                    //         },
+                    //         success: function() {
+                    //             calendar.fullCalendar('refetchEvents');
+                    //             // alert("Event Removed");
+                    //         }
+                    //     })
+                    // }
                 },
-                events: [{
-                    title: 'All Day Event',
-                    start: new Date(y, m, 1)
-                }]
+                dayClick: function(date, jsEvent, view) {
+                    console.log('dayClick: ', date);
+                    console.log('dayClick: ', jsEvent);
+                    console.log('dayClick: ', view);
+
+                },
+                eventDrop: function(event) {
+                    console.log('eventDrop: ', event);
+                    // var start = $.fullCalendar.formatDate(event.start, "yyyy-MM-d H:mm:ss");
+                    // var end = $.fullCalendar.formatDate(event.end, "yyyy-MM-d H:mm:ss");
+                    // var title = event.title;
+                    // var id = event.id;
+                    // $.ajax({
+                    //     url: "appointments/controller.php?action=updateevent",
+                    //     type: "POST",
+                    //     data: {
+                    //         title: title,
+                    //         start: start,
+                    //         end: end,
+                    //         id: id
+                    //     },
+                    //     success: function() {
+                    //         calendar.fullCalendar('refetchEvents');
+                    //         // alert("Appointment Updated");
+                    //     }
+                    // });
+                },
+                selectable: true,
+                select: function(start, end, allDay) {
+                    console.log('select: ', start);
+                    console.log('select: ', end);
+                    console.log('select: ', allDay);
+                },
             });
+
+
             var mem = $('#date .input-group.date').datepicker({
                 todayBtn: "linked",
                 keyboardNavigation: false,
                 forceParse: false,
                 calendarWeeks: true,
-                autoclose: true
+                autoclose: true,
+                minDate: new Date(),
+                daysOfWeekDisabled: [0, 6],
+                startDate: truncateDate(new Date())
             });
 
-            $('.clockpicker').clockpicker();
         });
+
+        function truncateDate(date) {
+            return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+        }
     </script>
 </body>
 
