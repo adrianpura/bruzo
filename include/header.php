@@ -48,12 +48,12 @@
                     <?php 
                     session_start();
                     if(isset($_SESSION["user_id"]) && $_SESSION['user']==1) {
-                        echo '<li><a href="dashboard.php"><i class="bi bi-grid-1x2-fill" style="font-size:18px;"></i>&nbspDashboard</a></li>';
+                        // echo '<li><a href="dashboard.php"><i class="bi bi-grid-1x2-fill" style="font-size:18px;"></i>&nbspDashboard</a></li>';
                         echo '<li><a href="logout.php" class="btn-logout"><i class="bi bi-door-closed-fill" style="font-size:18px;"></i>&nbspLogout</a></li>';
                     }
                     elseif (isset($_SESSION["user_id"]) && $_SESSION['user']==2) {
-                        echo '<li>
-                            <a href="doctor-bookings.php" class="btn-login"><i class="bi bi-grid-1x2-fill" style="font-size:18px;"></i>&nbspDashboard</a></li>';
+                        // echo '<li>
+                        //     <a href="doctor-bookings.php" class="btn-login"><i class="bi bi-grid-1x2-fill" style="font-size:18px;"></i>&nbspDashboard</a></li>';
                         echo '<li><a href="logout.php" class="btn-logout"><i class="bi bi-door-closed-fill" style="font-size:18px;"></i>&nbspLogout</a></li>';
                     }
                     else{

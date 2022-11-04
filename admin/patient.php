@@ -3,22 +3,8 @@ require_once("../admin/include/initialize.php");
 if (!isset($_SESSION['email'])) {
     redirect(web_root . "/admin/login.php");
 }
-
+include("layouts/header.php");
 ?>
-<!DOCTYPE html>
-<html>
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bruzo Admin | Patients</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
-    <link href="css/plugins/dataTables/datatables.min.css" rel="stylesheet">
-    <link href="css/animate.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-</head>
-
 <body>
     <div id="wrapper">
         <?php include('layouts/navigations.php'); ?>
@@ -85,8 +71,12 @@ if (!isset($_SESSION['email'])) {
                                                 <h3 class="m-t-none m-b">New Patient</h3>
                                                 <form role="form">
                                                     <div class="form-group">
-                                                        <label>Name</label>
-                                                        <input type="text" placeholder="Name" class="form-control">
+                                                        <label>First Name</label>
+                                                        <input type="text" placeholder="First Name" class="form-control">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Last Name</label>
+                                                        <input type="text" placeholder="Last Name" class="form-control">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="birthdate">Birthdate</label>
@@ -109,8 +99,8 @@ if (!isset($_SESSION['email'])) {
                                                         <input type="text" placeholder="Contact Number" class="form-control" name="contact">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="contact">Contact Number</label>
-                                                        <input type="text" placeholder="Contact Number" class="form-control" rows="5" name="contact">
+                                                        <label for="address">Address</label>
+                                                        <input type="text" placeholder="Address" class="form-control" rows="5" name="address">
                                                     </div>
                                                     <button class="btn btn-sm btn-primary float-right m-t-n-xs" type="submit"><strong>Add Patient</strong></button>
                                             </div>

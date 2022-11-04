@@ -18,7 +18,7 @@
           <h4>Our Services</h4>
           <ul>
             <?php
-            $sql1 = "SELECT service_name FROM services";
+            $sql1 = "SELECT service_name FROM cms_services";
             $result1 = $conn->query($sql1);
             if ($result1->num_rows > 0) {
               while ($row1 = $result1->fetch_assoc()) {
