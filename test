@@ -1,0 +1,266 @@
+INSERT INTO
+    `tooth` (
+        `id`,
+        `tooth_number`,
+        `tooth_name`,
+        `created_at`,
+        `updated_at`,
+        `deleted_at`
+    )
+VALUES
+    (
+        NULL,
+        '2',
+        '2nd molar (12-yr molar)',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP,
+        NULL
+    ),
+    (
+        NULL,
+        '3',
+        '1st molar (6-yr molar)',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP,
+        NULL
+    ),
+    (
+        NULL,
+        '4',
+        '2nd bicuspid (2nd premolar)',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP,
+        NULL
+    ),
+    (
+        NULL,
+        '5',
+        '1st bicuspid (1st premolar)',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP,
+        NULL
+    ),
+    (
+        NULL,
+        '6',
+        'Cuspid (canine/eye tooth)',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP,
+        NULL
+    ),
+    (
+        NULL,
+        '7',
+        'Lateral incisor',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP,
+        NULL
+    ),
+    (
+        NULL,
+        '8',
+        'Central incisor',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP,
+        NULL
+    ),
+    (
+        NULL,
+        '9',
+        'Central incisor',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP,
+        NULL
+    ),
+    (
+        NULL,
+        '10',
+        'Lateral incisor',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP,
+        NULL
+    ),
+    (
+        NULL,
+        '11',
+        'Cuspid (canine/eye tooth)',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP,
+        NULL
+    ),
+    (
+        NULL,
+        '12',
+        '1st bicuspid (1st premolar)',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP,
+        NULL
+    ),
+    (
+        NULL,
+        '13',
+        '2nd bicuspid (2nd premolar)',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP,
+        NULL
+    ),
+    (
+        NULL,
+        '14',
+        '1st molar (6-yr molar)',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP,
+        NULL
+    ),
+    (
+        NULL,
+        '15',
+        '2nd molar (12-yr molar)',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP,
+        NULL
+    ),
+    (
+        NULL,
+        '16',
+        '3rd molar (wisdom tooth)',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP,
+        NULL
+    ),
+    (
+        NULL,
+        '16',
+        '3rd molar (wisdom tooth)',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP,
+        NULL
+    ),
+    (
+        NULL,
+        '17',
+        '3rd molar (wisdom tooth)',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP,
+        NULL
+    ),
+    (
+        NULL,
+        '18',
+        '2nd molar (12-yr molar)',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP,
+        NULL
+    ),
+    (
+        NULL,
+        '19',
+        '1st molar (6-yr molar)',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP,
+        NULL
+    ),
+    (
+        NULL,
+        '20',
+        '2nd bicuspid (2nd premolar)',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP,
+        NULL
+    ),
+    (
+        NULL,
+        '21',
+        '1st bicuspid (1st premolar)',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP,
+        NULL
+    ),
+    (
+        NULL,
+        '22',
+        'Cuspid (canine/eye tooth)',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP,
+        NULL
+    ),
+    (
+        NULL,
+        '23',
+        'Lateral incisor',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP,
+        NULL
+    ),
+    (
+        NULL,
+        '24',
+        'Central incisor',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP,
+        NULL
+    ),
+    (
+        NULL,
+        '25',
+        'Central incisor',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP,
+        NULL
+    ),
+    (
+        NULL,
+        '26',
+        'Lateral incisor',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP,
+        NULL
+    ),
+    (
+        NULL,
+        '27',
+        'Cuspid (canine/eye tooth)',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP,
+        NULL
+    ),
+    (
+        NULL,
+        '28',
+        '1st bicuspid (1st premolar)',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP,
+        NULL
+    ),
+    (
+        NULL,
+        '29',
+        '2nd bicuspid (2nd premolar)',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP,
+        NULL
+    ),
+    (
+        NULL,
+        '30',
+        '1st molar (6-yr molar)',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP,
+        NULL
+    ),
+    (
+        NULL,
+        '31',
+        '2nd molar (12-yr molar)',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP,
+        NULL
+    ),
+    (
+        NULL,
+        '32',
+        '3rd molar (wisdom tooth)',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP,
+        NULL
+    )
