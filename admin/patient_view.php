@@ -1,22 +1,23 @@
 <?php
 require_once("../admin/include/initialize.php");
-if (!isset($_SESSION['email'])) {
+if (!isset($_SESSION['id'])) {
     redirect(web_root . "/admin/login.php");
 }
 include("layouts/header.php");
 ?>
+
 <body>
     <div id="wrapper">
-            <?php include('layouts/navigations.php'); ?>
+        <?php include('layouts/navigations.php'); ?>
             <div class="row wrapper border-bottom white-bg page-heading">
                 <div class="col-lg-10">
-                    <h2>Doctors</h2>
+                    <h2>List of Patients</h2>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
                             <a href="index.html">Home</a>
                         </li>
                         <li class="breadcrumb-item active">
-                            <strong>Doctors</strong>
+                            <strong>List of Patients</strong>
                         </li>
                     </ol>
                 </div>
@@ -26,9 +27,20 @@ include("layouts/header.php");
             <div class="wrapper wrapper-content animated fadeInRight">
                 <div class="row">
                     <div class="col-lg-12">
+                        <a href="#modal-form" class="btn btn-primary" data-toggle="modal">
+                            <i class="fa fa-plus"></i>
+                            New Patient
+                        </a>
+                    </div>
+                    <div class="col-lg-2">
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-lg-12">
                         <div class="ibox ">
                             <div class="ibox-title">
-                                <h5>Doctors</h5>
+                                <h5>Patients</h5>
                                 <div class="ibox-tools">
                                     <a class="collapse-link">
                                         <i class="fa fa-chevron-up"></i>
@@ -36,37 +48,10 @@ include("layouts/header.php");
                                 </div>
                             </div>
                             <div class="ibox-content">
-                                <div class="table-responsive">
-                                    <table class="table table-striped table-bordered table-hover dataTables-example">
-                                        <thead>
-                                            <tr>
-                                                <th>Doctor ID</th>
-                                                <th>Name</th>
-                                                <th>Birthdate</th>
-                                                <th>Age</th>
-                                                <th>Sex</th>
-                                                <th>Contact Number</th>
-                                                <th>Address</th>
-                                                <th>Email</th>
-                                                <th>Role</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>000001</td>
-                                                <td>Doc Kwak</td>
-                                                <td>01/01/1996</td>
-                                                <td>27</td>
-                                                <td>Male</td>
-                                                <td>09123456789</td>
-                                                <td>Taguig City</td>
-                                                <td>dummy@gmail.com</td>
-                                                <td>Admin</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+
+
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -77,6 +62,8 @@ include("layouts/header.php");
                 </div>
             </div>
         </div>
+
+    </div>
     </div>
     <!-- Mainly scripts -->
     <script src="js/jquery-3.1.1.min.js"></script>
@@ -106,11 +93,11 @@ include("layouts/header.php");
                     },
                     {
                         extend: 'excel',
-                        title: 'Appointment History'
+                        title: 'Patients'
                     },
                     {
                         extend: 'pdf',
-                        title: 'Appointment History'
+                        title: 'Patients'
                     },
 
                     {
@@ -124,9 +111,8 @@ include("layouts/header.php");
                         }
                     }
                 ]
-
             });
-            $('#nav-doctor').addClass('active').siblings().removeClass('active');
+            $('#patient').addClass('active').siblings().removeClass('active');
         });
     </script>
 </body>

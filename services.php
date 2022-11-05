@@ -1,6 +1,6 @@
 <?php
 include('include/config.php');
-$sql = "SELECT * FROM services";
+$sql = "SELECT * FROM cms_services";
 $result = $conn->query($sql);
 include('include/header.php');
 setlocale(LC_MONETARY,"English_Philippines");
@@ -30,7 +30,7 @@ if ($result->num_rows > 0) {
                 <div class="icon">
                   
                   <?php 
-                  if($row['service_image']!=""){
+                  if($row['image']!=""){
                     echo '<img width="60px" height="60px" src="data:image/jpeg;base64,' . base64_encode($row['service_image']) . '"/>';
                   }else{
                     echo '<img width="60px" height="60px" src="' . $row['image']. '"/>'; 
@@ -42,7 +42,7 @@ if ($result->num_rows > 0) {
 
                 <h4 class="title"><a href="#"><?php echo $row['service_name']; ?></a>
                 </h4>
-                <p class="description"><?php echo $row['service_description']; ?></p>
+                <p class="description"><?php echo $row['description']; ?></p>
             
               </div>
             </div>

@@ -1,213 +1,157 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bruzo Admin | Appointment</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
-    <link href="css/plugins/dataTables/datatables.min.css" rel="stylesheet">
-    <link href="css/animate.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-</head>
+<?php
+require_once("../admin/include/initialize.php");
+if (!isset($_SESSION['id'])) {
+    redirect(web_root . "/admin/login.php");
+}
+include("layouts/header.php");
+?>
+
 <body>
     <div id="wrapper">
         <?php include('layouts/navigations.php'); ?>
-        <div id="page-wrapper" class="gray-bg">
-            <div class="row border-bottom">
-                <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
-                    <div class="navbar-header">
-                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#">
-                            <i class="fa fa-bars"></i>
-                        </a>
-                    </div>
-                    <ul class="nav navbar-top-links navbar-right">
-                        <li>
-                            <a href="#">
-                                <i class="fa fa-sign-out"></i> Log out
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-10">
+                <h2>Calendar</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="index.html">Home</a>
+                    </li>
+                    <li class="breadcrumb-item active">
+                        <strong>Calendar</strong>
+                    </li>
+                </ol>
             </div>
-            <div class="row wrapper border-bottom white-bg page-heading">
-                <div class="col-lg-10">
-                    <h2>Monitor Appointment</h2>
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item">
-                            <a href="index.html">Home</a>
-                        </li>
-                        <li class="breadcrumb-item active">
-                            <strong>Monitor Appointment</strong>
-                        </li>
-                    </ol>
-                </div>
-                <div class="col-lg-2">
-                </div>
+            <div class="col-lg-2">
+
             </div>
-            <div class="wrapper wrapper-content animated fadeInRight">
-                <div class="row">
-                    <div class="col-lg-3">
-                        <div class="ibox ">
-                            <div class="ibox-title">
-                                <h5>Approved</h5>
-                            </div>
+        </div>
+        <div class="wrapper wrapper-content">
+
+
+            <div class="row animated fadeInDown">
+                <div class="col-lg-12">
+                    <div class="ibox ">
+                        <div class="ibox-title">
+                            <h5>Calendar</h5>
                             <div class="ibox-content">
-                                <h1 class="no-margins">0</h1>
-                                <div class="stat-percent font-bold text-success">
-                                    0% <i class="fa fa-bolt"></i>
-                                </div>
-                                <small>Total Approved</small>
+                                <div id="calendar"></div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="ibox ">
-                            <div class="ibox-title">
-                                <h5>Pending</h5>
-                            </div>
-                            <div class="ibox-content">
-                                <h1 class="no-margins">0</h1>
-                                <div class="stat-percent font-bold text-info">
-                                    1% <i class="fa fa-level-up"></i>
-                                </div>
-                                <small>Total Pending</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="ibox ">
-                            <div class="ibox-title">
-                                <h5>Rejected</h5>
-                            </div>
-                            <div class="ibox-content">
-                                <h1 class="no-margins">0</h1>
-                                <div class="stat-percent font-bold text-warning">
-                                    0% <i class="fa fa-level-up"></i>
-                                </div>
-                                <small>Total Rejected</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <a href="schedule_setup.php" class="btn btn-primary">
-                            <i class="fa fa-calendar"></i>
-                             Setup Schedule
-                        </a>
-                    </div>
-                    <div class="col-lg-2">
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="ibox ">
-                            <div class="ibox-title">
-                                <h5>Appointment Schedule</h5>
-                                <div class="ibox-tools">
-                                    <a class="collapse-link">
-                                        <i class="fa fa-chevron-up"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="ibox-content">
-                                <div class="table-responsive">
-                                    <table class="table table-striped table-bordered table-hover dataTables-example">
-                                        <thead>
-                                            <tr>
-                                                <th>Appointment ID</th>
-                                                <th>Patient Name</th>
-                                                <th>Service</th>
-                                                <th>Service Charge</th>
-                                                <th>Tooth Number</th>
-                                                <th>Date</th>
-                                                <th>Time</th>
-                                                <th>Status</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>000002</td>
-                                                <td>Steven Tyler</td>
-                                                <td>Tooth Extraction</td>
-                                                <td>200.00</td>
-                                                <td>10</td>
-                                                <td>11/01/2022</td>
-                                                <td>10:00 PM</td>
-                                                <td>Pending</td>
-                                                <td>
-                                                    <a href="" class="btn btn-success"><i class="fa fa-pencil"></i> Reschedule</a>
-                                                    <a href="" class="btn btn-danger"><i class="fa fa-trash"></i> Cancel</a>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>
-            <div class="footer">
-                <div>
-                    <strong>Copyright</strong> Bruzo Denta Care Clinic &copy; 2022
-                </div>
+        </div>
+        <div class="footer">
+            <div>
+                <strong>Copyright</strong> Bruzo Denta Care Clinic &copy; 2022
             </div>
         </div>
     </div>
 
+    </div>
+    </div>
+
     <!-- Mainly scripts -->
+    <script src="js/plugins/fullcalendar/moment.min.js"></script>
     <script src="js/jquery-3.1.1.min.js"></script>
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.js"></script>
     <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-    <!-- FooTable -->
-    <!-- <script src="js/plugins/footable/footable.all.min.js"></script> -->
-    <script src="js/plugins/dataTables/datatables.min.js"></script>
-    <script src="js/plugins/dataTables/dataTables.bootstrap4.min.js"></script>
     <!-- Custom and plugin javascript -->
     <script src="js/inspinia.js"></script>
     <script src="js/plugins/pace/pace.min.js"></script>
-    <!-- Page-Level Scripts -->
-     <script>
+    <!-- jQuery UI  -->
+    <script src="js/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <!-- iCheck -->
+    <script src="js/plugins/iCheck/icheck.min.js"></script>
+    <!-- Full Calendar -->
+    <script src="js/plugins/fullcalendar/fullcalendar.min.js"></script>
+    <!-- Data picker -->
+    <script src="js/plugins/datapicker/bootstrap-datepicker.js"></script>
+    <!-- Clock picker -->
+    <script src="js/plugins/clockpicker/clockpicker.js"></script>
+    <!-- Select2 -->
+    <script src="js/plugins/select2/select2.full.min.js"></script>
+    <script>
         $(document).ready(function() {
-            $('.dataTables-example').DataTable({
-                pageLength: 25,
-                responsive: true,
-                dom: '<"html5buttons"B>lTfgitp',
-                buttons: [{
-                        extend: 'copy'
-                    },
-                    {
-                        extend: 'csv'
-                    },
-                    {
-                        extend: 'excel',
-                        title: 'Appointment History'
-                    },
-                    {
-                        extend: 'pdf',
-                        title: 'Appointment History'
-                    },
+            $('#index').addClass('active').siblings().removeClass('active');
+            /* initialize the calendar
+             -----------------------------------------------------------------*/
 
-                    {
-                        extend: 'print',
-                        customize: function(win) {
-                            $(win.document.body).addClass('white-bg');
-                            $(win.document.body).css('font-size', '10px');
-                            $(win.document.body).find('table')
-                                .addClass('compact')
-                                .css('font-size', 'inherit');
-                        }
-                    }
-                ]
+            var date = new Date();
+            var d = date.getDate();
+            var m = date.getMonth();
+            var y = date.getFullYear();
+            $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                weekends: false,
+                editable: true,
+                // droppable: true, // this allows things to be dropped onto the calendar
+
+                events: 'controllers/appointment-controller.php?action=loadevent',
+                eventClick: function(event) {
+                    console.log('eventClick: ', event);
+                    console.log('eventClick: ', event.id);
+                    window.location = `appointment_view.php?action=edit&id=${event.appointmentId}`;
+
+                },
+                dayClick: function(date, jsEvent, view) {
+                    console.log('dayClick: ', date);
+                    console.log('dayClick: ', jsEvent);
+                    console.log('dayClick: ', view);
+
+                },
+                eventDrop: function(event) {
+                    console.log('eventDrop: ', event);
+                    // var start = $.fullCalendar.formatDate(event.start, "yyyy-MM-d H:mm:ss");
+                    // var end = $.fullCalendar.formatDate(event.end, "yyyy-MM-d H:mm:ss");
+                    // var title = event.title;
+                    // var id = event.id;
+                    // $.ajax({
+                    //     url: "appointments/controller.php?action=updateevent",
+                    //     type: "POST",
+                    //     data: {
+                    //         title: title,
+                    //         start: start,
+                    //         end: end,
+                    //         id: id
+                    //     },
+                    //     success: function() {
+                    //         calendar.fullCalendar('refetchEvents');
+                    //         // alert("Appointment Updated");
+                    //     }
+                    // });
+                },
+                selectable: true,
+                select: function(start, end, allDay) {
+                    console.log('select: ', start);
+                    console.log('select: ', end);
+                    console.log('select: ', allDay);
+                },
             });
-            $('#appointment').addClass('active').siblings().removeClass('active');
+            var mem = $('#date .input-group.date').datepicker({
+                todayBtn: "linked",
+                keyboardNavigation: false,
+                forceParse: false,
+                calendarWeeks: true,
+                autoclose: true,
+                minDate: new Date(),
+                daysOfWeekDisabled: [0, 6],
+                startDate: truncateDate(new Date())
+            });
+
+
         });
+
+        function truncateDate(date) {
+            return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+        }
     </script>
 </body>
 
