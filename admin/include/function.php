@@ -42,7 +42,8 @@ spl_autoload_register('myAutoloader');
 function myAutoloader($class_name)
 {
 	$class_name = strtolower($class_name);
-	$path = LIB_PATH . DS . "{$class_name}.php";
+	// $path = LIB_PATH . DS . "{$class_name}.php";
+	$path = "../include/{$class_name}.php";
 	if (file_exists($path)) {
 		require_once($path);
 	} else {

@@ -3,7 +3,6 @@ include('include/config.php');
 $sql = "SELECT service_name, service_description FROM cms_services";
 $result = $conn->query($sql);
 include('include/header.php');
-var_dump($_SESSION);
 ?>
 <section id="hero-no-slider" class="d-flex justify-cntent-center align-items-center">
     <div class="container position-relative" data-aos="fade-up" data-aos-delay="100">
@@ -15,7 +14,7 @@ var_dump($_SESSION);
                     an expert in periodontics (gum disease and gum treatment), dental implants, and wisdom tooth
                     removal.
                 </p>
-                    <a href="book-appointment.php" class="btn-get-started">Book Appointment</a>
+                <a href="book-appointment.php" class="btn-get-started">Book Appointment</a>
             </div>
         </div>
     </div>
