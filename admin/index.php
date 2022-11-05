@@ -17,6 +17,25 @@ include("layouts/header.php");
                     </div>
                     <ul class="nav navbar-top-links navbar-right">
                         <li>
+                            <span class="m-r-sm text-muted welcome-message">Welcome to INSPINIA+ Admin Theme.</span>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                                <i class="fa fa-bell"></i> <span class="label label-primary count">0</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-alerts">
+                                <li>
+                                    <a href="mailbox.html" class="dropdown-item">
+                                        <div>
+                                            <i class="fa fa-envelope fa-fw"></i> You have 16 messages
+                                            <span class="float-right text-muted small">4 minutes ago</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="dropdown-divider"></li>
+                            </ul>
+                        </li>
+                        <li>
                             <a href="<?php echo web_root; ?>/admin/logout.php">
                                 <i class="fa fa-sign-out"></i>Log out
                             </a>
@@ -173,7 +192,30 @@ include("layouts/header.php");
                 startDate: truncateDate(new Date())
             });
 
-
+            function load_unseen_notification(view = '') {
+                $.ajax({
+                    url: "controllers/appointment-controller.php?action=fetchStatus",
+                    method: "POST",
+                    data: {
+                        view: view
+                    },
+                    dataType: "json",
+                    success: function(data) {
+                        $('.dropdown-menu').html(data.notification);
+                        if (data.unseen_notification > 0) {
+                            $('.count').html(data.unseen_notification);
+                        }
+                    }
+                });
+            }
+            load_unseen_notification();
+            $(document).on('click', '.dropdown-toggle', function() {
+                $('.count').html('0');
+                load_unseen_notification('yes');
+            });
+            setInterval(function() {
+                load_unseen_notification();;
+            }, 5000);
         });
 
         function truncateDate(date) {
