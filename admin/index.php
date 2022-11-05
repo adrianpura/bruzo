@@ -9,45 +9,45 @@ include("layouts/header.php");
 <body>
     <div id="wrapper">
         <?php include('layouts/navigations.php'); ?>
-            <div class="row wrapper border-bottom white-bg page-heading">
-                <div class="col-lg-10">
-                    <h2>Calendar</h2>
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item">
-                            <a href="index.html">Home</a>
-                        </li>
-                        <li class="breadcrumb-item active">
-                            <strong>Calendar</strong>
-                        </li>
-                    </ol>
-                </div>
-                <div class="col-lg-2">
-
-                </div>
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-10">
+                <h2>Calendar</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="index.html">Home</a>
+                    </li>
+                    <li class="breadcrumb-item active">
+                        <strong>Calendar</strong>
+                    </li>
+                </ol>
             </div>
-            <div class="wrapper wrapper-content">
+            <div class="col-lg-2">
+
+            </div>
+        </div>
+        <div class="wrapper wrapper-content">
 
 
-                <div class="row animated fadeInDown">
-                    <div class="col-lg-12">
-                        <div class="ibox ">
-                            <div class="ibox-title">
-                                <h5>Calendar</h5>
-                                <div class="ibox-content">
-                                    <div id="calendar"></div>
-                                </div>
+            <div class="row animated fadeInDown">
+                <div class="col-lg-12">
+                    <div class="ibox ">
+                        <div class="ibox-title">
+                            <h5>Calendar</h5>
+                            <div class="ibox-content">
+                                <div id="calendar"></div>
                             </div>
-
                         </div>
+
                     </div>
                 </div>
             </div>
-            <div class="footer">
-                <div>
-                    <strong>Copyright</strong> Bruzo Denta Care Clinic &copy; 2022
-                </div>
+        </div>
+        <div class="footer">
+            <div>
+                <strong>Copyright</strong> Bruzo Denta Care Clinic &copy; 2022
             </div>
         </div>
+    </div>
 
     </div>
     </div>
@@ -97,20 +97,9 @@ include("layouts/header.php");
                 events: 'controllers/appointment-controller.php?action=loadevent',
                 eventClick: function(event) {
                     console.log('eventClick: ', event);
-                    // if (confirm("Are you sure you want to remove it?")) {
-                    //     var id = event.id;
-                    //     $.ajax({
-                    //         url: "appointments/controller.php?action=deleteevent",
-                    //         type: "POST",
-                    //         data: {
-                    //             id: id
-                    //         },
-                    //         success: function() {
-                    //             calendar.fullCalendar('refetchEvents');
-                    //             // alert("Event Removed");
-                    //         }
-                    //     })
-                    // }
+                    console.log('eventClick: ', event.id);
+                    window.location = `appointment_view.php?action=edit&id=${event.appointmentId}`;
+
                 },
                 dayClick: function(date, jsEvent, view) {
                     console.log('dayClick: ', date);
@@ -157,30 +146,7 @@ include("layouts/header.php");
                 startDate: truncateDate(new Date())
             });
 
-            function load_unseen_notification(view = '') {
-                $.ajax({
-                    url: "controllers/appointment-controller.php?action=fetchStatus",
-                    method: "POST",
-                    data: {
-                        view: view
-                    },
-                    dataType: "json",
-                    success: function(data) {
-                        $('.dropdown-menu').html(data.notification);
-                        if (data.unseen_notification > 0) {
-                            $('.count').html(data.unseen_notification);
-                        }
-                    }
-                });
-            }
-            load_unseen_notification();
-            $(document).on('click', '.dropdown-toggle', function() {
-                $('.count').html('0');
-                load_unseen_notification('yes');
-            });
-            setInterval(function() {
-                load_unseen_notification();;
-            }, 5000);
+
         });
 
         function truncateDate(date) {

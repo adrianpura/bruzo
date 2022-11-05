@@ -22,8 +22,9 @@ switch ($action) {
 	case 'fetchStatus':
 		dofetchStatus();
 		break;
-	case 'updateevent':
-		doUpdateEvents();
+
+	case 'edit':
+		doEditAppointment();
 		break;
 
 	case 'deleteevent':
@@ -48,7 +49,8 @@ function doLoadEvents()
 			'id'   => $row->id,
 			'title'   => ' - ' . $row->title,
 			'start'   => $row->start_event,
-			'end'   => $row->end_event
+			'end'   => $row->end_event,
+			'appointmentId'   => $row->appointmentId,
 		);
 	}
 
@@ -129,6 +131,49 @@ function doInsert()
 		}
 	} else {
 		$success = false;
+	}
+
+	if ($success) {
+		echo json_encode(['code' => 200, 'msg' => "successfully saved"]);
+	} else {
+		echo json_encode(['code' => 404, 'msg' => "unable to save"]);
+	}
+}
+
+
+function doEditAppointment()
+{
+	//todo
+
+	//update to appointments table
+
+	$appointmentId = $_POST['id'];
+	$doctor_remarks = trim($_POST['doctor_remarks']);
+	$service_charge = trim($_POST['service_charge']);
+	$tooth_tags = isset($_POST['tooth_tags']) ? array($_POST['tooth_tags']) : '';
+
+	$success = false;
+	$appointment = new Appointments();
+	$appointment->doctor_remarks = $doctor_remarks;
+	$appointment->service_charge = $service_charge;
+	$appointmentUpdate = $appointment->update($appointmentId);
+
+
+	if ($appointmentUpdate !== false) {
+		$success = true;
+		$deleteToothTags = new Tooth();
+		$del = $deleteToothTags->delete($appointmentId);
+		if ($del !== false) {
+			$success = true;
+			foreach ($tooth_tags[0] as $teeth) {
+				$services = new Tooth();
+				$services->appointmentId = $appointmentId;
+				$services->tooth = $teeth;
+				$services->create();
+			}
+		} else {
+			$success = false;
+		}
 	}
 
 	if ($success) {

@@ -14,7 +14,7 @@ if ($action === "reschedule") {
 
 
 $mydb->setQuery("SELECT p.first_name,p.last_name,p.address,p.sex,p.age,p.contact_number,p.email,
-a.appointmentDate,a.appointmentTime,a.status,a.patientId,a.details,a.id,a.resched_details,a.cancel_details
+a.appointmentDate,a.appointmentTime,a.status,a.patientId,a.details,a.id,a.resched_details,a.cancel_details,a.service_charge,a.doctor_remarks
 FROM appointments a 
 LEFT JOIN patients p on a.patientId = p.id 
 WHERE a.id=$appointmentNumber");
@@ -34,206 +34,266 @@ include("layouts/header.php");
 <body>
     <div id="wrapper">
         <?php include('layouts/navigations.php'); ?>
-            <div class="row wrapper border-bottom white-bg page-heading">
-                <div class="col-lg-10">
-                    <h2>View Appointment</h2>
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item">
-                            <a href="index.html">Home</a>
-                        </li>
-                        <li class="breadcrumb-item active">
-                            <strong>Appointment</strong>
-                        </li>
-                    </ol>
-                </div>
-                <div class="col-lg-2">
-                </div>
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-10">
+                <h2>View Appointment</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="index.html">Home</a>
+                    </li>
+                    <li class="breadcrumb-item active">
+                        <strong>Appointment</strong>
+                    </li>
+                </ol>
             </div>
-            <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="col-lg-2">
+            </div>
+        </div>
+        <div class="wrapper wrapper-content animated fadeInRight">
 
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="ibox ">
-                            <div class="ibox-title">
-                                <h5>Appointment Details</h5>
-                                <div class="ibox-tools">
-                                    <a class="collapse-link">
-                                        <i class="fa "></i>
-                                    </a>
-                                </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox ">
+                        <div class="ibox-title">
+                            <h5>Appointment Details</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa "></i>
+                                </a>
                             </div>
-                            <div class="ibox-content form_content">
-                                <form role="form" data-toggle="validator" id="appointment_form">
-                                    <div class="alert alert-danger display-error" style="display: none"></div>
-                                    <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label required">First Name</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control first_name" id="first_name" name="first_name" value="<?php echo $cur->first_name ?>" disabled>
-                                            <input type="text" class="form-control id" style="display: none" id="id" name="id" value="<?php echo $cur->id ?>" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="hr-line-dashed"></div>
-
-                                    <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label required">Last Name</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" placeholder="Last Name" class="form-control last_name" id="last_name" name="last_name" value="<?php echo $cur->last_name ?>" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="hr-line-dashed"></div>
-
-                                    <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label required">Address</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" placeholder="Address" class="form-control address" id="address" name="address" value="<?php echo $cur->address ?>" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="hr-line-dashed"></div>
-
-                                    <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label required">Age</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" placeholder="Age" class="form-control age" id="age" name="age" value="<?php echo $cur->age ?>" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="hr-line-dashed"></div>
-
-                                    <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label required">Gender</label>
-                                        <div class="col-sm-10">
-                                            <!-- <input type="text" placeholder="Gender" class="form-control gender" id="gender" name="gender" value="<?php echo $cur->sex ?>" disabled> -->
-                                            <select class="select2_demo_1 form-control gender" id="gender" name="gender" disabled>
-                                                <option value=""></option>
-                                                <?php
-                                                $mydb->setQuery("SELECT gender FROM gender");
-                                                $gender = $mydb->loadResultList();
-                                                foreach ($gender as $result) {
-                                                    $selected = $cur->sex === $result->gender ? " selected" : "";
-                                                    echo '<option value=' . $result->gender . '' . $selected . '>' . $result->gender . '</option>';
-                                                }
-                                                ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="hr-line-dashed"></div>
-
-                                    <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label required">Email</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" placeholder="Email" class="form-control email" id="email" name="email" value="<?php echo $cur->email ?>" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="hr-line-dashed"></div>
-
-                                    <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label required">Mobile</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" placeholder="Mobile Number" class="form-control mobile" id="mobile" name="mobile" value="<?php echo $cur->contact_number ?>" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="hr-line-dashed"></div>
-
-
-                                    <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label required">Preffered Date of Appointment</label>
-                                        <div class="col-sm-10">
-                                            <!-- <span class="input-group-addon"><i class="fa fa-calendar"></i></span> -->
-                                            <input type="text" class="form-control appointmentDate" style="display: none" id="appointmentDate" name="appointmentDate" value="<?php echo $cur->appointmentDate ?>" disabled>
-                                            <input type="text" class="form-control datepicker appointment_date" id="appointment_date" name="appointment_date" value="<?php echo  date("M d, Y", strtotime($cur->appointmentDate))  ?>" <?php echo $disable; ?>>
-                                        </div>
-                                    </div>
-                                    <div class="hr-line-dashed"></div>
-
-                                    <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label required">Preffered Time of Appointment</label>
-                                        <div class="col-sm-10">
-                                            <select class="select2_demo_1 form-control appointment_date" id="appointment_time" name="appointment_time" <?php echo $disable; ?>>
-                                                <?php
-                                                $mydb->setQuery("SELECT  time_key,time_value FROM appointment_time");
-                                                $time = $mydb->loadResultList();
-                                                foreach ($time as $result) {
-                                                    $selected = $cur->appointmentTime === $result->key ? "selected" : "";
-                                                    echo '<option value=' . $result->time_key . '' . $selected . '>' . $result->time_value . '</option>';
-                                                }
-                                                ?>
-
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="hr-line-dashed"></div>
-
-                                    <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label required">Dental Concern / Procedure</label>
-                                        <div class="col-sm-10">
-                                            <select class="select2_demo_2 form-control appointment_concern" multiple="multiple" id="appointment_concern" name="appointment_concern[]" disabled>
-                                                <?php
-
-                                                $mydb->setQuery("SELECT id,service_name FROM cms_services");
-                                                $cms_service = $mydb->loadResultList();
-
-                                                $mydb->setQuery("SELECT service FROM services where patientId = $cur->patientId");
-                                                $service = $mydb->loadResultList();
-
-                                                foreach ($cms_service as $cms) {
-                                                    foreach ($service as $ser) {
-                                                        $selected = $ser->service === $cms->id ? " selected='selected'" : "";
-                                                        echo '<option value=' . $cms->id . '' . $selected . '>' . $cms->service_name . '</option>';
-                                                    }
-                                                }
-                                                ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="hr-line-dashed"></div>
-
-                                    <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label">Additional Details</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" placeholder="details" class="form-control details" id="details" name="details" value="<?php echo $cur->details ?>" disabled>
-                                        </div>
-                                    </div>
-
-                                    <div class="hr-line-dashed"></div>
-
-                                    <div class="form-group row" style="<?php echo $style; ?>">
-                                        <label class="col-sm-2 col-form-label">Reschedule Details</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" placeholder="resched_details" class="form-control resched_details" id="resched_details" name="resched_details" value="<?php echo $cur->resched_details ?>">
-                                        </div>
-                                    </div>
-
-                                    <div class="hr-line-dashed"></div>
-
-                                    <div class="form-group row" style="<?php echo $action === "cancel" ? "" : "display: none"; ?>">
-                                        <label class="col-sm-2 col-form-label">Cancel Details</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" placeholder="cancel_details" class="form-control cancel_details" id="cancel_details" name="cancel_details" value="<?php echo $cur->cancel_details ?>">
-                                        </div>
-                                    </div>
-
-                                    <div class="hr-line-dashed"></div>
-                                    <div class="form-group row">
-                                        <div class="col-sm-4 col-sm-offset-2">
-                                            <a href="./appointment.php" class="btn btn-white btn-sm"> Back </a>
-                                            <button style="<?php echo $action === "view" ?  "" : "display: none"; ?>" class="btn btn-success btn-sm approve_appointment" type="submit" name="approve_appointment" id="approve_appointment">Accept Appointment</button>
-                                            <button style="<?php echo $action === "reschedule" ?  "" : "display: none"; ?>" class="btn btn-warning btn-sm resched_appointment" type="submit" name="resched_appointment" id="resched_appointment">Reschedule Appointment</button>
-                                            <button style="<?php echo $action === "cancel" ?  "" : "display: none"; ?>" class="btn btn-danger btn-sm cancel_appointment" type="submit" name="cancel_appointment" id="cancel_appointment">Cancel Appointment</button>
-
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-
                         </div>
+                        <div class="ibox-content form_content">
+                            <form role="form" data-toggle="validator" id="appointment_form">
+                                <div class="alert alert-danger display-error" style="display: none"></div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label required">First Name</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control first_name" id="first_name" name="first_name" value="<?php echo $cur->first_name ?>" disabled>
+                                        <input type="text" class="form-control id" style="display: none" id="id" name="id" value="<?php echo $cur->id ?>" disabled>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label required">Last Name</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" placeholder="Last Name" class="form-control last_name" id="last_name" name="last_name" value="<?php echo $cur->last_name ?>" disabled>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label required">Address</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" placeholder="Address" class="form-control address" id="address" name="address" value="<?php echo $cur->address ?>" disabled>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label required">Age</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" placeholder="Age" class="form-control age" id="age" name="age" value="<?php echo $cur->age ?>" disabled>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label required">Gender</label>
+                                    <div class="col-sm-10">
+                                        <!-- <input type="text" placeholder="Gender" class="form-control gender" id="gender" name="gender" value="<?php echo $cur->sex ?>" disabled> -->
+                                        <select class="select2_demo_1 form-control gender" id="gender" name="gender" disabled>
+                                            <option value=""></option>
+                                            <?php
+                                            $mydb->setQuery("SELECT gender FROM gender");
+                                            $gender = $mydb->loadResultList();
+                                            foreach ($gender as $result) {
+                                                $selected = $cur->sex === $result->gender ? " selected" : "";
+                                                echo '<option value=' . $result->gender . '' . $selected . '>' . $result->gender . '</option>';
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label required">Email</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" placeholder="Email" class="form-control email" id="email" name="email" value="<?php echo $cur->email ?>" disabled>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label required">Mobile</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" placeholder="Mobile Number" class="form-control mobile" id="mobile" name="mobile" value="<?php echo $cur->contact_number ?>" disabled>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label required">Preffered Date of Appointment</label>
+                                    <div class="col-sm-10">
+                                        <!-- <span class="input-group-addon"><i class="fa fa-calendar"></i></span> -->
+                                        <input type="text" class="form-control appointmentDate" style="display: none" id="appointmentDate" name="appointmentDate" value="<?php echo $cur->appointmentDate ?>" disabled>
+                                        <input type="text" class="form-control datepicker appointment_date" id="appointment_date" name="appointment_date" value="<?php echo  date("M d, Y", strtotime($cur->appointmentDate))  ?>" <?php echo $disable; ?>>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label required">Preffered Time of Appointment</label>
+                                    <div class="col-sm-10">
+                                        <select class="select2_demo_1 form-control appointment_date" id="appointment_time" name="appointment_time" <?php echo $disable; ?>>
+                                            <?php
+                                            $mydb->setQuery("SELECT  time_key,time_value FROM appointment_time");
+                                            $time = $mydb->loadResultList();
+                                            foreach ($time as $result) {
+                                                $selected = $cur->appointmentTime === $result->key ? "selected" : "";
+                                                echo '<option value=' . $result->time_key . '' . $selected . '>' . $result->time_value . '</option>';
+                                            }
+                                            ?>
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label required">Dental Concern / Procedure</label>
+                                    <div class="col-sm-10">
+                                        <select class="select2_demo_2 form-control appointment_concern" multiple="multiple" id="appointment_concern" name="appointment_concern[]" disabled>
+                                            <?php
+
+                                            $mydb->setQuery("SELECT id,service_name FROM cms_services");
+                                            $cms_service = $mydb->loadResultList();
+
+                                            $mydb->setQuery("SELECT service FROM services where patientId = $cur->patientId");
+                                            $service = $mydb->loadResultList();
+
+                                            foreach ($cms_service as $cms) {
+                                                foreach ($service as $ser) {
+                                                    $selected = $ser->service === $cms->id ? " selected='selected'" : "";
+                                                    echo '<option value=' . $cms->id . '' . $selected . '>' . $cms->service_name . '</option>';
+                                                }
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Additional Details</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" placeholder="details" class="form-control details" id="details" name="details" value="<?php echo $cur->details ?>" disabled>
+                                    </div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group row" style="<?php echo $style; ?>">
+                                    <label class="col-sm-2 col-form-label">Reschedule Details</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" placeholder="resched_details" class="form-control resched_details" id="resched_details" name="resched_details" value="<?php echo $cur->resched_details ?>">
+                                    </div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group row" style="<?php echo $action === "cancel" ? "" : "display: none"; ?>">
+                                    <label class="col-sm-2 col-form-label">Cancel Details</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" placeholder="cancel_details" class="form-control cancel_details" id="cancel_details" name="cancel_details" value="<?php echo $cur->cancel_details ?>">
+                                    </div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="col-lg-12" style="<?php echo $action === "edit" ? "" : "display: none"; ?>">
+                                    <div class="panel panel-primary">
+                                        <div class="panel-heading">
+                                            Dentist Remarks
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">Doctor Remarks</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" placeholder="doctor_remarks" class="form-control doctor_remarks" id="doctor_remarks" name="doctor_remarks" value="<?php echo $cur->doctor_remarks ?>">
+                                                </div>
+                                            </div>
+                                            <div class="hr-line-dashed"></div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label required">Tooth/Teeth Tags</label>
+                                                <div class="col-sm-10">
+                                                    <select class="select2_demo_2 form-control tooth_tags" multiple="multiple" id="tooth_tags" name="tooth_tags[]">
+                                                        <?php
+                                                        $mydb->setQuery("SELECT id,tooth_number,tooth_name FROM tooth");
+                                                        $tooths = $mydb->loadResultList();
+
+                                                        $mydb->setQuery("SELECT tooth FROM tooth_tags where appointmentId = $appointmentNumber");
+                                                        $selectedTooth = $mydb->loadResultList();
+                                                        if (count($selectedTooth) !== 0) {
+                                                            $selectedNum = array();
+                                                            foreach ($selectedTooth as $sel) {
+                                                                array_push($selectedNum, $sel->tooth);
+                                                            }
+
+                                                            foreach ($tooths as $tooth) {
+                                                                $inArray = in_array($tooth->tooth_number, $selectedNum);
+                                                                $selected = $inArray ? " selected='selected'" : "";
+                                                                echo '<option value=' . $tooth->tooth_number . '' . $selected . '>#' . $tooth->tooth_number . ' - ' . $tooth->tooth_name . '</option>';
+                                                            }
+                                                        } else {
+                                                            foreach ($tooths as $tooth) {
+                                                                echo '<option value=' . $tooth->tooth_number . '>#' . $tooth->tooth_number . ' - ' . $tooth->tooth_name . '</option>';
+                                                            }
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="hr-line-dashed"></div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">Service Charge</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" placeholder="service_charge" class="form-control service_charge" id="service_charge" name="service_charge" value="<?php echo $cur->service_charge ?>">
+                                                </div>
+                                            </div>
+                                            <div class="hr-line-dashed"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+
+                                <div class="form-group row">
+                                    <div class="col-sm-4 col-sm-offset-2">
+                                        <a href="./appointment.php" class="btn btn-white btn-sm"> Back </a>
+                                        <button style="<?php echo $action === "view" ?  "" : "display: none"; ?>" class="btn btn-success btn-sm approve_appointment" type="submit" name="approve_appointment" id="approve_appointment">Accept Appointment</button>
+                                        <button style="<?php echo $action === "reschedule" ?  "" : "display: none"; ?>" class="btn btn-warning btn-sm resched_appointment" type="submit" name="resched_appointment" id="resched_appointment">Reschedule Appointment</button>
+                                        <button style="<?php echo $action === "cancel" ?  "" : "display: none"; ?>" class="btn btn-danger btn-sm cancel_appointment" type="submit" name="cancel_appointment" id="cancel_appointment">Cancel Appointment</button>
+                                        <button style="<?php echo $action === "edit" ?  "" : "display: none"; ?>" class="btn btn-primary btn-sm update_appointment" type="submit" name="update_appointment" id="update_appointment">Update Appointment</button>
+
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+
                     </div>
                 </div>
             </div>
-            <div class="footer">
-                <div>
-                    <strong>Copyright</strong> Bruzo Denta Care Clinic &copy; 2022
-                </div>
+        </div>
+        <div class="footer">
+            <div>
+                <strong>Copyright</strong> Bruzo Denta Care Clinic &copy; 2022
             </div>
         </div>
+    </div>
 
     </div>
     </div>
@@ -421,6 +481,60 @@ include("layouts/header.php");
 
                                         } else {
                                             swal("Unable to cancel this appointment", data.msg, "error");
+                                        }
+                                    }
+                                });
+                            }
+
+                        } else {
+                            swal("Cancelled", "", "error");
+                        }
+                    });
+            });
+
+
+            $('#update_appointment').click(function(e) {
+                e.preventDefault();
+                var id = $("#id").val();
+                var doctor_remarks = $("#doctor_remarks").val();
+                var tooth_tags = $("#tooth_tags").val();
+                var service_charge = $("#service_charge").val();
+                swal({
+                        title: "Update this appointment?",
+                        text: "",
+                        type: "success",
+                        showCancelButton: true,
+                        confirmButtonColor: "#1ab394",
+                        confirmButtonText: "Yes, update it!",
+                        cancelButtonText: "No, cancel plx!",
+                        closeOnConfirm: false,
+                        closeOnCancel: false
+                    },
+                    function(isConfirm) {
+                        if (isConfirm) {
+                            if (doctor_remarks === "" && service_charge === "") {
+                                swal("Please provide a remarks and service charge", "", "error");
+                            } else {
+                                $.ajax({
+                                    type: "POST",
+                                    url: "controllers/appointment-controller.php?action=edit",
+                                    dataType: "json",
+                                    data: {
+                                        id: id,
+                                        doctor_remarks: doctor_remarks,
+                                        tooth_tags: tooth_tags,
+                                        service_charge: service_charge,
+                                    },
+                                    success: function(data) {
+                                        console.log('data: ', data);
+                                        if (data.code == "200") {
+                                            swal("Updated!", "Appointment updated", "success");
+                                            setTimeout(function() {
+                                                window.location = "appointment.php";
+                                            }, 1000);
+
+                                        } else {
+                                            swal("Unable to update this appointment", data.msg, "error");
                                         }
                                     }
                                 });
