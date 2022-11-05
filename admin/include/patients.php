@@ -1,63 +1,27 @@
 <?php
 require_once('database.php');
-class User
+class Patients
 {
-    protected static  $tblname = "users";
+    protected static  $tblname = "patients";
 
     function dbfields()
     {
         global $mydb;
         return $mydb->getfieldsononetable(self::$tblname);
     }
-    function listofuser()
-    {
-        global $mydb;
-        $mydb->setQuery("SELECT * FROM " . self::$tblname);
-        return $cur;
-    }
 
-    function find_user($id = "", $user_name = "")
+
+    function single_patient($id = "")
     {
         global $mydb;
         $mydb->setQuery("SELECT * FROM " . self::$tblname . " 
-			WHERE UserID = {$id} OR Username = '{$user_name}'");
-        $cur = $mydb->executeQuery();
-        $row_count = $mydb->num_rows($cur);
-        return $row_count;
-    }
-    function userAuthentication($email, $h_pass)
-    {
-        global $mydb;
-
-        $mydb->setQuery("SELECT * FROM `users` WHERE `email` = '" . $email . "' and `password` = '" . $h_pass . "'");
-        $cur = $mydb->executeQuery();
-        if ($cur == false) {
-            die(mysqli_error());
-        }
-        $row_count = $mydb->num_rows($cur); //get the number of count
-        if ($row_count == 1) {
-
-            $user_found = $mydb->loadSingleResult();
-            $_SESSION['id']           = $user_found->id;
-            $_SESSION['first_name']          = $user_found->first_name;
-            $_SESSION['last_name']         = $user_found->last_name;
-            $_SESSION['email']             = $user_found->email;
-            $_SESSION['role']             = $user_found->role;
-
-
-            return true;
-        } else {
-            return false;
-        }
-    }
-    function single_user($id = "")
-    {
-        global $mydb;
-        $mydb->setQuery("SELECT * FROM " . self::$tblname . " 
-				Where UserID= '{$id}' LIMIT 1");
+				Where id= '{$id}' LIMIT 1");
         $cur = $mydb->loadSingleResult();
         return $cur;
     }
+
+
+
     /*---Instantiation of Object dynamically---*/
     static function instantiate($record)
     {
@@ -130,13 +94,13 @@ class User
 
         if ($mydb->executeQuery()) {
             $this->id = $mydb->insert_id();
-            return true;
+            return $this->id;
         } else {
             return false;
         }
     }
 
-    public function update($id = "")
+    public function update($id = '')
     {
         global $mydb;
         $attributes = $this->sanitized_attributes();
@@ -146,16 +110,16 @@ class User
         }
         $sql = "UPDATE " . self::$tblname . " SET ";
         $sql .= join(", ", $attribute_pairs);
-        $sql .= " WHERE UserID='{$id}'";
+        $sql .= " WHERE id='" . $id . "'";
         $mydb->setQuery($sql);
         if (!$mydb->executeQuery()) return false;
     }
 
-    public function delete($id = "")
+    public function delete($id = '')
     {
         global $mydb;
         $sql = "DELETE FROM " . self::$tblname;
-        $sql .= " WHERE UserID='{$id}'";
+        $sql .= " WHERE id='" . $id . "'";
         $sql .= " LIMIT 1 ";
         $mydb->setQuery($sql);
 

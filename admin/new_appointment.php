@@ -1,7 +1,7 @@
 <?php
 require_once("../admin/include/initialize.php");
-if (!isset($_SESSION['email'])) {
-    redirect(web_root . "/admin/login.php");
+if (!isset($_SESSION['id'])) {
+    redirect(web_root . "/admin/index.php");
 }
 include("layouts/header.php");
 ?>
@@ -23,10 +23,10 @@ include("layouts/header.php");
                         <div class="form-group">
                             <label for="service">Service</label>
                             <select name="service" id="service">
-                               <!-- options ning services -->
+                                <!-- options ning services -->
                                 <option value=""></option>
                             </select>
-                        </select>
+                            </select>
                         </div>
                         <div class="form-group" id="date">
                             <label for="date">Date</label>

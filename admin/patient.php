@@ -1,6 +1,6 @@
 <?php
 require_once("../admin/include/initialize.php");
-if (!isset($_SESSION['email'])) {
+if (!isset($_SESSION['id'])) {
     redirect(web_root . "/admin/login.php");
 }
 include("layouts/header.php");
@@ -149,13 +149,12 @@ include("layouts/header.php");
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="footer">
-            <div>
-                <strong>Copyright</strong> Bruzo Denta Care Clinic &copy; 2022
+            <div class="footer">
+                <div>
+                    <strong>Copyright</strong> Bruzo Denta Care Clinic &copy; 2022
+                </div>
             </div>
         </div>
-    </div>
 
     </div>
     </div>

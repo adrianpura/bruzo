@@ -14,7 +14,7 @@ include('include/header.php');
                     an expert in periodontics (gum disease and gum treatment), dental implants, and wisdom tooth
                     removal.
                 </p>
-                    <a href="book-appointment.php" class="btn-get-started">Book Appointment</a>
+                <a href="book-appointment.php" class="btn-get-started">Book Appointment</a>
             </div>
         </div>
     </div>
