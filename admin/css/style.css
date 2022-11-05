@@ -5665,9 +5665,15 @@ body.mini-navbar.fixed-sidebar .logo-element {
   text-align: right;
   width: 15%;
 }
+.appointment-middle-box {
+  max-width: 900px;
+  z-index: 100;
+  margin: 0 auto;
+  padding-top: 40px;
+}
 /* ERROR & LOGIN & LOCKSCREEN*/
 .middle-box {
-  max-width: 400px;
+  max-width: 800px;
   z-index: 100;
   margin: 0 auto;
   padding-top: 40px;

@@ -46,23 +46,6 @@
      <!-- end modal -->
      <div id="wrapper">
          <?php include('layouts/navigations.php'); ?>
-         <div id="page-wrapper" class="gray-bg">
-             <div class="row border-bottom">
-                 <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
-                     <div class="navbar-header">
-                         <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#">
-                             <i class="fa fa-bars"></i>
-                         </a>
-                     </div>
-                     <ul class="nav navbar-top-links navbar-right">
-                         <li>
-                             <a href="<?php echo web_root; ?>/admin/logout.php">
-                                 <i class="fa fa-sign-out"></i> Log out
-                             </a>
-                         </li>
-                     </ul>
-                 </nav>
-             </div>
              <div class="row wrapper border-bottom white-bg page-heading">
                  <div class="col-lg-10">
                      <h2>Monitor Appointment</h2>
@@ -87,9 +70,9 @@
                              </div>
                              <div class="ibox-content">
                                  <h1 class="no-margins"><?php echo $approvedCount ?></h1>
-                                 <div class="stat-percent font-bold text-success">
+                                 <!-- <div class="stat-percent font-bold text-success">
                                      0% <i class="fa fa-bolt"></i>
-                                 </div>
+                                 </div> -->
                                  <small>Total Approved</small>
                              </div>
                          </div>
@@ -101,9 +84,9 @@
                              </div>
                              <div class="ibox-content">
                                  <h1 class="no-margins"><?php echo $pendingCount ?></h1>
-                                 <div class="stat-percent font-bold text-info">
+                                 <!-- <div class="stat-percent font-bold text-info">
                                      1% <i class="fa fa-level-up"></i>
-                                 </div>
+                                 </div> -->
                                  <small>Total Pending</small>
                              </div>
                          </div>
@@ -111,14 +94,14 @@
                      <div class="col-lg-3">
                          <div class="ibox ">
                              <div class="ibox-title">
-                                 <h5>Rejected</h5>
+                                 <h5>Cancelled</h5>
                              </div>
                              <div class="ibox-content">
                                  <h1 class="no-margins"><?php echo $cancelledCount ?></h1>
-                                 <div class="stat-percent font-bold text-warning">
+                                 <!-- <div class="stat-percent font-bold text-warning">
                                      0% <i class="fa fa-level-up"></i>
-                                 </div>
-                                 <small>Total Rejected</small>
+                                 </div> -->
+                                 <small>Total Cancelled</small>
                              </div>
                          </div>
                      </div>

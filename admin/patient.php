@@ -124,23 +124,6 @@ include("layouts/header.php");
                                                 </a>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td>000002</td>
-                                            <td>Steven Tyler</td>
-                                            <td>03/26/1948</td>
-                                            <td>74</td>
-                                            <td>Male</td>
-                                            <td>09123456789</td>
-                                            <td>New York, United States</td>
-                                            <td>
-                                                <a href="" class="btn btn-success">
-                                                    <i class="fa fa-pencil"></i>
-                                                </a>
-                                                <a href="" class="btn btn-danger">
-                                                    <i class="fa fa-trash"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -149,13 +132,13 @@ include("layouts/header.php");
                     </div>
                 </div>
             </div>
-            <div class="footer">
-                <div>
-                    <strong>Copyright</strong> Bruzo Denta Care Clinic &copy; 2022
-                </div>
+
+        </div>
+        <div class="footer">
+            <div>
+                <strong>Copyright</strong> Bruzo Denta Care Clinic &copy; 2022
             </div>
         </div>
-
     </div>
     </div>
     <!-- Mainly scripts -->

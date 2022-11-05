@@ -16,6 +16,7 @@
     <link href="css/plugins/clockpicker/clockpicker.css" rel="stylesheet">
     <link href="css/plugins/select2/select2.min.css" rel="stylesheet">
     <link href="css/plugins/dualListbox/bootstrap-duallistbox.min.css" rel="stylesheet">
+    <link href="css/plugins/dataTables/datatables.min.css" rel="stylesheet">
     <!-- Sweet Alert -->
     <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
 </head>

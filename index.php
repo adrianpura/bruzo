@@ -1,6 +1,6 @@
 <?php
 include('include/config.php');
-$sql = "SELECT service_name, service_description FROM cms_services";
+$sql = "SELECT service_name, description FROM cms_services";
 $result = $conn->query($sql);
 include('include/header.php');
 ?>

@@ -84,20 +84,38 @@
             </div>
             <nav id="navbar" class="navbar">
                 <ul>
-                    <li><a href="index.php"><i class="bi bi-house-fill" style='font-size:18px;'></i>&nbspHome</a></li>
-                    <li><a href="services.php"><i class="bi bi-box-fill" style='font-size:18px;'></i>&nbspServices</a></li>
-                    <li><a href="gallery.php"><i class='bi bi-file-image-fill' style='font-size:18px;'></i>&nbspGallery</a></li>
-                    <li><a href="about.php"><i class='bi bi-info-square-fill' style='font-size:18px;'></i>&nbspAbout</a></li>
-
+                    <li><a href="index.php">
+                        <!-- <i class="bi bi-house-fill" style='font-size:18px;'></i> -->
+                        &nbspHome</a></li>
+                    <li><a href="services.php">
+                        <!-- <i class="bi bi-box-fill" style='font-size:18px;'></i> -->
+                        &nbspServices</a>
+                    </li>
+                    <li><a href="gallery.php">
+                        <!-- <i class='bi bi-file-image-fill' style='font-size:18px;'></i> -->
+                        &nbspGallery</a>
+                    </li>
+                    <li><a href="about.php">
+                        <!-- <i class='bi bi-info-square-fill' style='font-size:18px;'></i> -->
+                        &nbspAbout</a></li>
+                    <li><a href="book-appointment.php" class="book" style="margin: right 20px; ;">
+                        <!-- <i class='bi bi-calendar-plus-fill' style='font-size:18px;'></i> -->
+                    &nbspBook Appointment</a></li>
                     <?php
                     if (isset($_SESSION["user_id"]) && $_SESSION['user'] == 1) {
                         // echo '<li><a href="dashboard.php"><i class="bi bi-grid-1x2-fill" style="font-size:18px;"></i>&nbspDashboard</a></li>';
                     ?>
                         <div class="dropdown">
-                            <li><a href="#" class=><i class="bi bi-people-fill" style='font-size:18px;'></i>&nbspAccount</a><i class="fa fa-caret-down"></i></li>
+                            <li><a href="#" class=>
+                                <!-- <i class="bi bi-people-fill" style='font-size:18px;'></i> -->
+                                &nbspAccount</a><i class="fa fa-caret-down"></i></li>
                             <div class="dropdown-content">
-                                <a href="profile.php" class="btn-login"><i class="bi bi-door-closed-fill" style="font-size:18px;"></i>&nbspAccount Profile</a>
-                                <a href="logout.php" class="btn-logout"><i class="bi bi-door-closed-fill" style="font-size:18px;"></i>&nbspLogout</a>
+                                <a href="profile.php" class="btn-login">
+                                    <!-- <i class="bi bi-door-closed-fill" style="font-size:18px;"></i> -->
+                                    &nbspAccount Profile</a>
+                                <a href="logout.php" class="btn-logout">
+                                    <!-- <i class="bi bi-door-closed-fill" style="font-size:18px;"></i> -->
+                                &nbspLogout</a>
                             </div>
                         </div>
                     <?php
@@ -105,17 +123,25 @@
                     } elseif (isset($_SESSION["user_id"]) && $_SESSION['user'] == 2) {
                     ?>
                         <div class="dropdown">
-                            <li><a href="#" class=><i class="bi bi-people-fill" style='font-size:18px;'></i>&nbspAccount</a><i class="fa fa-caret-down"></i></li>
+                            <li><a href="#" class=>
+                                <!-- <i class="bi bi-people-fill" style='font-size:18px;'></i> -->
+                            &nbspAccount</a><i class="fa fa-caret-down"></i></li>
                             <div class="dropdown-content">
-                                <a href="profile.php" class="btn-login"><i class="bi bi-door-closed-fill" style="font-size:18px;"></i>&nbspAccount Profile</a>
-                                <a href="logout.php" class="btn-logout"><i class="bi bi-door-closed-fill" style="font-size:18px;"></i>&nbspLogout</a>
+                                <a href="profile.php" class="btn-login">
+                                    <!-- <i class="bi bi-door-closed-fill" style="font-size:18px;"></i> -->
+                                    &nbspAccount Profile</a>
+                                <a href="logout.php" class="btn-logout">
+                                    <!-- <i class="bi bi-door-closed-fill" style="font-size:18px;"></i> -->
+                                    &nbspLogout</a>
                             </div>
                         </div>
                     <?php
                         // echo '<li><a href="doctor-bookings.php" class="btn-login"><i class="bi bi-grid-1x2-fill" style="font-size:18px;"></i>&nbspDashboard</a></li>';
                     } else {
-                        echo '<li><a href="admin/login.php" class="btn-login"><i class="bi bi-door-open-fill" style="font-size:18px;"></i>&nbspLogin</a></li>';
-                        echo '<li><a href="admin/register.php" class="btn-login"><i class="bi bi-person-check-fill" style="font-size:18px;"></i>&nbspRegister</a></li>';
+                        // <i class="bi bi-door-open-fill" style="font-size:18px;"></i>
+                        echo '<li><a href="admin/login.php" class="btn-login">&nbspLogin</a></li>';
+                        // <i class="bi bi-person-check-fill" style="font-size:18px;"></i>
+                        echo '<li><a href="admin/register.php" class="btn-login">&nbspRegister</a></li>';
                     }
                     ?>
                 </ul>

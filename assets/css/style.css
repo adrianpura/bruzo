@@ -184,7 +184,7 @@ h6,
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 25px 10px 30px;
+  padding: 10px 10px 10px 10px;
   font-family: "Open Sans", sans-serif;
   font-size: 16px;
   color: #01AFEC;
@@ -2317,4 +2317,22 @@ hr {
 
 .cardt{
   border-radius: 15px !important;
+}
+
+.book{
+  /* font-family: "Roboto", sans-serif; */
+  /* font-weight: 500; */
+  /* font-size: 14px; */
+  letter-spacing: 1px;
+  display: inline-block;
+  padding: 12px 32px;
+  border-radius: 50px;
+  transition: 0.5s;
+  line-height: 1;
+  margin: 10px;
+  /* background: #02b811; */
+  color: #fff;
+  -webkit-animation-delay: 0.8s;
+  animation-delay: 0.8s;
+    border: 2px solid #01AFEC;
 }
