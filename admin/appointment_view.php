@@ -12,11 +12,9 @@ if ($action === "reschedule") {
     $style = "";
 }
 
-var_dump($action);
-var_dump($appointmentNumber);
 
 $mydb->setQuery("SELECT p.first_name,p.last_name,p.address,p.sex,p.age,p.contact_number,p.email,
-a.appointmentDate,a.appointmentTime,a.status,a.patientId,a.details,a.id,a.resched_details
+a.appointmentDate,a.appointmentTime,a.status,a.patientId,a.details,a.id,a.resched_details,a.cancel_details
 FROM appointments a 
 LEFT JOIN patients p on a.patientId = p.id 
 WHERE a.id=$appointmentNumber");
@@ -222,11 +220,21 @@ include("layouts/header.php");
                                     </div>
 
                                     <div class="hr-line-dashed"></div>
+
+                                    <div class="form-group row" style="<?php echo $action === "cancel" ? "" : "display: none"; ?>">
+                                        <label class="col-sm-2 col-form-label">Cancel Details</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" placeholder="cancel_details" class="form-control cancel_details" id="cancel_details" name="cancel_details" value="<?php echo $cur->cancel_details ?>">
+                                        </div>
+                                    </div>
+
+                                    <div class="hr-line-dashed"></div>
                                     <div class="form-group row">
                                         <div class="col-sm-4 col-sm-offset-2">
                                             <a href="./appointment.php" class="btn btn-white btn-sm"> Back </a>
-                                            <button style="<?php echo $action === "reschedule" ?  "display: none" : ""; ?>" class="btn btn-success btn-sm approve_appointment" type="submit" name="approve_appointment" id="approve_appointment">Accept Appointment</button>
-                                            <button style="<?php echo $style; ?>" class="btn btn-warning btn-sm resched_appointment" type="submit" name="resched_appointment" id="resched_appointment">Reschedule Appointment</button>
+                                            <button style="<?php echo $action === "view" ?  "" : "display: none"; ?>" class="btn btn-success btn-sm approve_appointment" type="submit" name="approve_appointment" id="approve_appointment">Accept Appointment</button>
+                                            <button style="<?php echo $action === "reschedule" ?  "" : "display: none"; ?>" class="btn btn-warning btn-sm resched_appointment" type="submit" name="resched_appointment" id="resched_appointment">Reschedule Appointment</button>
+                                            <button style="<?php echo $action === "cancel" ?  "" : "display: none"; ?>" class="btn btn-danger btn-sm cancel_appointment" type="submit" name="cancel_appointment" id="cancel_appointment">Cancel Appointment</button>
 
                                         </div>
                                     </div>
@@ -356,30 +364,84 @@ include("layouts/header.php");
                     },
                     function(isConfirm) {
                         if (isConfirm) {
-                            $.ajax({
-                                type: "POST",
-                                url: "controllers/appointment-controller.php?action=reschedule",
-                                dataType: "json",
-                                data: {
-                                    id: id,
-                                    appointment_date: appointment_date,
-                                    appointment_time: appointment_time,
-                                    appointment_time: appointment_time,
-                                    resched_details: resched_details,
-                                },
-                                success: function(data) {
-                                    console.log('data: ', data);
-                                    if (data.code == "200") {
-                                        swal("Reschedule!", "Appointment rescheduled", "success");
-                                        setTimeout(function() {
-                                            window.location = "appointment.php";
-                                        }, 1000);
+                            if (resched_details === "") {
+                                swal("Please provide a reschedule details", "", "error");
+                            } else {
+                                $.ajax({
+                                    type: "POST",
+                                    url: "controllers/appointment-controller.php?action=reschedule",
+                                    dataType: "json",
+                                    data: {
+                                        id: id,
+                                        appointment_date: appointment_date,
+                                        appointment_time: appointment_time,
+                                        appointment_time: appointment_time,
+                                        resched_details: resched_details,
+                                    },
+                                    success: function(data) {
+                                        console.log('data: ', data);
+                                        if (data.code == "200") {
+                                            swal("Reschedule!", "Appointment rescheduled", "success");
+                                            setTimeout(function() {
+                                                window.location = "appointment.php";
+                                            }, 1000);
 
-                                    } else {
-                                        swal("Unable to rescheduled this appointment", data.msg, "error");
+                                        } else {
+                                            swal("Unable to rescheduled this appointment", data.msg, "error");
+                                        }
                                     }
-                                }
-                            });
+                                });
+                            }
+
+
+                        } else {
+                            swal("Cancelled", "", "error");
+                        }
+                    });
+            });
+
+            $('#cancel_appointment').click(function(e) {
+                e.preventDefault();
+                var id = $("#id").val();
+                var cancel_details = $("#cancel_details").val();
+                swal({
+                        title: "Cancel this appointment?",
+                        text: "",
+                        type: "success",
+                        showCancelButton: true,
+                        confirmButtonColor: "#1ab394",
+                        confirmButtonText: "Yes, cancel it!",
+                        cancelButtonText: "No, go back plx!",
+                        closeOnConfirm: false,
+                        closeOnCancel: false
+                    },
+                    function(isConfirm) {
+                        if (isConfirm) {
+                            if (cancel_details === "") {
+                                swal("Please provide a cancellation details", "", "error");
+                            } else {
+                                $.ajax({
+                                    type: "POST",
+                                    url: "controllers/appointment-controller.php?action=cancel",
+                                    dataType: "json",
+                                    data: {
+                                        id: id,
+                                        cancel_details: cancel_details,
+                                    },
+                                    success: function(data) {
+                                        console.log('data: ', data);
+                                        if (data.code == "200") {
+                                            swal("Cancelled!", "Appointment cancelled", "success");
+                                            setTimeout(function() {
+                                                window.location = "appointment.php";
+                                            }, 1000);
+
+                                        } else {
+                                            swal("Unable to cancel this appointment", data.msg, "error");
+                                        }
+                                    }
+                                });
+                            }
 
                         } else {
                             swal("Cancelled", "", "error");

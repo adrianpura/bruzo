@@ -15,8 +15,8 @@ switch ($action) {
 		doRescheduleAppointment();
 		break;
 
-	case 'delete':
-		doDelete();
+	case 'cancel':
+		doCancelAppointment();
 		break;
 
 	case 'insertevent':
@@ -227,7 +227,7 @@ function doRescheduleAppointment()
 	$mydb->setQuery("SELECT * from users where id =$userId");
 	$user = $mydb->loadSingleResult();
 	if ($user->role === "admin") {
-		echo json_encode(['code' => 404, 'msg' => "user admin unable to accept appointment/s"]);
+		echo json_encode(['code' => 404, 'msg' => "user admin unable to reschedule appointment/s"]);
 	} else {
 		//todo
 		//update appointments table
@@ -301,6 +301,41 @@ function doRescheduleAppointment()
 
 
 		echo json_encode(['code' => 200, 'msg' => "appointment rescheduled"]);
+		// echo json_encode(['code' => 200, 'msg' => $patient]);
+	}
+}
+
+
+function doCancelAppointment()
+{
+	global $mydb;
+
+	$userId = $_SESSION['id'];
+	$appointmentId = $_POST['id'];
+	$cancel_details = $_POST['cancel_details'];
+
+	$mydb->setQuery("SELECT * from users where id =$userId");
+	$user = $mydb->loadSingleResult();
+	if ($user->role === "admin") {
+		echo json_encode(['code' => 404, 'msg' => "user admin unable to cancel appointment/s"]);
+	} else {
+		//todo
+		//update appointments table
+		//update status
+		//remove from events table
+
+		$appointments = new Appointments();
+		$appointments->doctorID = $userId;
+		$appointments->cancel_details = $cancel_details;
+		$appointments->status = "cancelled";
+		$appointments->update($appointmentId);
+
+		$events = new Events();
+		$events->delete($appointmentId);
+
+
+
+		echo json_encode(['code' => 200, 'msg' => "appointment canceled"]);
 		// echo json_encode(['code' => 200, 'msg' => $patient]);
 	}
 }

@@ -207,9 +207,9 @@
 
                                                     echo '<td style="float: right"> 
 				  		<a title="View" href="appointment_view.php?action=view&id=' . $result->id . '" class="btn btn-info"> <i class="fa fa-eye"></i></a>
-				  		<a id="' . $result->id . '" href="" title="Approved" class="btn btn-success approve_appointment"> <i class="fa fa-check"></i></a>
+				  		<a title="Approve" id="' . $result->id . '" href="" title="Approved" class="btn btn-success approve_appointment"> <i class="fa fa-check"></i></a>
 				  		<a title="Reschedule" href="appointment_view.php?action=reschedule&id=' . $result->id . '" class="btn btn-warning"> <i class="fa fa-repeat"></i></a>
-				  		<a title="Cancel" href="index.php?view=edit&id=' . $result->id . '" class="btn btn-danger"> <i class="fa fa-times"></i></a>
+				  		<a title="Cancel" href="appointment_view.php?action=cancel&id=' . $result->id . '" class="btn btn-danger"> <i class="fa fa-times"></i></a>
                                                     </td>';
 
                                                     echo '</tr>';
