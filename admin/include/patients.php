@@ -15,7 +15,7 @@ class Patients
     {
         global $mydb;
         $mydb->setQuery("SELECT * FROM " . self::$tblname . " 
-				Where PatientID= '{$id}' LIMIT 1");
+				Where id= '{$id}' LIMIT 1");
         $cur = $mydb->loadSingleResult();
         return $cur;
     }
@@ -110,7 +110,7 @@ class Patients
         }
         $sql = "UPDATE " . self::$tblname . " SET ";
         $sql .= join(", ", $attribute_pairs);
-        $sql .= " WHERE PatientID='" . $id . "'";
+        $sql .= " WHERE id='" . $id . "'";
         $mydb->setQuery($sql);
         if (!$mydb->executeQuery()) return false;
     }
@@ -119,7 +119,7 @@ class Patients
     {
         global $mydb;
         $sql = "DELETE FROM " . self::$tblname;
-        $sql .= " WHERE PatientID='" . $id . "'";
+        $sql .= " WHERE id='" . $id . "'";
         $sql .= " LIMIT 1 ";
         $mydb->setQuery($sql);
 

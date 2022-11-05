@@ -111,7 +111,7 @@ class Events
         }
         $sql = "UPDATE " . self::$tblname . " SET ";
         $sql .= join(", ", $attribute_pairs);
-        $sql .= " WHERE PatientID='" . $id . "'";
+        $sql .= " WHERE appointmentId='" . $id . "'";
         $mydb->setQuery($sql);
         if (!$mydb->executeQuery()) return false;
     }
@@ -120,7 +120,7 @@ class Events
     {
         global $mydb;
         $sql = "DELETE FROM " . self::$tblname;
-        $sql .= " WHERE PatientID='" . $id . "'";
+        $sql .= " WHERE appointmentId='" . $id . "'";
         $sql .= " LIMIT 1 ";
         $mydb->setQuery($sql);
 

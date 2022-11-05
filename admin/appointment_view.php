@@ -4,10 +4,19 @@ if (!isset($_SESSION['id'])) {
     redirect(web_root . "/admin/login.php");
 }
 $appointmentNumber = isset($_GET['id']) ? $_GET['id'] : "";
+$action = isset($_GET['action']) ? $_GET['action'] : "";
+$disable = "disabled";
+$style = "display: none";
+if ($action === "reschedule") {
+    $disable = "";
+    $style = "";
+}
 
+var_dump($action);
+var_dump($appointmentNumber);
 
 $mydb->setQuery("SELECT p.first_name,p.last_name,p.address,p.sex,p.age,p.contact_number,p.email,
-a.appointmentDate,a.appointmentTime,a.status,a.patientId,a.details,a.id
+a.appointmentDate,a.appointmentTime,a.status,a.patientId,a.details,a.id,a.resched_details
 FROM appointments a 
 LEFT JOIN patients p on a.patientId = p.id 
 WHERE a.id=$appointmentNumber");
@@ -148,7 +157,8 @@ include("layouts/header.php");
                                         <label class="col-sm-2 col-form-label required">Preffered Date of Appointment</label>
                                         <div class="col-sm-10">
                                             <!-- <span class="input-group-addon"><i class="fa fa-calendar"></i></span> -->
-                                            <input type="text" class="form-control datepicker appointment_date" id="appointment_date" name="appointment_date" value="<?php echo  date("M d, Y", strtotime($cur->appointmentDate))  ?>" disabled>
+                                            <input type="text" class="form-control appointmentDate" style="display: none" id="appointmentDate" name="appointmentDate" value="<?php echo $cur->appointmentDate ?>" disabled>
+                                            <input type="text" class="form-control datepicker appointment_date" id="appointment_date" name="appointment_date" value="<?php echo  date("M d, Y", strtotime($cur->appointmentDate))  ?>" <?php echo $disable; ?>>
                                         </div>
                                     </div>
                                     <div class="hr-line-dashed"></div>
@@ -156,7 +166,7 @@ include("layouts/header.php");
                                     <div class="form-group row">
                                         <label class="col-sm-2 col-form-label required">Preffered Time of Appointment</label>
                                         <div class="col-sm-10">
-                                            <select class="select2_demo_1 form-control appointment_date" id="appointment_time" name="appointment_time" disabled>
+                                            <select class="select2_demo_1 form-control appointment_date" id="appointment_time" name="appointment_time" <?php echo $disable; ?>>
                                                 <?php
                                                 $mydb->setQuery("SELECT  time_key,time_value FROM appointment_time");
                                                 $time = $mydb->loadResultList();
@@ -198,7 +208,16 @@ include("layouts/header.php");
                                     <div class="form-group row">
                                         <label class="col-sm-2 col-form-label">Additional Details</label>
                                         <div class="col-sm-10">
-                                            <input type="text" placeholder="Age" class="form-control details" id="details" name="details" value="<?php echo $cur->details ?>" disabled>
+                                            <input type="text" placeholder="details" class="form-control details" id="details" name="details" value="<?php echo $cur->details ?>" disabled>
+                                        </div>
+                                    </div>
+
+                                    <div class="hr-line-dashed"></div>
+
+                                    <div class="form-group row" style="<?php echo $style; ?>">
+                                        <label class="col-sm-2 col-form-label">Reschedule Details</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" placeholder="resched_details" class="form-control resched_details" id="resched_details" name="resched_details" value="<?php echo $cur->resched_details ?>">
                                         </div>
                                     </div>
 
@@ -206,7 +225,8 @@ include("layouts/header.php");
                                     <div class="form-group row">
                                         <div class="col-sm-4 col-sm-offset-2">
                                             <a href="./appointment.php" class="btn btn-white btn-sm"> Back </a>
-                                            <button class="btn btn-success btn-sm approve_appointment" type="submit" name="approve_appointment" id="approve_appointment">Accept Appointment</button>
+                                            <button style="<?php echo $action === "reschedule" ?  "display: none" : ""; ?>" class="btn btn-success btn-sm approve_appointment" type="submit" name="approve_appointment" id="approve_appointment">Accept Appointment</button>
+                                            <button style="<?php echo $style; ?>" class="btn btn-warning btn-sm resched_appointment" type="submit" name="resched_appointment" id="resched_appointment">Reschedule Appointment</button>
 
                                         </div>
                                     </div>
@@ -250,13 +270,32 @@ include("layouts/header.php");
     <!-- Sweet alert -->
     <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
     <script>
+        function truncateDate(date) {
+            return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+        }
         $(document).ready(function() {
             $(".select2_demo_1").select2();
             $(".select2_demo_2").select2();
+            var appDate = $("#appointmentDate").val();
+            $('#appointment_date').datepicker({
+                todayBtn: "linked",
+                keyboardNavigation: false,
+                forceParse: false,
+                calendarWeeks: true,
+                autoclose: true,
+                minDate: new Date(),
+                daysOfWeekDisabled: [0, 6],
+                startDate: truncateDate(new Date(appDate))
+            });
+
+
+
+            var date = new Date(appDate);
+            $("#appointment_date").val(((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '/' + ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) + '/' + date.getFullYear())
+
 
             $('#approve_appointment').click(function(e) {
                 e.preventDefault();
-
                 var id = $("#id").val();
                 swal({
                         title: "Approved this appointment?",
@@ -287,7 +326,57 @@ include("layouts/header.php");
                                         }, 1000);
 
                                     } else {
-                                        swal("Unable to accept this appointment", "Please contact the system administratot", "error");
+                                        swal("Unable to accept this appointment", data.msg, "error");
+                                    }
+                                }
+                            });
+
+                        } else {
+                            swal("Cancelled", "", "error");
+                        }
+                    });
+            });
+
+            $('#resched_appointment').click(function(e) {
+                e.preventDefault();
+                var id = $("#id").val();
+                var appointment_date = $("#appointment_date").val();
+                var appointment_time = $("#appointment_time").val();
+                var resched_details = $("#resched_details").val();
+                swal({
+                        title: "Reschedule this appointment?",
+                        text: "",
+                        type: "success",
+                        showCancelButton: true,
+                        confirmButtonColor: "#1ab394",
+                        confirmButtonText: "Yes, reschedule it!",
+                        cancelButtonText: "No, cancel plx!",
+                        closeOnConfirm: false,
+                        closeOnCancel: false
+                    },
+                    function(isConfirm) {
+                        if (isConfirm) {
+                            $.ajax({
+                                type: "POST",
+                                url: "controllers/appointment-controller.php?action=reschedule",
+                                dataType: "json",
+                                data: {
+                                    id: id,
+                                    appointment_date: appointment_date,
+                                    appointment_time: appointment_time,
+                                    appointment_time: appointment_time,
+                                    resched_details: resched_details,
+                                },
+                                success: function(data) {
+                                    console.log('data: ', data);
+                                    if (data.code == "200") {
+                                        swal("Reschedule!", "Appointment rescheduled", "success");
+                                        setTimeout(function() {
+                                            window.location = "appointment.php";
+                                        }, 1000);
+
+                                    } else {
+                                        swal("Unable to rescheduled this appointment", data.msg, "error");
                                     }
                                 }
                             });

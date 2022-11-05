@@ -3,11 +3,19 @@
     if (!isset($_SESSION['id'])) {
         redirect(web_root . "/admin/login.php");
     }
-    $mydb->setQuery("SELECT status, count(*) as count FROM appointments GROUP BY status ORDER BY status DESC");
-    $cur = $mydb->loadResultList();
-    $pendingCount = isset($cur[0]->count) ? $cur[0]->count : 0;
-    $cancelledCount = isset($cur[1]->count) ? $cur[1]->count : 0;
-    $approvedCount =  isset($cur[2]->count) ? $cur[2]->count : 0;
+    $mydb->setQuery("SELECT status, count(*) as count FROM appointments WHERE status= 'pending'");
+    $pending = $mydb->loadSingleResult();
+
+    $mydb->setQuery("SELECT status, count(*) as count FROM appointments WHERE status= 'approved'");
+    $approved = $mydb->loadSingleResult();
+
+    $mydb->setQuery("SELECT status, count(*) as count FROM appointments WHERE status= 'cancelled'");
+    $cancelled = $mydb->loadSingleResult();
+
+    $pendingCount = isset($pending->count) ? $pending->count : 0;
+    $approvedCount =  isset($approved->count) ? $approved->count : 0;
+    $cancelledCount = isset($cancelled->count) ? $cancelled->count : 0;
+
     include("layouts/header.php");
     ?>
 
@@ -198,10 +206,10 @@
 
 
                                                     echo '<td style="float: right"> 
-				  		<a title="View" href="appointment_view.php?id=' . $result->id . '" class="btn btn-info"> <i class="fa fa-eye"></i></a>
-				  		<a title="Approved" href="index.php?view=view&id=' . $result->id . '" class="btn btn-success"> <i class="fa fa-check"></i></a>
-				  		<a title="Reschedule" href="index.php?view=view&id=' . $result->id . '" class="btn btn-warning"> <i class="fa fa-repeat"></i></a>
-				  		<a title="Cancel" href="index.php?view=edit&id=' . $result->id . '" class="btn btn-danger"> <i class="fa fa-trash"></i></a>
+				  		<a title="View" href="appointment_view.php?action=view&id=' . $result->id . '" class="btn btn-info"> <i class="fa fa-eye"></i></a>
+				  		<a id="' . $result->id . '" href="" title="Approved" class="btn btn-success approve_appointment"> <i class="fa fa-check"></i></a>
+				  		<a title="Reschedule" href="appointment_view.php?action=reschedule&id=' . $result->id . '" class="btn btn-warning"> <i class="fa fa-repeat"></i></a>
+				  		<a title="Cancel" href="index.php?view=edit&id=' . $result->id . '" class="btn btn-danger"> <i class="fa fa-times"></i></a>
                                                     </td>';
 
                                                     echo '</tr>';
@@ -237,6 +245,8 @@
      <script src="js/inspinia.js"></script>
      <script src="js/plugins/pace/pace.min.js"></script>
      <!-- Page-Level Scripts -->
+     <!-- Sweet alert -->
+     <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
      <script>
          $(document).ready(function() {
              $('.dataTables-example').DataTable({
@@ -271,6 +281,51 @@
                  ]
              });
              $('#appointment').addClass('active').siblings().removeClass('active');
+
+
+             $('.approve_appointment').click(function(e) {
+                 e.preventDefault();
+                 var id = $(this).attr('id');
+                 console.log('id: ', id);
+                 swal({
+                         title: "Approved this appointment?",
+                         text: "",
+                         type: "success",
+                         showCancelButton: true,
+                         confirmButtonColor: "#1ab394",
+                         confirmButtonText: "Yes, approved it!",
+                         cancelButtonText: "No, cancel plx!",
+                         closeOnConfirm: false,
+                         closeOnCancel: false
+                     },
+                     function(isConfirm) {
+                         if (isConfirm) {
+                             $.ajax({
+                                 type: "POST",
+                                 url: "controllers/appointment-controller.php?action=accept",
+                                 dataType: "json",
+                                 data: {
+                                     id: id,
+                                 },
+                                 success: function(data) {
+                                     console.log('data: ', data);
+                                     if (data.code == "200") {
+                                         swal("Accepted!", "Appointment accepted", "success");
+                                         setTimeout(function() {
+                                             window.location = "appointment.php";
+                                         }, 1000);
+
+                                     } else {
+                                         swal("Unable to accept this appointment", data.msg, "error");
+                                     }
+                                 }
+                             });
+
+                         } else {
+                             swal("Cancelled", "", "error");
+                         }
+                     });
+             });
          });
      </script>
  </body>

@@ -8,7 +8,11 @@ switch ($action) {
 		break;
 
 	case 'accept':
-		doAcceptAppintment();
+		doAcceptAppointment();
+		break;
+
+	case 'reschedule':
+		doRescheduleAppointment();
 		break;
 
 	case 'delete':
@@ -85,41 +89,7 @@ function doInsert()
 	$new_date = date('Y-m-d H:i:s', $old_date_timestamp);
 
 
-	switch ($appointment_time) {
-		case '9-10':
-			$start = setEventTime($appointment_date, 9);
-			$end = setEventTime($appointment_date, 10);
-			break;
 
-		case '10-11':
-			$start = setEventTime($appointment_date, 10);
-			$end = setEventTime($appointment_date, 11);
-			break;
-
-		case '11-12':
-			$start = setEventTime($appointment_date, 11);
-			$end = setEventTime($appointment_date, 12);
-			break;
-
-		case '1-2':
-			$start = setEventTime($appointment_date, 13);
-			$end = setEventTime($appointment_date, 14);
-			break;
-		case '2-3':
-			$start = setEventTime($appointment_date, 14);
-			$end = setEventTime($appointment_date, 15);
-			break;
-
-		case '3-4':
-			$start = setEventTime($appointment_date, 15);
-			$end = setEventTime($appointment_date, 16);
-			break;
-
-		case '4-5':
-			$start = setEventTime($appointment_date, 16);
-			$end = setEventTime($appointment_date, 17);
-			break;
-	}
 
 	$success = false;
 
@@ -144,14 +114,9 @@ function doInsert()
 		$appointment->details = $details;
 		$appointmentCreate = $appointment->create();
 
-		$events = new Events();
-		$events->patientId = $patientId;
-		$events->title = $first_name . " " . $last_name;
-		$events->start_event = $start;
-		$events->end_event = $end;
-		$eventCreate = $events->create();
 
-		if ($appointmentCreate !== false && $eventCreate !== false) {
+
+		if ($appointmentCreate !== false) {
 			$success = true;
 			foreach ($concerns[0] as $concern) {
 				$services = new Services();
@@ -173,37 +138,171 @@ function doInsert()
 	}
 }
 
-function doAcceptAppintment()
+function doAcceptAppointment()
 {
 	global $mydb;
-	var_dump($_POST['id']);
-	echo ($_SESSION['id']);
-	var_dump("sadasd");
 
 	$userId = $_SESSION['id'];
 	$appointmentId = $_POST['id'];
 
 	$mydb->setQuery("SELECT * from users where id =$userId");
-	$cur = $mydb->loadSingleResult();
-	var_dump($cur);
-	echo json_encode(['code' => 404, 'msg' => $cur]);
+	$user = $mydb->loadSingleResult();
+	if ($user->role === "admin") {
+		echo json_encode(['code' => 404, 'msg' => "user admin unable to accept appointment/s"]);
+	} else {
+		$appointments = new Appointments();
+		$appointment = $appointments->single_appointment($appointmentId);
 
 
-	// if (isset($_POST['save'])) {
+		switch ($appointment->appointmentTime) {
+			case '9-10':
+				$start = setEventTime($appointment->appointmentDate, 9);
+				$end = setEventTime($appointment->appointmentDate, 10);
+				break;
 
-	// 	$patient = new Patients();
-	// 	$patient->Fname		= $_POST['Fname'];
-	// 	$patient->Mname		= $_POST['Mname'];
-	// 	$patient->Lname		= $_POST['Lname'];
-	// 	$patient->F_Address		= $_POST['F_Address'];
-	// 	$patient->Sex		= $_POST['Sex'];
-	// 	$patient->Age		= $_POST['Age'];
-	// 	$patient->ContactNo		= $_POST['ContactNo'];
-	// 	$patient->update($_POST['PatientID']);
+			case '10-11':
+				$start = setEventTime($appointment->appointmentDate, 10);
+				$end = setEventTime($appointment->appointmentDate, 11);
+				break;
 
-	// 	message("Patient has been updated!", "success");
-	// 	redirect("index.php");
-	// }
+			case '11-12':
+				$start = setEventTime($appointment->appointmentDate, 11);
+				$end = setEventTime($appointment->appointmentDate, 12);
+				break;
+
+			case '1-2':
+				$start = setEventTime($appointment->appointmentDate, 13);
+				$end = setEventTime($appointment->appointmentDate, 14);
+				break;
+			case '2-3':
+				$start = setEventTime($appointment->appointmentDate, 14);
+				$end = setEventTime($appointment->appointmentDate, 15);
+				break;
+
+			case '3-4':
+				$start = setEventTime($appointment->appointmentDate, 15);
+				$end = setEventTime($appointment->appointmentDate, 16);
+				break;
+
+			case '4-5':
+				$start = setEventTime($appointment->appointmentDate, 16);
+				$end = setEventTime($appointment->appointmentDate, 17);
+				break;
+		}
+
+		$patients = new Patients();
+		$patient = $patients->single_patient($appointment->patientId);
+
+
+		$events = new Events();
+		$events->patientId = $appointment->patientId;
+		$events->title = $patient->first_name . " " . $patient->last_name;
+		$events->start_event = $start;
+		$events->end_event = $end;
+		$events->appointmentId = $appointmentId;
+		$eventCreate = $events->create();
+
+		$appointments->status = "approved";
+		$appointments->doctorID = $userId;
+		$updateAppointment = $appointments->update($appointmentId);
+
+		echo json_encode(['code' => 200, 'msg' => "appointment accepted"]);
+		// echo json_encode(['code' => 200, 'msg' => $patient]);
+	}
+}
+
+function doRescheduleAppointment()
+{
+	global $mydb;
+
+	$userId = $_SESSION['id'];
+	$appointmentId = $_POST['id'];
+	$appointmentDate = $_POST['appointment_date'];
+	$appointmentTime = $_POST['appointment_time'];
+	$resched_details = $_POST['resched_details'];
+
+	$old_date_timestamp = strtotime($appointmentDate);
+	$new_date = date('Y-m-d H:i:s', $old_date_timestamp);
+
+	$mydb->setQuery("SELECT * from users where id =$userId");
+	$user = $mydb->loadSingleResult();
+	if ($user->role === "admin") {
+		echo json_encode(['code' => 404, 'msg' => "user admin unable to accept appointment/s"]);
+	} else {
+		//todo
+		//update appointments table
+		//update events table
+
+		$appointments = new Appointments();
+		$appointment = $appointments->single_appointment($appointmentId);
+
+		switch ($appointmentTime) {
+			case '9-10':
+				$start = setEventTime($appointmentDate, 9);
+				$end = setEventTime($appointmentDate, 10);
+				break;
+
+			case '10-11':
+				$start = setEventTime($appointmentDate, 10);
+				$end = setEventTime($appointmentDate, 11);
+				break;
+
+			case '11-12':
+				$start = setEventTime($appointmentDate, 11);
+				$end = setEventTime($appointmentDate, 12);
+				break;
+
+			case '1-2':
+				$start = setEventTime($appointmentDate, 13);
+				$end = setEventTime($appointmentDate, 14);
+				break;
+			case '2-3':
+				$start = setEventTime($appointmentDate, 14);
+				$end = setEventTime($appointmentDate, 15);
+				break;
+
+			case '3-4':
+				$start = setEventTime($appointmentDate, 15);
+				$end = setEventTime($appointmentDate, 16);
+				break;
+
+			case '4-5':
+				$start = setEventTime($appointmentDate, 16);
+				$end = setEventTime($appointmentDate, 17);
+				break;
+		}
+		$patients = new Patients();
+		$patient = $patients->single_patient($appointment->patientId);
+
+		if ($appointment->status !== "approved") {
+			$events = new Events();
+			$events->patientId = $appointment->patientId;
+			$events->title = $patient->first_name . " " . $patient->last_name;
+			$events->start_event = $start;
+			$events->end_event = $end;
+			$events->appointmentId = $appointmentId;
+			$events->create();
+		} else {
+			$events = new Events();
+			$events->start_event = $start;
+			$events->end_event = $end;
+			$events->update($appointmentId);
+		}
+
+
+
+		$appointments->appointmentDate = $new_date;
+		$appointments->appointmentTime = $appointmentTime;
+		$appointments->doctorID = $userId;
+		$appointments->resched_details = $resched_details;
+		$appointments->status = "approved";
+		$appointments->update($appointmentId);
+
+
+
+		echo json_encode(['code' => 200, 'msg' => "appointment rescheduled"]);
+		// echo json_encode(['code' => 200, 'msg' => $patient]);
+	}
 }
 
 
