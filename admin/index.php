@@ -5,25 +5,10 @@ if (!isset($_SESSION['email'])) {
 }
 include("layouts/header.php");
 ?>
+
 <body>
     <div id="wrapper">
         <?php include('layouts/navigations.php'); ?>
-        <div id="page-wrapper" class="gray-bg">
-            <div class="row border-bottom">
-                <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
-                    <div class="navbar-header">
-                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
-                    </div>
-                    <ul class="nav navbar-top-links navbar-right">
-                        <li>
-                            <a href="<?php echo web_root; ?>/admin/logout.php">
-                                <i class="fa fa-sign-out"></i>Log out
-                            </a>
-                        </li>
-                    </ul>
-
-                </nav>
-            </div>
             <div class="row wrapper border-bottom white-bg page-heading">
                 <div class="col-lg-10">
                     <h2>Calendar</h2>
@@ -41,27 +26,16 @@ include("layouts/header.php");
                 </div>
             </div>
             <div class="wrapper wrapper-content">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <a href="setup_schedule.php" class="btn btn-primary">
-                            <i class="fa fa-plus"></i>
-                            New Schedule
-                        </a>
-                    </div>
-                    <div class="col-lg-2">
-                    </div>
-                </div>
-                <br>
                 <div class="row animated fadeInDown">
                     <div class="col-lg-12">
                         <div class="ibox ">
                             <div class="ibox-title">
                                 <h5>Calendar</h5>
                                 <div class="ibox-content">
-                                <div id="calendar"></div>
+                                    <div id="calendar"></div>
+                                </div>
                             </div>
-                            </div>
-                           
+
                         </div>
                     </div>
                 </div>

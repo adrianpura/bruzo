@@ -1,7 +1,7 @@
 <?php
 require_once("../admin/include/initialize.php");
-if (isset($_SESSION['id'])) {
-    redirect(web_root . "/admin/index.php");
+if (!isset($_SESSION['email'])) {
+    redirect(web_root . "/admin/login.php");
 }
 include("layouts/header.php");
 ?>
@@ -51,12 +51,9 @@ include("layouts/header.php");
             </div>
         </div>
     </div>
-
     <!-- Mainly scripts -->
     <script src="js/jquery-3.1.1.min.js"></script>
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.js"></script>
-
 </body>
-
 </html>

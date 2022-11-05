@@ -8,23 +8,6 @@ include("layouts/header.php");
 <body>
     <div id="wrapper">
         <?php include('layouts/navigations.php'); ?>
-        <div id="page-wrapper" class="gray-bg">
-            <div class="row border-bottom">
-                <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
-                    <div class="navbar-header">
-                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#">
-                            <i class="fa fa-bars"></i>
-                        </a>
-                    </div>
-                    <ul class="nav navbar-top-links navbar-right">
-                        <li>
-                            <a href="<?php echo web_root; ?>/admin/logout.php">
-                                <i class="fa fa-sign-out"></i> Log out
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
             <div class="row wrapper border-bottom white-bg page-heading">
                 <div class="col-lg-10">
                     <h2>Monitor Appointment</h2>
@@ -85,17 +68,17 @@ include("layouts/header.php");
                         </div>
                     </div>
                 </div>
-                <!-- <div class="row">
+                <div class="row">
                     <div class="col-lg-12">
-                        <a href="schedule_setup.php" class="btn btn-primary">
-                            <i class="fa fa-calendar"></i>
-                            Setup Schedule
+                        <a href="new_appointment.php" class="btn btn-primary">
+                            <i class="fa fa-plus"></i>
+                            New Appointment
                         </a>
                     </div>
                     <div class="col-lg-2">
                     </div>
                 </div>
-                <br> -->
+                <br>
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="ibox ">
