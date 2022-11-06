@@ -28,7 +28,7 @@ require_once("admin/include/initialize.php");
     <link href="admin/css/plugins/dualListbox/bootstrap-duallistbox.min.css" rel="stylesheet">
     <link href="admin/css/plugins/dataTables/datatables.min.css" rel="stylesheet">
     <!-- Sweet Alert -->
-    <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <link href="admin/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
 </head>
 
 <style>
@@ -253,7 +253,7 @@ require_once("admin/include/initialize.php");
                                 appointment_concern.length !== 0) {
                                 $.ajax({
                                     type: "POST",
-                                    url: "controllers/appointment-controller.php?action=add",
+                                    url: "admin/controllers/appointment-controller.php?action=add",
                                     dataType: "json",
                                     data: {
                                         first_name: first_name,
@@ -272,7 +272,7 @@ require_once("admin/include/initialize.php");
                                         if (data.code == "200") {
                                             swal("Saved!", "Appointment created, we will contact you after confirming your appointment", "success");
                                             setTimeout(function() {
-                                                window.location = "appointment.php";
+                                                window.location = "book-appointment.php";
                                             }, 1000);
 
                                         } else {
