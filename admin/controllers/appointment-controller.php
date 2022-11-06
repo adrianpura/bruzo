@@ -90,12 +90,7 @@ function doInsert()
 	$old_date_timestamp = strtotime($appointment_date);
 	$new_date = date('Y-m-d H:i:s', $old_date_timestamp);
 
-
-
-
 	$success = false;
-
-
 	$patient = new Patients();
 	$patient->first_name = $first_name;
 	$patient->last_name = $last_name;
