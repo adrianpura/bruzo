@@ -159,7 +159,7 @@ require_once("admin/include/initialize.php");
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">Additional Details</label>
                                     <div class="col-sm-10"><input type="text" class="form-control details" id="details" name="details">
-                                        <span class="form-text m-b-none">Additional details of your concenr</span>
+                                        <span class="form-text m-b-none">Additional details of your concern</span>
                                     </div>
                                 </div>
                                 <div class="hr-line-dashed"></div>

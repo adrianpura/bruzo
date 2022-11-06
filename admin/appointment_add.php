@@ -22,7 +22,7 @@ include("layouts/header.php");
                     <h2>Add Appointment</h2>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a href="index.html">Home</a>
+                            <a href="index.php">Home</a>
                         </li>
                         <li class="breadcrumb-item active">
                             <strong>Appointment</strong>
@@ -204,6 +204,7 @@ include("layouts/header.php");
     <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
     <script>
         $(document).ready(function() {
+            document.title = "Bruzo | Appointment Add";
             $(".select2_demo_1").select2();
             $(".select2_demo_2").select2();
             $('#appointment_date').datepicker({

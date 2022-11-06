@@ -45,6 +45,7 @@
     <script src="js/plugins/iCheck/icheck.min.js"></script>
     <script>
         $(document).ready(function() {
+            ocument.title = "Bruzo | Registration" ;
             $('.i-checks').iCheck({
                 checkboxClass: 'icheckbox_square-green',
                 radioClass: 'iradio_square-green',
