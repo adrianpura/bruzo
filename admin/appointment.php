@@ -17,6 +17,13 @@
     $cancelledCount = isset($cancelled->count) ? $cancelled->count : 0;
 
     include("layouts/header.php");
+
+    $userId = $_SESSION['id'];
+    $role = $_SESSION['role'];
+    $display = "";
+    if ($role === "patient") {
+        $display = 'display: none';
+    }
     ?>
 
  <body>
@@ -51,7 +58,7 @@
                  <h2>Monitor Appointment</h2>
                  <ol class="breadcrumb">
                      <li class="breadcrumb-item">
-                         <a href="index.html">Home</a>
+                         <a href="index.php">Home</a>
                      </li>
                      <li class="breadcrumb-item active">
                          <strong>Monitor Appointment</strong>
@@ -190,10 +197,10 @@
 
                                                 echo '<td style="float: right"> 
 				  		<a title="View" href="appointment_view.php?action=view&id=' . $result->id . '" class="btn btn-info"> <i class="fa fa-eye"></i></a>
-				  		<a title="Edit" href="appointment_view.php?action=edit&id=' . $result->id . '" class="btn btn-primary"> <i class="fa fa-edit"></i></a>
-				  		<a title="Approve" id="' . $result->id . '" href="" title="Approved" class="btn btn-success approve_appointment"> <i class="fa fa-check"></i></a>
-				  		<a title="Reschedule" href="appointment_view.php?action=reschedule&id=' . $result->id . '" class="btn btn-warning"> <i class="fa fa-repeat"></i></a>
-				  		<a title="Cancel" href="appointment_view.php?action=cancel&id=' . $result->id . '" class="btn btn-danger"> <i class="fa fa-times"></i></a>
+				  		<a title="Edit" href="appointment_view.php?action=edit&id=' . $result->id . '" class="btn btn-primary" style="' . $display . '"> <i class="fa fa-edit"></i></a>
+				  		<a title="Approve" id="' . $result->id . '" href="" title="Approved" class="btn btn-success approve_appointment" style="' . $display . '"> <i class="fa fa-check"></i></a>
+				  		<a title="Reschedule" href="appointment_view.php?action=reschedule&id=' . $result->id . '" class="btn btn-warning" style="' . $display . '"> <i class="fa fa-repeat"></i></a>
+				  		<a title="Cancel" href="appointment_view.php?action=cancel&id=' . $result->id . '" class="btn btn-danger" style="' . $display . '"> <i class="fa fa-times"></i></a>
                                                     </td>';
 
                                                 echo '</tr>';
@@ -233,6 +240,7 @@
      <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
      <script>
          $(document).ready(function() {
+            document.title = "Bruzo | Appointment";
              $('.dataTables-example').DataTable({
                  pageLength: 25,
                  responsive: true,

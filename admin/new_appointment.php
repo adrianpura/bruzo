@@ -55,5 +55,10 @@ include("layouts/header.php");
     <script src="js/jquery-3.1.1.min.js"></script>
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.js"></script>
+    <script>
+        $(document).ready(function() {
+            document.title = "Bruzo | Patient View";
+        });
+    </script>
 </body>
 </html>

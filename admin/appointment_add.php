@@ -4,6 +4,20 @@ if (!isset($_SESSION['id'])) {
     redirect(web_root . "/admin/login.php");
 }
 
+$userId = $_SESSION['id'];
+$mydb->setQuery("SELECT * from users WHERE id=$userId");
+$cur = $mydb->loadSingleResult();
+
+$first_name = "";
+$last_name = "";
+$email = "";
+if (isset($cur) && $_SESSION['role'] === "patient") {
+    $first_name = $cur->first_name;
+    $last_name = $cur->last_name;
+    $email = $cur->email;
+}
+
+
 include("layouts/header.php");
 ?>
 
@@ -17,165 +31,165 @@ include("layouts/header.php");
 <body>
     <div id="wrapper">
         <?php include('layouts/navigations.php'); ?>
-            <div class="row wrapper border-bottom white-bg page-heading">
-                <div class="col-lg-10">
-                    <h2>Add Appointment</h2>
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item">
-                            <a href="index.html">Home</a>
-                        </li>
-                        <li class="breadcrumb-item active">
-                            <strong>Appointment</strong>
-                        </li>
-                    </ol>
-                </div>
-                <div class="col-lg-2">
-                </div>
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-10">
+                <h2>Add Appointment</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="index.html">Home</a>
+                    </li>
+                    <li class="breadcrumb-item active">
+                        <strong>Appointment</strong>
+                    </li>
+                </ol>
             </div>
-            <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="col-lg-2">
+            </div>
+        </div>
+        <div class="wrapper wrapper-content animated fadeInRight">
 
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="ibox ">
-                            <div class="ibox-title">
-                                <h5>Appointment Details</h5>
-                                <div class="ibox-tools">
-                                    <a class="collapse-link">
-                                        <i class="fa "></i>
-                                    </a>
-                                </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox ">
+                        <div class="ibox-title">
+                            <h5>Appointment Details</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa "></i>
+                                </a>
                             </div>
-                            <div class="ibox-content form_content">
-                                <form role="form" data-toggle="validator" id="appointment_form">
-                                    <div class="alert alert-danger display-error" style="display: none"></div>
-                                    <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label required">First Name</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" placeholder="First Name" class="form-control first_name" id="first_name" name="first_name">
-                                        </div>
-                                    </div>
-                                    <div class="hr-line-dashed"></div>
-
-                                    <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label required">Last Name</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" placeholder="Last Name" class="form-control last_name" id="last_name" name="last_name">
-                                        </div>
-                                    </div>
-                                    <div class="hr-line-dashed"></div>
-
-                                    <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label required">Address</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" placeholder="Address" class="form-control address" id="address" name="address">
-                                        </div>
-                                    </div>
-                                    <div class="hr-line-dashed"></div>
-
-                                    <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label required">Age</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" placeholder="Age" class="form-control age" id="age" name="age">
-                                        </div>
-                                    </div>
-                                    <div class="hr-line-dashed"></div>
-
-                                    <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label required">Gender</label>
-                                        <div class="col-sm-10">
-                                            <select class="select2_demo_1 form-control gender" id="gender" name="gender">
-                                                <option value=""></option>
-                                                <option value="Male">Male</option>
-                                                <option value="Female">Female</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="hr-line-dashed"></div>
-
-                                    <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label required">Email</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" placeholder="Email" class="form-control email" id="email" name="email">
-                                        </div>
-                                    </div>
-                                    <div class="hr-line-dashed"></div>
-
-                                    <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label required">Mobile</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" placeholder="Mobile Number" class="form-control mobile" id="mobile" name="mobile">
-                                        </div>
-                                    </div>
-                                    <div class="hr-line-dashed"></div>
-
-
-                                    <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label required">Preffered Date of Appointment</label>
-                                        <div class="col-sm-10">
-                                            <!-- <span class="input-group-addon"><i class="fa fa-calendar"></i></span> -->
-                                            <input type="text" class="form-control datepicker appointment_date" id="appointment_date" name="appointment_date">
-                                        </div>
-                                    </div>
-                                    <div class="hr-line-dashed"></div>
-
-                                    <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label required">Preffered Time of Appointment</label>
-                                        <div class="col-sm-10">
-                                            <select class="select2_demo_1 form-control appointment_date" id="appointment_time" name="appointment_time">
-                                                <option value="9-10">9:00 am - 10:00 am</option>
-                                                <option value="10-11">10:00 am - 11:00 am</option>
-                                                <option value="11-12">11:00 am - 12:00 pm</option>
-                                                <option value="1-2">1:00 pm - 2:00 pm</option>
-                                                <option value="2-3">2:00 pm - 3:00 pm</option>
-                                                <option value="3-4">3:00 pm - 4:00 pm</option>
-                                                <option value="4-5">4:00 pm - 5:00 pm</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="hr-line-dashed"></div>
-
-                                    <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label required">Dental Concern / Procedure</label>
-                                        <div class="col-sm-10">
-                                            <select class="select2_demo_2 form-control appointment_concern" multiple="multiple" id="appointment_concern" name="appointment_concern[]">
-                                                <?php
-                                                $mydb->setQuery("SELECT id,service_name FROM cms_services");
-                                                $cur = $mydb->loadResultList();
-                                                foreach ($cur as $result) {
-                                                    echo '<option value=' . $result->id . '>' . $result->service_name . '</option>';
-                                                }
-                                                ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="hr-line-dashed"></div>
-                                    <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label">Additional Details</label>
-                                        <div class="col-sm-10"><input type="text" class="form-control details" id="details" name="details">
-                                            <span class="form-text m-b-none">Additional details of your concenr</span>
-                                        </div>
-                                    </div>
-                                    <div class="hr-line-dashed"></div>
-                                    <div class="form-group row">
-                                        <div class="col-sm-4 col-sm-offset-2">
-                                            <a href="./appointment.php" class="btn btn-white btn-sm"> Back </a>
-                                            <button class="btn btn-primary btn-sm save_appointment" type="submit" name="save_appointment" id="save_appointment">Save changes</button>
-
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-
                         </div>
+                        <div class="ibox-content form_content">
+                            <form role="form" data-toggle="validator" id="appointment_form">
+                                <div class="alert alert-danger display-error" style="display: none"></div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label required">First Name</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" placeholder="First Name" class="form-control first_name" id="first_name" name="first_name" value="<?php echo $first_name ?>">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label required">Last Name</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" placeholder="Last Name" class="form-control last_name" id="last_name" name="last_name" value="<?php echo $last_name ?>">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label required">Address</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" placeholder="Address" class="form-control address" id="address" name="address">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label required">Age</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" placeholder="Age" class="form-control age" id="age" name="age">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label required">Gender</label>
+                                    <div class="col-sm-10">
+                                        <select class="select2_demo_1 form-control gender" id="gender" name="gender">
+                                            <option value=""></option>
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label required">Email</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" placeholder="Email" class="form-control email" id="email" name="email" value="<?php echo $email ?>">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label required">Mobile</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" placeholder="Mobile Number" class="form-control mobile" id="mobile" name="mobile">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label required">Preffered Date of Appointment</label>
+                                    <div class="col-sm-10">
+                                        <!-- <span class="input-group-addon"><i class="fa fa-calendar"></i></span> -->
+                                        <input type="text" class="form-control datepicker appointment_date" id="appointment_date" name="appointment_date">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label required">Preffered Time of Appointment</label>
+                                    <div class="col-sm-10">
+                                        <select class="select2_demo_1 form-control appointment_date" id="appointment_time" name="appointment_time">
+                                            <option value="9-10">9:00 am - 10:00 am</option>
+                                            <option value="10-11">10:00 am - 11:00 am</option>
+                                            <option value="11-12">11:00 am - 12:00 pm</option>
+                                            <option value="1-2">1:00 pm - 2:00 pm</option>
+                                            <option value="2-3">2:00 pm - 3:00 pm</option>
+                                            <option value="3-4">3:00 pm - 4:00 pm</option>
+                                            <option value="4-5">4:00 pm - 5:00 pm</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label required">Dental Concern / Procedure</label>
+                                    <div class="col-sm-10">
+                                        <select class="select2_demo_2 form-control appointment_concern" multiple="multiple" id="appointment_concern" name="appointment_concern[]">
+                                            <?php
+                                            $mydb->setQuery("SELECT id,service_name FROM cms_services");
+                                            $cur = $mydb->loadResultList();
+                                            foreach ($cur as $result) {
+                                                echo '<option value=' . $result->id . '>' . $result->service_name . '</option>';
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Additional Details</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control details" id="details" name="details">
+                                        <span class="form-text m-b-none">Additional details of your concenr</span>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group row">
+                                    <div class="col-sm-4 col-sm-offset-2">
+                                        <a href="./appointment.php" class="btn btn-white btn-sm"> Back </a>
+                                        <button class="btn btn-primary btn-sm save_appointment" type="submit" name="save_appointment" id="save_appointment">Save changes</button>
+
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
                     </div>
                 </div>
             </div>
-            <div class="footer">
-                <div>
-                    <strong>Copyright</strong> Bruzo Denta Care Clinic &copy; 2022
-                </div>
+        </div>
+        <div class="footer">
+            <div>
+                <strong>Copyright</strong> Bruzo Denta Care Clinic &copy; 2022
             </div>
         </div>
+    </div>
 
     </div>
     </div>

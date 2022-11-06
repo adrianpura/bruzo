@@ -28,7 +28,7 @@ require_once("admin/include/initialize.php");
     <link href="admin/css/plugins/dualListbox/bootstrap-duallistbox.min.css" rel="stylesheet">
     <link href="admin/css/plugins/dataTables/datatables.min.css" rel="stylesheet">
     <!-- Sweet Alert -->
-    <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <link href="admin/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
 </head>
 
 <style>
@@ -159,7 +159,7 @@ require_once("admin/include/initialize.php");
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">Additional Details</label>
                                     <div class="col-sm-10"><input type="text" class="form-control details" id="details" name="details">
-                                        <span class="form-text m-b-none">Additional details of your concenr</span>
+                                        <span class="form-text m-b-none">Additional details of your concern</span>
                                     </div>
                                 </div>
                                 <div class="hr-line-dashed"></div>
@@ -253,7 +253,7 @@ require_once("admin/include/initialize.php");
                                 appointment_concern.length !== 0) {
                                 $.ajax({
                                     type: "POST",
-                                    url: "controllers/appointment-controller.php?action=add",
+                                    url: "admin/controllers/appointment-controller.php?action=add",
                                     dataType: "json",
                                     data: {
                                         first_name: first_name,
@@ -272,7 +272,7 @@ require_once("admin/include/initialize.php");
                                         if (data.code == "200") {
                                             swal("Saved!", "Appointment created, we will contact you after confirming your appointment", "success");
                                             setTimeout(function() {
-                                                window.location = "appointment.php";
+                                                window.location = "book-appointment.php";
                                             }, 1000);
 
                                         } else {
