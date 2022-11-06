@@ -234,14 +234,14 @@ include("layouts/header.php");
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label">Doctor Remarks</label>
                                                 <div class="col-sm-10">
-                                                    <input type="text" placeholder="doctor_remarks" class="form-control doctor_remarks" id="doctor_remarks" name="doctor_remarks" value="<?php echo $cur->doctor_remarks ?>" <?php echo $disable; ?>>
+                                                    <input type="text" placeholder="doctor_remarks" class="form-control doctor_remarks" id="doctor_remarks" name="doctor_remarks" value="<?php echo $cur->doctor_remarks ?>">
                                                 </div>
                                             </div>
                                             <div class="hr-line-dashed"></div>
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label required">Tooth/Teeth Tags</label>
                                                 <div class="col-sm-10">
-                                                    <select class="select2_demo_2 form-control tooth_tags" multiple="multiple" id="tooth_tags" name="tooth_tags[]" <?php echo $disable; ?>>
+                                                    <select class="select2_demo_2 form-control tooth_tags" multiple="multiple" id="tooth_tags" name="tooth_tags[]">
                                                         <?php
                                                         $mydb->setQuery("SELECT id,tooth_number,tooth_name FROM tooth");
                                                         $tooths = $mydb->loadResultList();
@@ -272,7 +272,7 @@ include("layouts/header.php");
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label">Service Charge</label>
                                                 <div class="col-sm-10">
-                                                    <input type="text" placeholder="service_charge" class="form-control service_charge" id="service_charge" name="service_charge" value="<?php echo $cur->service_charge ?>" <?php echo $disable; ?>>
+                                                    <input type="text" placeholder="service_charge" class="form-control service_charge" id="service_charge" name="service_charge" value="<?php echo $cur->service_charge ?>">
                                                 </div>
                                             </div>
                                             <div class="hr-line-dashed"></div>

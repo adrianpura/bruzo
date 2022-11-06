@@ -63,8 +63,8 @@ if ($role === "patient") {
             <div class="navbar-header">
                 <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
             </div>
-            <ul class="nav navbar-top-links navbar-right" style="<?php echo $display; ?>">
-                <li class="dropdown">
+            <ul class="nav navbar-top-links navbar-right">
+                <li class="dropdown" style="<?php echo $display; ?>">
                     <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
                         <i class="fa fa-envelope"></i> <span class="label label-warning count">0</span>
                     </a>
