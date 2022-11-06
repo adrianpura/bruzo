@@ -17,7 +17,7 @@ $role = $_SESSION['role'];
                 <h2>Calendar</h2>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="index.html">Home</a>
+                        <a href="index.php">Home</a>
                     </li>
                     <li class="breadcrumb-item active">
                         <strong>Calendar</strong>
@@ -79,6 +79,7 @@ $role = $_SESSION['role'];
     <script src="js/plugins/select2/select2.full.min.js"></script>
     <script>
         $(document).ready(function() {
+            document.title = "Bruzo | Calendar";
             $('#index').addClass('active').siblings().removeClass('active');
             /* initialize the calendar
              -----------------------------------------------------------------*/

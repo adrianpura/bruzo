@@ -18,13 +18,13 @@ if ($role === "patient") {
                     <img src="../assets/img/bruzo.png" alt="" width="40" height="40">
                 </div>
             </li>
-            <li id="index" class="active">
+            <li id="index">
                 <a href="index.php">
                     <i class="fa fa-calendar"></i>
                     <span class="nav-label">Calendar</span>
                 </a>
             </li>
-            <li id="appointment" class="active">
+            <li id="appointment">
                 <a href="appointment.php">
                     <i class="fa fa-calendar-check-o"></i>
                     <span class="nav-label">Appointments</span>

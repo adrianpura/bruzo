@@ -13,7 +13,7 @@ include("layouts/header.php");
                     <h2>Gallery</h2>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a href="index.html">Home</a>
+                            <a href="index.php">Home</a>
                         </li>
                         <li class="breadcrumb-item active">
                             <strong>Gallery</strong>
@@ -107,6 +107,7 @@ include("layouts/header.php");
     <!-- Page-Level Scripts -->
     <script>
         $(document).ready(function() {
+            document.title = "Bruzo | Gallery";
             $('#gallery').addClass('active').siblings().removeClass('active');
         });
     </script>

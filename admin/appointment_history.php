@@ -15,7 +15,7 @@ include("layouts/header.php");
                     <h2>Appointment History</h2>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a href="index.html">Home</a>
+                            <a href="index.php">Home</a>
                         </li>
                         <li class="breadcrumb-item active">
                             <strong>Appointment History</strong>
@@ -94,6 +94,7 @@ include("layouts/header.php");
     <!-- Page-Level Scripts -->
     <script>
         $(document).ready(function() {
+            document.title = "Bruzo | Appointment History";
             $('.dataTables-example').DataTable({
                 pageLength: 25,
                 responsive: true,

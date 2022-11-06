@@ -5,6 +5,7 @@ if (!isset($_SESSION['email'])) {
 }
 include("layouts/header.php");
 ?>
+
 <body>
     <div id="wrapper">
         <?php include('layouts/navigations.php'); ?>
@@ -13,7 +14,7 @@ include("layouts/header.php");
                 <h2>Services</h2>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="index.html">Home</a>
+                        <a href="index.php">Home</a>
                     </li>
                     <li class="breadcrumb-item active">
                         <strong>Services</strong>
@@ -64,8 +65,8 @@ include("layouts/header.php");
                                                     <input id="logo" type="file">
                                                 </div>
                                                 <button class="btn btn-sm btn-primary float-right m-t-n-xs" type="submit"><strong>Add Service</strong></button>
+                                            </form>
                                         </div>
-                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -119,6 +120,7 @@ include("layouts/header.php");
     <!-- Page-Level Scripts -->
     <script>
         $(document).ready(function() {
+            document.title = "Bruzo | Services" ;
             $('#nav-service').addClass('active').siblings().removeClass('active');
         });
     </script>

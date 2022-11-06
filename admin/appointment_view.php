@@ -44,7 +44,7 @@ include("layouts/header.php");
                 <h2>View Appointment</h2>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="index.html">Home</a>
+                        <a href="index.php">Home</a>
                     </li>
                     <li class="breadcrumb-item active">
                         <strong>Appointment</strong>
@@ -55,7 +55,14 @@ include("layouts/header.php");
             </div>
         </div>
         <div class="wrapper wrapper-content animated fadeInRight">
-
+            <div class="row">
+                <div class="col-lg-12">
+                    <button class="btn btn-primary" onclick="history.back()"><i class="fa fa-chevron-left"></i> Go Back</button>
+                </div>
+                <div class="col-lg-2">
+                </div>
+            </div>
+            <br>
             <div class="row">
                 <div class="col-lg-12">
                     <div class="ibox ">
@@ -329,7 +336,10 @@ include("layouts/header.php");
         function truncateDate(date) {
             return new Date(date.getFullYear(), date.getMonth(), date.getDate());
         }
+
         $(document).ready(function() {
+            document.title = "Bruzo | Appointment View";
+            // $('#index').addClass('active').siblings().removeClass('active');
             $(".select2_demo_1").select2();
             $(".select2_demo_2").select2();
             var appDate = $("#appointmentDate").val();
@@ -447,7 +457,6 @@ include("layouts/header.php");
                         }
                     });
             });
-
             $('#cancel_appointment').click(function(e) {
                 e.preventDefault();
                 var id = $("#id").val();
@@ -544,7 +553,6 @@ include("layouts/header.php");
                                     }
                                 });
                             }
-
                         } else {
                             swal("Cancelled", "", "error");
                         }

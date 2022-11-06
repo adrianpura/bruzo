@@ -58,7 +58,7 @@
                  <h2>Monitor Appointment</h2>
                  <ol class="breadcrumb">
                      <li class="breadcrumb-item">
-                         <a href="index.html">Home</a>
+                         <a href="index.php">Home</a>
                      </li>
                      <li class="breadcrumb-item active">
                          <strong>Monitor Appointment</strong>
@@ -240,6 +240,7 @@
      <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
      <script>
          $(document).ready(function() {
+            document.title = "Bruzo | Appointment";
              $('.dataTables-example').DataTable({
                  pageLength: 25,
                  responsive: true,

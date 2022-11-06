@@ -14,7 +14,7 @@ include("layouts/header.php");
                 <h2>List of Patients</h2>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="index.html">Home</a>
+                        <a href="index.php">Home</a>
                     </li>
                     <li class="breadcrumb-item active">
                         <strong>List of Patients</strong>
@@ -160,6 +160,8 @@ include("layouts/header.php");
     <!-- Page-Level Scripts -->
     <script>
         $(document).ready(function() {
+            document.title = "Bruzo | Patient" ;
+            $('#patient').addClass('active').siblings().removeClass('active');
             $('.dataTables-example').DataTable({
                 pageLength: 25,
                 responsive: true,
@@ -191,7 +193,6 @@ include("layouts/header.php");
                     }
                 ]
             });
-            $('#patient').addClass('active').siblings().removeClass('active');
         });
     </script>
 </body>

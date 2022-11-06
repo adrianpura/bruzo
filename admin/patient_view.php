@@ -246,6 +246,7 @@ if ($role === "patient") {
     <!-- Page-Level Scripts -->
     <script>
         $(document).ready(function() {
+            document.title = "Bruzo | Patient View";
             $('.dataTables-example').DataTable({
                 pageLength: 25,
                 responsive: true,
