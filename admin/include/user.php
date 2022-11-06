@@ -12,15 +12,15 @@ class User
     function listofuser()
     {
         global $mydb;
-        $mydb->setQuery("SELECT * FROM " . self::$tblname);
+        $cur = $mydb->setQuery("SELECT * FROM " . self::$tblname);
         return $cur;
     }
 
-    function find_user($id = "", $user_name = "")
+    function find_user($id = "", $email = "")
     {
         global $mydb;
         $mydb->setQuery("SELECT * FROM " . self::$tblname . " 
-			WHERE UserID = {$id} OR Username = '{$user_name}'");
+			WHERE id = {$id} OR email = '{$email}'");
         $cur = $mydb->executeQuery();
         $row_count = $mydb->num_rows($cur);
         return $row_count;
@@ -32,7 +32,7 @@ class User
         $mydb->setQuery("SELECT * FROM `users` WHERE `email` = '" . $email . "' and `password` = '" . $h_pass . "'");
         $cur = $mydb->executeQuery();
         if ($cur == false) {
-            die(mysqli_error());
+            die(mysqli_error($this->conn));
         }
         $row_count = $mydb->num_rows($cur); //get the number of count
         if ($row_count == 1) {
@@ -54,7 +54,7 @@ class User
     {
         global $mydb;
         $mydb->setQuery("SELECT * FROM " . self::$tblname . " 
-				Where UserID= '{$id}' LIMIT 1");
+				Where id= '{$id}' LIMIT 1");
         $cur = $mydb->loadSingleResult();
         return $cur;
     }
@@ -146,7 +146,7 @@ class User
         }
         $sql = "UPDATE " . self::$tblname . " SET ";
         $sql .= join(", ", $attribute_pairs);
-        $sql .= " WHERE UserID='{$id}'";
+        $sql .= " WHERE id='{$id}'";
         $mydb->setQuery($sql);
         if (!$mydb->executeQuery()) return false;
     }
@@ -155,7 +155,7 @@ class User
     {
         global $mydb;
         $sql = "DELETE FROM " . self::$tblname;
-        $sql .= " WHERE UserID='{$id}'";
+        $sql .= " WHERE id='{$id}'";
         $sql .= " LIMIT 1 ";
         $mydb->setQuery($sql);
 

@@ -12,6 +12,11 @@ if ($action === "reschedule") {
     $style = "";
 }
 
+$role = $_SESSION['role'];
+if ($role === "patient") {
+    $disable = "disabled";
+}
+
 
 $mydb->setQuery("SELECT p.first_name,p.last_name,p.address,p.sex,p.age,p.contact_number,p.email,
 a.appointmentDate,a.appointmentTime,a.status,a.patientId,a.details,a.id,a.resched_details,a.cancel_details,a.service_charge,a.doctor_remarks
@@ -222,14 +227,14 @@ include("layouts/header.php");
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label">Doctor Remarks</label>
                                                 <div class="col-sm-10">
-                                                    <input type="text" placeholder="doctor_remarks" class="form-control doctor_remarks" id="doctor_remarks" name="doctor_remarks" value="<?php echo $cur->doctor_remarks ?>">
+                                                    <input type="text" placeholder="doctor_remarks" class="form-control doctor_remarks" id="doctor_remarks" name="doctor_remarks" value="<?php echo $cur->doctor_remarks ?>" <?php echo $disable; ?>>
                                                 </div>
                                             </div>
                                             <div class="hr-line-dashed"></div>
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label required">Tooth/Teeth Tags</label>
                                                 <div class="col-sm-10">
-                                                    <select class="select2_demo_2 form-control tooth_tags" multiple="multiple" id="tooth_tags" name="tooth_tags[]">
+                                                    <select class="select2_demo_2 form-control tooth_tags" multiple="multiple" id="tooth_tags" name="tooth_tags[]" <?php echo $disable; ?>>
                                                         <?php
                                                         $mydb->setQuery("SELECT id,tooth_number,tooth_name FROM tooth");
                                                         $tooths = $mydb->loadResultList();
@@ -260,7 +265,7 @@ include("layouts/header.php");
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label">Service Charge</label>
                                                 <div class="col-sm-10">
-                                                    <input type="text" placeholder="service_charge" class="form-control service_charge" id="service_charge" name="service_charge" value="<?php echo $cur->service_charge ?>">
+                                                    <input type="text" placeholder="service_charge" class="form-control service_charge" id="service_charge" name="service_charge" value="<?php echo $cur->service_charge ?>" <?php echo $disable; ?>>
                                                 </div>
                                             </div>
                                             <div class="hr-line-dashed"></div>
@@ -273,7 +278,7 @@ include("layouts/header.php");
                                 <div class="form-group row">
                                     <div class="col-sm-4 col-sm-offset-2">
                                         <a href="./appointment.php" class="btn btn-white btn-sm"> Back </a>
-                                        <button style="<?php echo $action === "view" ?  "" : "display: none"; ?>" class="btn btn-success btn-sm approve_appointment" type="submit" name="approve_appointment" id="approve_appointment">Accept Appointment</button>
+                                        <button style="<?php echo $action === "view" ?  "" : "display: none"; ?><?php echo $display ?>" class="btn btn-success btn-sm approve_appointment" type="submit" name="approve_appointment" id="approve_appointment">Accept Appointment</button>
                                         <button style="<?php echo $action === "reschedule" ?  "" : "display: none"; ?>" class="btn btn-warning btn-sm resched_appointment" type="submit" name="resched_appointment" id="resched_appointment">Reschedule Appointment</button>
                                         <button style="<?php echo $action === "cancel" ?  "" : "display: none"; ?>" class="btn btn-danger btn-sm cancel_appointment" type="submit" name="cancel_appointment" id="cancel_appointment">Cancel Appointment</button>
                                         <button style="<?php echo $action === "edit" ?  "" : "display: none"; ?>" class="btn btn-primary btn-sm update_appointment" type="submit" name="update_appointment" id="update_appointment">Update Appointment</button>

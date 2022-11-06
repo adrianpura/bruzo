@@ -4,6 +4,9 @@ if (!isset($_SESSION['id'])) {
     redirect(web_root . "/admin/login.php");
 }
 include("layouts/header.php");
+
+$userId = $_SESSION['id'];
+$role = $_SESSION['role'];
 ?>
 
 <body>
@@ -79,6 +82,12 @@ include("layouts/header.php");
             $('#index').addClass('active').siblings().removeClass('active');
             /* initialize the calendar
              -----------------------------------------------------------------*/
+            var currentRole = "<?php echo $role; ?>";
+            var userId = <?php echo $userId; ?>;
+            var eventUrl = 'controllers/appointment-controller.php?action=loadevent'
+            if (currentRole === "patient") {
+                eventUrl = `controllers/appointment-controller.php?action=loadevent&id=${userId}`;
+            }
 
             var date = new Date();
             var d = date.getDate();
@@ -94,7 +103,7 @@ include("layouts/header.php");
                 editable: true,
                 // droppable: true, // this allows things to be dropped onto the calendar
 
-                events: 'controllers/appointment-controller.php?action=loadevent',
+                events: eventUrl,
                 eventClick: function(event) {
                     console.log('eventClick: ', event);
                     console.log('eventClick: ', event.id);
