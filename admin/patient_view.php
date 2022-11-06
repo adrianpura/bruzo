@@ -10,6 +10,13 @@ $action = isset($_GET['action']) ? $_GET['action'] : "";
 $mydb->setQuery("SELECT * FROM patients WHERE id=$patientId");
 $cur = $mydb->loadSingleResult();
 include("layouts/header.php");
+
+$userId = $_SESSION['id'];
+$role = $_SESSION['role'];
+$display = "";
+if ($role === "patient") {
+    $display = 'display: none';
+}
 ?>
 
 <body>

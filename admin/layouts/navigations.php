@@ -1,3 +1,12 @@
+<?php
+$userId = $_SESSION['id'];
+$role = $_SESSION['role'];
+$display = "";
+if ($role === "patient") {
+    $display = 'display: none';
+}
+
+?>
 <nav class="navbar-default navbar-static-side" role="navigation">
     <div class="sidebar-collapse">
         <ul class="nav metismenu" id="side-menu">
@@ -27,19 +36,19 @@
                     <span class="nav-label">Patients</span>
                 </a>
             </li>
-            <li id="nav-doctor">
+            <li id="nav-doctor" style="<?php echo $display; ?>">
                 <a href="doctor.php">
                     <i class="fa fa-history"></i>
                     <span class="nav-label">Doctors</span>
                 </a>
             </li>
-            <li id="nav-service">
+            <li id="nav-service" style="<?php echo $display; ?>">
                 <a href="services.php">
                     <i class="fa fa-wrench"></i>
                     <span class="nav-label">Services</span>
                 </a>
             </li>
-            <li id="gallery">
+            <li id="gallery" style="<?php echo $display; ?>">
                 <a href="gallery.php">
                     <i class="fa fa-photo"></i>
                     <span class="nav-label">Gallery</span>
@@ -55,7 +64,7 @@
                 <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
             </div>
             <ul class="nav navbar-top-links navbar-right">
-                <li class="dropdown">
+                <li class="dropdown" style="<?php echo $display; ?>">
                     <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
                         <i class="fa fa-envelope"></i> <span class="label label-warning count">0</span>
                     </a>

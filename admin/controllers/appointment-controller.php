@@ -96,6 +96,7 @@ function doInsert()
 	$patient->last_name = $last_name;
 	$patient->address = $address;
 	$patient->age = $age;
+	$patient->userId = $_SESSION['id'];
 	$patient->sex = $gender;
 	$patient->contact_number = $mobile;
 	$patient->email = $email;
