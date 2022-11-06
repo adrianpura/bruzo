@@ -25,7 +25,7 @@ include("layouts/header.php");
             </div>
         </div>
         <div class="wrapper wrapper-content animated fadeInRight">
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-lg-12">
                     <a href="#modal-form" class="btn btn-primary" data-toggle="modal">
                         <i class="fa fa-plus"></i>
@@ -34,7 +34,7 @@ include("layouts/header.php");
                 </div>
                 <div class="col-lg-2">
                 </div>
-            </div>
+            </div> -->
             <br>
             <div class="row">
                 <div class="col-lg-12">
@@ -48,57 +48,57 @@ include("layouts/header.php");
                             </div>
                         </div>
                         <div class="ibox-content">
-                            <div id="modal-form" class="modal fade" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-body">
-                                            <h3 class="m-t-none m-b">New Patient</h3>
-                                            <form role="form">
-                                                <div class="form-group">
-                                                    <label>First Name</label>
-                                                    <input type="text" placeholder="First Name" class="form-control">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Last Name</label>
-                                                    <input type="text" placeholder="Last Name" class="form-control">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="birthdate">Birthdate</label>
-                                                    <div class="input-group date">
-                                                        <span class="input-group-addon">
-                                                            <i class="fa fa-calendar"></i>
-                                                        </span>
-                                                        <input type="text" class="form-control" value="03/04/2014">
+                            <!-- <div id="modal-form" class="modal fade" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <h3 class="m-t-none m-b">New Patient</h3>
+                                                <form role="form">
+                                                    <div class="form-group">
+                                                        <label>First Name</label>
+                                                        <input type="text" placeholder="First Name" class="form-control">
                                                     </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="sex">Sex</label>
-                                                    <select class="form-control m-b" name="sex">
-                                                        <option>Male</option>
-                                                        <option>Female</option>
-                                                    </select>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="contact">Contact Number</label>
-                                                    <input type="text" placeholder="Contact Number" class="form-control" name="contact">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="address">Address</label>
-                                                    <input type="text" placeholder="Address" class="form-control" rows="5" name="address">
-                                                </div>
-                                                <button class="btn btn-sm btn-primary float-right m-t-n-xs" type="submit"><strong>Add Patient</strong></button>
+                                                    <div class="form-group">
+                                                        <label>Last Name</label>
+                                                        <input type="text" placeholder="Last Name" class="form-control">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="birthdate">Birthdate</label>
+                                                        <div class="input-group date">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-calendar"></i>
+                                                            </span>
+                                                            <input type="text" class="form-control" value="03/04/2014">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="sex">Sex</label>
+                                                        <select class="form-control m-b" name="sex">
+                                                            <option>Male</option>
+                                                            <option>Female</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="contact">Contact Number</label>
+                                                        <input type="text" placeholder="Contact Number" class="form-control" name="contact">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="address">Address</label>
+                                                        <input type="text" placeholder="Address" class="form-control" rows="5" name="address">
+                                                    </div>
+                                                    <button class="btn btn-sm btn-primary float-right m-t-n-xs" type="submit"><strong>Add Patient</strong></button>
+                                            </div>
+                                            </form>
                                         </div>
-                                        </form>
                                     </div>
-                                </div>
-                            </div>
+                                </div> -->
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered table-hover dataTables-example">
                                     <thead>
                                         <tr>
                                             <th>Patient ID</th>
                                             <th>Name</th>
-                                            <th>Birthdate</th>
+                                            <th>Email</th>
                                             <th>Age</th>
                                             <th>Sex</th>
                                             <th>Contact Number</th>
@@ -107,23 +107,26 @@ include("layouts/header.php");
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>000001</td>
-                                            <td>Kirk Hammett</td>
-                                            <td>11/18/1962</td>
-                                            <td>59</td>
-                                            <td>Male</td>
-                                            <td>09123456789</td>
-                                            <td>San Francisco, California, United States</td>
-                                            <td>
-                                                <a href="" class="btn btn-success">
-                                                    <i class="fa fa-pencil"></i>
-                                                </a>
-                                                <a href="" class="btn btn-danger">
-                                                    <i class="fa fa-trash"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
+                                        <?php
+                                        $mydb->setQuery("SELECT * FROM patients");
+                                        $cur = $mydb->loadResultList();
+                                        foreach ($cur as $result) {
+
+                                            echo '<tr>';
+                                            echo '<td>' . $result->id . '</td>';
+                                            echo '<td>' . $result->first_name . ' ' . $result->last_name . '</td>';
+                                            echo '<td>' . $result->email . '</td>';
+                                            echo '<td>' . $result->age . '</td>';
+                                            echo '<td>' .  $result->sex . '</td>';
+                                            echo '<td>' . $result->contact_number . '</td>';
+                                            echo '<td>' . $result->address . '</td>';
+                                            echo '<td style="float: right"> 
+				  		<a title="View" href="patient_view.php?action=view&id=' . $result->id . '" class="btn btn-info"> <i class="fa fa-eye"></i></a>
+                                                    </td>';
+                                            echo '</tr>';
+                                        }
+                                        ?>
+
                                     </tbody>
                                 </table>
                             </div>
