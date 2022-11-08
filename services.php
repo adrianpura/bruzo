@@ -202,6 +202,10 @@ setlocale(LC_MONETARY, "English_Philippines");
 
         // Activate WOW.js plugin for animation on scrol
         new WOW().init();
+
+        $('#edit-modal-for').bind('click', function(event) {
+              
+        });
     </script>
 
 </body>

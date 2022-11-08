@@ -8,6 +8,9 @@
     ?>
 
  <body class="gray-bg">
+     <div class="bg">
+         <img src="../assets/img/background2.jpg" alt="">
+     </div>
      <div class="middle-box text-center loginscreen   animated fadeInDown">
          <img src="../assets/img/bruzo.png" alt="" width="100" height="100">
          <h3>Welcome to Bruzo Dental Care Clinic</h3>

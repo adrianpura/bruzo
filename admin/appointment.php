@@ -71,11 +71,11 @@
          <div class="wrapper wrapper-content animated fadeInRight">
              <div class="row">
                  <div class="col-lg-3">
-                     <div class="ibox ">
-                         <div class="ibox-title">
+                     <div class="panel panel-primary">
+                         <div class="panel-heading">
                              <h5>Approved</h5>
                          </div>
-                         <div class="ibox-content">
+                         <div class="panel-body">
                              <h1 class="no-margins"><?php echo $approvedCount ?></h1>
                              <!-- <div class="stat-percent font-bold text-success">
                                      0% <i class="fa fa-bolt"></i>
@@ -85,11 +85,11 @@
                      </div>
                  </div>
                  <div class="col-lg-3">
-                     <div class="ibox ">
-                         <div class="ibox-title">
+                     <div class="panel panel-warning">
+                         <div class="panel-heading">
                              <h5>Pending</h5>
                          </div>
-                         <div class="ibox-content">
+                         <div class="panel-body">
                              <h1 class="no-margins"><?php echo $pendingCount ?></h1>
                              <!-- <div class="stat-percent font-bold text-info">
                                      1% <i class="fa fa-level-up"></i>
@@ -99,18 +99,18 @@
                      </div>
                  </div>
                  <div class="col-lg-3">
-                     <div class="ibox ">
-                         <div class="ibox-title">
-                             <h5>Cancelled</h5>
-                         </div>
-                         <div class="ibox-content">
-                             <h1 class="no-margins"><?php echo $cancelledCount ?></h1>
+                    <div class="panel panel-danger">
+                        <div class="panel-heading">
+                            <h5>Cancelled</h5>
+                        </div>
+                        <div class="panel-body">
+                        <h1 class="no-margins"><?php echo $cancelledCount ?></h1>
                              <!-- <div class="stat-percent font-bold text-warning">
                                      0% <i class="fa fa-level-up"></i>
                                  </div> -->
                              <small>Total Cancelled</small>
-                         </div>
-                     </div>
+                        </div>
+                    </div>
                  </div>
              </div>
              <div class="row">

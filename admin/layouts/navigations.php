@@ -2,8 +2,16 @@
 $userId = $_SESSION['id'];
 $role = $_SESSION['role'];
 $display = "";
+$display2 = "";
+$notifDisplay1 = "";
+$notifDisplay2 = "";
 if ($role === "patient") {
     $display = 'display: none';
+    $notifDisplay1 = 'display:none';
+}
+else{
+    $display2 = 'display: none';
+    $notifDisplay2 = 'display:none';
 }
 
 ?>
@@ -30,7 +38,7 @@ if ($role === "patient") {
                     <span class="nav-label">Appointments</span>
                 </a>
             </li>
-            <li id="patient">
+            <li id="patient" style="<?php echo $display; ?>">
                 <a href="patient.php">
                     <i class="fa fa-th-list"></i>
                     <span class="nav-label">Patients</span>
@@ -54,6 +62,18 @@ if ($role === "patient") {
                     <span class="nav-label">Gallery</span>
                 </a>
             </li>
+            <li id="patient-profile" style="<?php echo $display2; ?>">
+                <a href="profile.php">
+                    <i class="fa fa-user"></i>
+                    <span class="nav-label">Profile</span>
+                </a>
+            </li>
+            <li id="patient-profile" style="<?php echo $display2; ?>">
+                <a href="../index.php">
+                    <i class="fa fa-star"></i>
+                    <span class="nav-label">Landing Page</span>
+                </a>
+            </li>
         </ul>
     </div>
 </nav>
@@ -64,11 +84,21 @@ if ($role === "patient") {
                 <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
             </div>
             <ul class="nav navbar-top-links navbar-right">
-                <li class="dropdown" style="<?php echo $display; ?>">
+                <li class="dropdown" style="<?php echo $notifDisplay1; ?>">
                     <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
                         <i class="fa fa-envelope"></i> <span class="label label-warning count">0</span>
                     </a>
                     <ul class="dropdown-menu dropdown-messages">
+
+                        <!-- <li class="dropdown-divider"></li> -->
+
+                    </ul>
+                </li>
+                <li class="dropdown" style="<?php echo $notifDisplay2; ?>">
+                    <a class="dropdown-toggle1 count-info" data-toggle="dropdown" href="#">
+                        <i class="fa fa-envelope"></i> <span class="label label-warning count">0</span>
+                    </a>
+                    <ul class="dropdown-menu1 dropdown-messages">
 
                         <!-- <li class="dropdown-divider"></li> -->
 
@@ -88,6 +118,8 @@ if ($role === "patient") {
     <script src="js/plugins/jquery-ui/jquery-ui.min.js"></script>
     <script>
         $(document).ready(function() {
+
+            //Admin Notif
             function load_unseen_notification(view = '') {
                 $.ajax({
                     url: "controllers/appointment-controller.php?action=fetchStatus",
@@ -111,6 +143,32 @@ if ($role === "patient") {
             });
             setInterval(function() {
                 load_unseen_notification();;
+            }, 5000);
+
+            //Client notif
+            function load_unseen_client_notification(view = '') {
+                $.ajax({
+                    url: "controllers/appointment-controller.php?action=fetchClientStatus",
+                    method: "POST",
+                    data: {
+                        view: view
+                    },
+                    dataType: "json",
+                    success: function(data) {
+                        $('.dropdown-menu1').html(data.notification);
+                        if (data.unseen_notification > 0) {
+                            $('.count').html(data.unseen_notification);
+                        }
+                    }
+                });
+            }
+            load_unseen_client_notification();
+            $(document).on('click', '.dropdown-toggle1', function() {
+                $('.count').html('0');
+                load_unseen_client_notification('yes');
+            });
+            setInterval(function() {
+                load_unseen_client_notification();;
             }, 5000);
         });
     </script>

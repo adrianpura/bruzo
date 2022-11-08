@@ -64,16 +64,6 @@
                         <li><a class="nav-link page-scroll" href="admin/login.php">Login</a></li>
                         <li><a class="nav-link page-scroll" href="admin/register.php">Register</a></li>
                         <li><a class="nav-link page-scroll book-appointment" href="book-appointment.php">Book Appointment</a></li>
-                        <li class="dropdown">
-                            <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                                <i class="fa fa-envelope"></i> <span class="label label-warning count">0</span>
-                            </a>
-                            <ul class="dropdown-menu dropdown-messages">
-
-                                <!-- <li class="dropdown-divider"></li> -->
-
-                            </ul>
-                        </li>
                     </ul>
                 </div>
             </div>
@@ -166,7 +156,6 @@
     <script src="admin/js/inspinia.js"></script>
     <script src="admin/js/plugins/pace/pace.min.js"></script>
     <script src="admin/js/plugins/wow/wow.min.js"></script>
-    <script src="assets/js/client-notification.js"></script>                      
 
     <script>
         $(document).ready(function() {

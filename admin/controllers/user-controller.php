@@ -8,10 +8,6 @@ switch ($action) {
         break;
 }
 
-
-
-
-
 function doRegister()
 {
     global $mydb;

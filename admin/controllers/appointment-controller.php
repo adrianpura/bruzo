@@ -22,6 +22,10 @@ switch ($action) {
 	case 'fetchStatus':
 		dofetchStatus();
 		break;
+	
+		case 'fetchClientStatus':
+			dofetchClientStatus();
+			break;
 
 	case 'edit':
 		doEditAppointment();
@@ -438,7 +442,72 @@ function dofetchStatus()
 	}
 }
 
+function dofetchClientStatus()
+{
+	include('connect.php');
+	global $mydb;
 
+	if (isset($_POST['view'])) {
+		$patient = $_SESSION['id'];
+
+		if ($_POST["view"] != '') {
+			$update_query = "UPDATE appointments SET notif_status = 1 WHERE notif_status=0 AND patiendId=$patient";
+			mysqli_query($con, $update_query);
+		}
+
+		$query = "SELECT p.first_name,p.last_name,a.id,a.appointmentDate,a.appointmentTime,TIMESTAMPDIFF(MINUTE, a.created_at, NOW()) as minute
+					FROM appointments a
+					LEFT JOIN patients p on a.patientId=p.id
+					WHERE p.id=$patient
+					ORDER BY a.id DESC LIMIT 5";
+		$result = mysqli_query($con, $query);
+		$output = '';
+
+		if (mysqli_num_rows($result) > 0) {
+			while ($row = mysqli_fetch_array($result)) {
+				$seconds = $row["minute"] * 60;
+				$time = secondsToTime($seconds);
+				if ($row["status"] = "approved") {
+					$appointmentDate = date_format($row["appointmentDate"], "F d Y");
+					$output .= '
+					<li>
+						<a href="appointment_view.php?action=view&id=' . $row["id"] . '" class="dropdown-item">
+							<div>
+								<i class="fa fa-envelope fa-fw"></i> Your ' . $appointmentDate . ' ' . $row["AppointmentTime"] . ' appointment has been approved
+								<span class="float-right text-muted small">' . $time . ' ago</span>
+							</div>
+						</a>
+					</li>
+					';
+				} elseif ($row["status"] = "cancelled") {
+					$appointmentDate = date_format($row["appointmentDate"], "F d Y");
+					$output .= '
+					<li>
+						<a href="appointment_view.php?action=view&id=' . $row["id"] . '" class="dropdown-item">
+							<div>
+								<i class="fa fa-envelope fa-fw"></i> Your ' . $appointmentDate . ' ' . $row["AppointmentTime"] . ' appointment has been cancelled
+								<span class="float-right text-muted small">' . $time . ' ago</span>
+							</div>
+						</a>
+					</li>
+					';
+				}
+			}
+		} else {
+			$output .= '<li><a href="#" class="text-bold text-italic">No Noti Found</a></li>';
+		}
+
+		$status_query = "SELECT * FROM appointments WHERE notif_status=0 AND patientId=$patient";
+		$result_query = mysqli_query($con, $status_query);
+		$count = mysqli_num_rows($result_query);
+
+		$data = array(
+			'notification' => $output,
+			'unseen_notification'  => $count
+		);
+		echo json_encode($data);
+	}
+}
 
 function doDelete()
 {
