@@ -1,7 +1,8 @@
 <?php
-include('include/config.php');
-$sql = "SELECT * FROM gallery";
-$result = $conn->query($sql);
+require_once("./admin/include/initialize.php");
+$mydb->setQuery("SELECT * from gallery");
+$cur = $mydb->loadSingleResult();
+var_dump($cur);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -65,7 +66,7 @@ $result = $conn->query($sql);
                 </div>
                 <div class="collapse navbar-collapse justify-content-end" id="navbar">
                     <ul class="nav navbar-nav navbar-right">
-                    <li><a class="nav-link page-scroll" href="index.php">Home</a></li>
+                        <li><a class="nav-link page-scroll" href="index.php">Home</a></li>
                         <li><a class="nav-link page-scroll" href="services.php">Services</a></li>
                         <li><a class="nav-link page-scroll active" href="gallery.php">Gallery</a></li>
                         <li><a class="nav-link page-scroll" href="about.php">About</a></li>
@@ -78,10 +79,10 @@ $result = $conn->query($sql);
         </nav>
     </div>
     <div class="bg">
-    <img src="assets/img/background2.jpg" alt="">
+        <img src="assets/img/background2.jpg" alt="">
     </div>
     <div class="container">
-    
+
         <div class="row">
             <div class="col-lg-12">
 
@@ -89,7 +90,7 @@ $result = $conn->query($sql);
         </div>
     </div>
     <div class="container" style="margin-top: 100px ;">
-    <h1>Gallery</h1>
+        <h1>Gallery</h1>
         <div class="row">
             <div class="col-lg-12">
                 <div class="ibox ">
@@ -98,9 +99,9 @@ $result = $conn->query($sql);
                             <?php
                             if ($result->num_rows > 0) {
                                 while ($row = $result->fetch_assoc()) {
-                                    echo '<a href='.$row['image_path'].' title="Image from Unsplash" data-gallery=""><img width="300" height="300" src='. $row['image_path'].'></a>';
+                                    echo '<a href=' . $row['image_path'] . ' title="Image from Unsplash" data-gallery=""><img width="300" height="300" src=' . $row['image_path'] . '></a>';
                                 }
-                            } 
+                            }
                             ?>
                             <!-- The Gallery as lightbox dialog, should be a child element of the document body -->
                             <div id="blueimp-gallery" class="blueimp-gallery">
