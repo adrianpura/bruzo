@@ -43,8 +43,6 @@ class User
             $_SESSION['last_name']         = $user_found->last_name;
             $_SESSION['email']             = $user_found->email;
             $_SESSION['role']             = $user_found->role;
-
-
             return true;
         } else {
             return false;
