@@ -81,7 +81,6 @@ $result = $conn->query($sql);
         <img src="assets/img/background2.jpg" alt="">
     </div>
     <div class="container">
-
         <div class="row">
             <div class="col-lg-12">
 
@@ -97,19 +96,18 @@ $result = $conn->query($sql);
                         <div class="row">
                             <div class="col-lg-12 text-center">
                                 <h1>Bruzo Dental Care Clinic</h1>
-                                <!-- <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. </p> -->
                             </div>
                         </div>
                         <div class="row features-block">
                             <div class="col-lg-6 features-text wow fadeInLeft">
                                 <small>Bruzo Dental Care Clinic</small>
-                                <h2>Hi! I'm Dr. Norberth Bruzo Peña.</h2>
+                                <h2>Hi! I'm Dr. Norbeth Bruzo Peña.</h2>
                                 <p>I graduated in Centro Escolar University (CEU) Practice of General Dentistry. 11 years of service as a dentist.</p>
                                 <p>
-                            Our clinic is located at HL Building , Rizal St, Bagong Bayan Grande, 4423 Goa Camarines Sur, Philippines.<br><br>
-                            Bruzo Dental Care Clinic started in 2016 here in Bicol. All services related to teeth are catered too.
-                        </p>
-                               </div>
+                                    Our clinic is located at HL Building , Rizal St, Bagong Bayan Grande, 4423 Goa Camarines Sur, Philippines.<br><br>
+                                    Bruzo Dental Care Clinic started in 2016 here in Bicol. All services related to teeth are catered too.
+                                </p>
+                            </div>
                             <div class="col-lg-6 text-right wow fadeInRight">
                                 <img src="assets/img/clinic1.jpg" alt="dashboard" class="img-fluid float-right">
                             </div>

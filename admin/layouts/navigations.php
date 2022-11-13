@@ -89,19 +89,15 @@ else{
                         <i class="fa fa-envelope"></i> <span class="label label-warning count">0</span>
                     </a>
                     <ul class="dropdown-menu dropdown-messages">
-
                         <!-- <li class="dropdown-divider"></li> -->
-
                     </ul>
                 </li>
                 <li class="dropdown" style="<?php echo $notifDisplay2; ?>">
-                    <a class="dropdown-toggle1 count-info" data-toggle="dropdown" href="#">
+                    <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
                         <i class="fa fa-envelope"></i> <span class="label label-warning count">0</span>
                     </a>
-                    <ul class="dropdown-menu1 dropdown-messages">
-
+                    <ul class="dropdown-menu dropdown-messages">
                         <!-- <li class="dropdown-divider"></li> -->
-
                     </ul>
                 </li>
                 <li>
@@ -163,7 +159,7 @@ else{
                 });
             }
             load_unseen_client_notification();
-            $(document).on('click', '.dropdown-toggle1', function() {
+            $(document).on('click', '.dropdown-toggle', function() {
                 $('.count').html('0');
                 load_unseen_client_notification('yes');
             });

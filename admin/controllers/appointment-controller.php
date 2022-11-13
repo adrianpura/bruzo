@@ -429,16 +429,6 @@ function dofetchStatus()
 		} else {
 			$output .= '<li><a href="#" class="text-bold text-italic">No Noti Found</a></li>';
 		}
-
-		$status_query = "SELECT * FROM appointments WHERE notif_status=0";
-		$result_query = mysqli_query($con, $status_query);
-		$count = mysqli_num_rows($result_query);
-
-		$data = array(
-			'notification' => $output,
-			'unseen_notification'  => $count
-		);
-		echo json_encode($data);
 	}
 }
 
@@ -494,18 +484,8 @@ function dofetchClientStatus()
 				}
 			}
 		} else {
-			$output .= '<li><a href="#" class="text-bold text-italic">No Noti Found</a></li>';
+			$output .= '<li><a href="#" class="text-bold text-italic">No notification found!</a></li>';
 		}
-
-		$status_query = "SELECT * FROM appointments WHERE notif_status=0 AND patientId=$patient";
-		$result_query = mysqli_query($con, $status_query);
-		$count = mysqli_num_rows($result_query);
-
-		$data = array(
-			'notification' => $output,
-			'unseen_notification'  => $count
-		);
-		echo json_encode($data);
 	}
 }
 

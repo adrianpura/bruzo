@@ -17,17 +17,14 @@ if ($role === "patient") {
     $disable = "disabled";
 }
 
-
 $mydb->setQuery("SELECT p.first_name,p.last_name,p.address,p.sex,p.age,p.contact_number,p.email,
 a.appointmentDate,a.appointmentTime,a.status,a.patientId,a.details,a.id,a.resched_details,a.cancel_details,a.service_charge,a.doctor_remarks
 FROM appointments a 
 LEFT JOIN patients p on a.patientId = p.id 
 WHERE a.id=$appointmentNumber");
 $cur = $mydb->loadSingleResult();
-
 include("layouts/header.php");
 ?>
-
 
 <style>
     .required:after {
@@ -111,7 +108,7 @@ include("layouts/header.php");
                                 <div class="hr-line-dashed"></div>
 
                                 <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label required">Gender</label>
+                                    <label class="col-sm-2 col-form-label required">Sex</label>
                                     <div class="col-sm-10">
                                         <!-- <input type="text" placeholder="Gender" class="form-control gender" id="gender" name="gender" value="<?php echo $cur->sex ?>" disabled> -->
                                         <select class="select2_demo_1 form-control gender" id="gender" name="gender" disabled>
