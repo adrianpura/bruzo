@@ -6,7 +6,7 @@ if (!isset($_SESSION['id'])) {
 include("layouts/header.php");
 global $mydb;
 $id = $_SESSION['id'];
-$query = $mydb->setQuery("SELECT * FROM users WHERE id=$id");
+$query = $mydb->setQuery("SELECT * FROM patients WHERE userId=$id");
 $result = $mydb->loadSingleResult($query);
 ?>
 
@@ -30,23 +30,48 @@ $result = $mydb->loadSingleResult($query);
         </div>
         <div class="wrapper wrapper-content animated fadeInRight">
             <br>
+            <div id="update-password-modal" class="modal fade" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <h3 class="m-t-none m-b">Update Password</h3>
+                            <form role="form">
+                                <div class="form-group">
+                                    <label for="old-password">First Name</label>
+                                    <input class="form-control" type="password" name="old-password" id="old-password">
+                                </div>
+                                <div class="form-group">
+                                    <label for="new-password">Last Name</label>
+                                    <input class="form-control" type="password" name="new-password" id="new-password">
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirm-password">Confirm Password</label>
+                                    <input class="form-control" type="password" name="confirm-password" id="confirm-password">
+                                </div>
+                                <button class="btn btn-sm btn-primary float-right m-t-n-xs" type="submit" name="update-password" id="update-password"><strong>Update Password</strong></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-4">
                     <div class="ibox ">
                         <div class="ibox-title">
-                            <h5>Profile</h5>
-                            <div class="ibox-tools">
-                                <a class="collapse-link">
-                                    <i class="fa fa-chevron-up"></i>
-                                </a>
-                            </div>
+                            <h5>Account Profile</h5>
                         </div>
-                        <div class="ibox-content">
-                            <div class="col">
-                                <h2><strong>Name:</strong> <?php echo $result->first_name; ?> <?php echo $result->last_name; ?></h2>
-                                <p><strong>Email Address:</strong> <?php echo $result->email; ?></p>
-                                <p><strong>Role: </strong><?php echo $result->role; ?></p>
-                            </div>
+                        <div class="ibox-content no-padding border-left-right">
+                            <img src="../img_services/3f70e4490e0e72aa7c65d5f30bae6f82luffy.jpg" class="img-fluid" alt=""><br><br>
+                        </div>
+                        <div class="ibox-content profile-content">
+                            <h4><strong><?php echo $result->first_name; ?> <?php echo $result->last_name; ?></strong> </h4>
+                            <p><strong><i class="fa fa-map-marker"></i> <?php echo $result->address; ?></strong></p>
+                            <p><strong><i class="fa fa-venus-mars"></i> <?php echo $result->sex; ?>, <?php echo $result->age; ?></strong></p>
+                            <p><strong><i class="fa fa-address-book"></i> <?php echo $result->contact_number; ?></strong></p>
+                            <p><strong><i class="fa fa-at"></i> <?php echo $result->email; ?></strong></p>
+                            <button class="btn btn-success" data-toggle="modal" data-target="#update-password-modal" id="update-password">Update Password</button>
+                            <a class="btn btn-success" href="profile_update.php" >Edit Profile</a>
+                            <button class="btn btn-danger">Delete Account</button>
                         </div>
                     </div>
                 </div>
@@ -76,38 +101,10 @@ $result = $mydb->loadSingleResult($query);
     <!-- Page-Level Scripts -->
     <script>
         $(document).ready(function() {
-            document.title = "Bruzo | Patient" ;
+            document.title = "Bruzo | Patient";
             $('#patient').addClass('active').siblings().removeClass('active');
-            $('.dataTables-example').DataTable({
-                pageLength: 25,
-                responsive: true,
-                dom: '<"html5buttons"B>lTfgitp',
-                buttons: [{
-                        extend: 'copy'
-                    },
-                    {
-                        extend: 'csv'
-                    },
-                    {
-                        extend: 'excel',
-                        title: 'Patients'
-                    },
-                    {
-                        extend: 'pdf',
-                        title: 'Patients'
-                    },
-
-                    {
-                        extend: 'print',
-                        customize: function(win) {
-                            $(win.document.body).addClass('white-bg');
-                            $(win.document.body).css('font-size', '10px');
-                            $(win.document.body).find('table')
-                                .addClass('compact')
-                                .css('font-size', 'inherit');
-                        }
-                    }
-                ]
+            $("#update-password").click(function(){
+                $("#update-password-modal").show("modal");
             });
         });
     </script>
