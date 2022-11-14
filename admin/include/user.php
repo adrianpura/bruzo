@@ -128,7 +128,7 @@ class User
 
         if ($mydb->executeQuery()) {
             $this->id = $mydb->insert_id();
-            return true;
+            return  $this->id;
         } else {
             return false;
         }

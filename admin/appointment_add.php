@@ -5,17 +5,8 @@ if (!isset($_SESSION['id'])) {
 }
 
 $userId = $_SESSION['id'];
-$mydb->setQuery("SELECT * from users WHERE id=$userId");
-$cur = $mydb->loadSingleResult();
-
-$first_name = "";
-$last_name = "";
-$email = "";
-if (isset($cur) && $_SESSION['role'] === "patient") {
-    $first_name = $cur->first_name;
-    $last_name = $cur->last_name;
-    $email = $cur->email;
-}
+$mydb->setQuery("SELECT * from patients WHERE userId=$userId");
+$result = $mydb->loadSingleResult();
 
 
 include("layouts/header.php");
@@ -65,7 +56,7 @@ include("layouts/header.php");
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label required">First Name</label>
                                     <div class="col-sm-10">
-                                        <input type="text" placeholder="First Name" class="form-control first_name" id="first_name" name="first_name" value="<?php echo $first_name ?>">
+                                        <input type="text" placeholder="First Name" class="form-control first_name" id="first_name" name="first_name" value="<?php echo $result->first_name ?>">
                                     </div>
                                 </div>
                                 <div class="hr-line-dashed"></div>
@@ -73,7 +64,7 @@ include("layouts/header.php");
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label required">Last Name</label>
                                     <div class="col-sm-10">
-                                        <input type="text" placeholder="Last Name" class="form-control last_name" id="last_name" name="last_name" value="<?php echo $last_name ?>">
+                                        <input type="text" placeholder="Last Name" class="form-control last_name" id="last_name" name="last_name" value="<?php echo $result->last_name ?>">
                                     </div>
                                 </div>
                                 <div class="hr-line-dashed"></div>
@@ -81,7 +72,7 @@ include("layouts/header.php");
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label required">Address</label>
                                     <div class="col-sm-10">
-                                        <input type="text" placeholder="Address" class="form-control address" id="address" name="address">
+                                        <input type="text" placeholder="Address" class="form-control address" id="address" name="address" value="<?php echo $result->address ?>">
                                     </div>
                                 </div>
                                 <div class="hr-line-dashed"></div>
@@ -89,7 +80,7 @@ include("layouts/header.php");
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label required">Age</label>
                                     <div class="col-sm-10">
-                                        <input type="text" placeholder="Age" class="form-control age" id="age" name="age">
+                                        <input type="text" placeholder="Age" class="form-control age" id="age" name="age" value="<?php echo $result->age ?>">
                                     </div>
                                 </div>
                                 <div class="hr-line-dashed"></div>
@@ -99,8 +90,14 @@ include("layouts/header.php");
                                     <div class="col-sm-10">
                                         <select class="select2_demo_1 form-control gender" id="gender" name="gender">
                                             <option value=""></option>
-                                            <option value="Male">Male</option>
-                                            <option value="Female">Female</option>
+                                            <?php
+                                            $mydb->setQuery("SELECT gender FROM gender");
+                                            $gender = $mydb->loadResultList();
+                                            foreach ($gender as $res) {
+                                                $selected = $res->gender === $result->sex ? "selected" : "";
+                                                echo '<option value=' . $res->gender . '  ' . $selected . '> ' . $res->gender . '</option>';
+                                            }
+                                            ?>
                                         </select>
                                     </div>
                                 </div>
@@ -109,7 +106,7 @@ include("layouts/header.php");
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label required">Email</label>
                                     <div class="col-sm-10">
-                                        <input type="text" placeholder="Email" class="form-control email" id="email" name="email" value="<?php echo $email ?>">
+                                        <input type="text" placeholder="Email" class="form-control email" id="email" name="email" value="<?php echo $result->email ?>">
                                     </div>
                                 </div>
                                 <div class="hr-line-dashed"></div>
@@ -117,7 +114,7 @@ include("layouts/header.php");
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label required">Mobile</label>
                                     <div class="col-sm-10">
-                                        <input type="text" placeholder="Mobile Number" class="form-control mobile" id="mobile" name="mobile">
+                                        <input type="text" placeholder="Mobile Number" class="form-control mobile" id="mobile" name="mobile" value="<?php echo $result->contact_number ?>">
                                     </div>
                                 </div>
                                 <div class="hr-line-dashed"></div>

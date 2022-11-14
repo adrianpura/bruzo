@@ -14,11 +14,15 @@ function doRegister()
 
     $first_name = trim($_POST['first_name']);
     $last_name = trim($_POST['last_name']);
+    $address = trim($_POST['address']);
+    $age = trim($_POST['age']);
+    $sex = trim($_POST['sex']);
+    $contact = trim($_POST['contact']);
     $email = trim($_POST['email']);
     $password = trim($_POST['password']);
-    $role = trim($_POST['role']);
-
     $hashPassword = sha1($password);
+
+
     $mydb->setQuery("SELECT * FROM users WHERE email = '" . $email . "'");
     $userInDb = $mydb->loadResultList();
 
@@ -27,10 +31,26 @@ function doRegister()
         $user->first_name = $first_name;
         $user->last_name = $last_name;
         $user->email = $email;
+        $user->role = "patient";
         $user->password = $hashPassword;
-        $user->role = $role;
-        $user->create();
-        echo json_encode(['code' => 200, 'msg' => "user created"]);
+        $userId = $user->create();
+        if ($userId !== false) {
+            $patient = new Patients();
+            $patient->first_name = $first_name;
+            $patient->last_name = $last_name;
+            $patient->address = $address;
+            $patient->age = $age;
+            $patient->userId = $userId;
+            $patient->sex = $sex;
+            $patient->contact_number = $contact;
+            $patient->email = $email;
+            $patientId = $patient->create();
+            if ($patientId !== false) {
+                echo json_encode(['code' => 200, 'msg' => "user created"]);
+            } else {
+                echo json_encode(['code' => 500, 'msg' => "something went wrong"]);
+            }
+        }
     } else {
         echo json_encode(['code' => 404, 'msg' => "user email already exists"]);
     }

@@ -3,6 +3,7 @@ require_once("../admin/include/initialize.php");
 if (!isset($_SESSION['id'])) {
     redirect(web_root . "/admin/login.php");
 }
+$userId = $_SESSION['id'];
 $appointmentNumber = isset($_GET['id']) ? $_GET['id'] : "";
 $action = isset($_GET['action']) ? $_GET['action'] : "";
 $disable = "disabled";
@@ -222,7 +223,7 @@ include("layouts/header.php");
 
                                 <div class="hr-line-dashed"></div>
 
-                                <div class="col-lg-12" style="<?php echo $action === "edit" ? "" : "display: none"; ?>">
+                                <div class="col-lg-12" style="<?php echo $role === "patient" || $role === "doctor" || $action === "edit" ? "" : "display: none"; ?>">
                                     <div class="panel panel-primary">
                                         <div class="panel-heading">
                                             Dentist Remarks
@@ -231,14 +232,14 @@ include("layouts/header.php");
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label">Doctor Remarks</label>
                                                 <div class="col-sm-10">
-                                                    <input type="text" placeholder="doctor_remarks" class="form-control doctor_remarks" id="doctor_remarks" name="doctor_remarks" value="<?php echo $cur->doctor_remarks ?>">
+                                                    <input type="text" placeholder="doctor_remarks" class="form-control doctor_remarks" id="doctor_remarks" name="doctor_remarks" value="<?php echo $cur->doctor_remarks ?>" <?php echo $role === "patient" ? "disabled" : ""; ?>>
                                                 </div>
                                             </div>
                                             <div class="hr-line-dashed"></div>
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label required">Tooth/Teeth Tags</label>
                                                 <div class="col-sm-10">
-                                                    <select class="select2_demo_2 form-control tooth_tags" multiple="multiple" id="tooth_tags" name="tooth_tags[]">
+                                                    <select class="select2_demo_2 form-control tooth_tags" multiple="multiple" id="tooth_tags" name="tooth_tags[]" <?php echo $role === "patient" ? "disabled" : ""; ?>>
                                                         <?php
                                                         $mydb->setQuery("SELECT id,tooth_number,tooth_name FROM tooth");
                                                         $tooths = $mydb->loadResultList();
@@ -269,7 +270,7 @@ include("layouts/header.php");
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label">Service Charge</label>
                                                 <div class="col-sm-10">
-                                                    <input type="text" placeholder="service_charge" class="form-control service_charge" id="service_charge" name="service_charge" value="<?php echo $cur->service_charge ?>">
+                                                    <input type="text" placeholder="service_charge" class="form-control service_charge" id="service_charge" name="service_charge" value="<?php echo $cur->service_charge ?>" <?php echo $role === "patient" ? "disabled" : ""; ?>>
                                                 </div>
                                             </div>
                                             <div class="hr-line-dashed"></div>
@@ -352,7 +353,6 @@ include("layouts/header.php");
             });
 
 
-
             var date = new Date(appDate);
             $("#appointment_date").val(((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '/' + ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) + '/' + date.getFullYear())
 
@@ -383,6 +383,7 @@ include("layouts/header.php");
                                 success: function(data) {
                                     console.log('data: ', data);
                                     if (data.code == "200") {
+
                                         swal("Accepted!", "Appointment accepted", "success");
                                         setTimeout(function() {
                                             window.location = "appointment.php";
@@ -436,6 +437,7 @@ include("layouts/header.php");
                                     success: function(data) {
                                         console.log('data: ', data);
                                         if (data.code == "200") {
+
                                             swal("Reschedule!", "Appointment rescheduled", "success");
                                             setTimeout(function() {
                                                 window.location = "appointment.php";
@@ -485,6 +487,7 @@ include("layouts/header.php");
                                     success: function(data) {
                                         console.log('data: ', data);
                                         if (data.code == "200") {
+
                                             swal("Cancelled!", "Appointment cancelled", "success");
                                             setTimeout(function() {
                                                 window.location = "appointment.php";

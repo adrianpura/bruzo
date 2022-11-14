@@ -33,15 +33,15 @@
                          <input type="text" class="form-control" placeholder="Age" id="age" required="">
                      </div>
                      <div class="form-group row text-left">
-                        <div class="col-sm-1"><label for="sex">Sex</label></div>
-                        <div class="col-lg">
-                        <select class="select2_demo_1 form-control gender" id="sex" name="sex">
-                             <option value=""></option>
-                             <option value="Male">Male</option>
-                             <option value="Female">Female</option>
-                         </select>
-                        </div>
-                        
+                         <div class="col-sm-1"><label for="sex">Sex</label></div>
+                         <div class="col-lg">
+                             <select class="select2_demo_1 form-control gender" id="sex" name="sex">
+                                 <option value=""></option>
+                                 <option value="Male">Male</option>
+                                 <option value="Female">Female</option>
+                             </select>
+                         </div>
+
                      </div>
                      <div class="form-group">
                          <input type="tel" class="form-control" placeholder="Contact Number" id="contact" required="">
@@ -52,14 +52,7 @@
                      <div class="form-group">
                          <input type="password" class="form-control" placeholder="Password" id="password" required="">
                      </div>
-                     <!-- <div class="form-group text-left">
-                         <label for="account" class="text-left">Role</label>
-                         <select class="form-control m-b" name="role" id="role">
-                             <option value="patient">Patient</option>
-                             <option value="doctor">Doctor/Dentist</option>
-                             <option value="assistant">Assistant</option>
-                         </select>
-                     </div> -->
+
                      <button type="submit" id="register" class="btn btn-primary block full-width m-b">Register</button>
 
                      <p class="text-muted text-center"><small>Already have an account?</small></p>
@@ -93,7 +86,7 @@
                  var contact = $("#contact").val();
                  var email = $("#email").val();
                  var password = $("#password").val();
-                //  var role = $("#role").val();
+                 //  var role = $("#role").val();
 
                  $.ajax({
                      type: "POST",
@@ -117,7 +110,7 @@
                                  window.location = "login.php";
                              }, 1000);
                          } else {
-                             swal("Unable to rescheduled this appointment", data.msg, "error");
+                             swal("Unable to register", data.msg, "error");
                          }
                      },
                      error: function(xhr, ajaxOptions, thrownError) {

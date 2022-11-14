@@ -2,6 +2,7 @@
 require_once("../include/initialize.php");
 
 $action = (isset($_GET['action']) && $_GET['action'] != '') ? $_GET['action'] : '';
+
 switch ($action) {
 	case 'add':
 		doInsert();
@@ -22,10 +23,10 @@ switch ($action) {
 	case 'fetchStatus':
 		dofetchStatus();
 		break;
-	
-		case 'fetchClientStatus':
-			dofetchClientStatus();
-			break;
+
+	case 'fetchClientStatus':
+		dofetchClientStatus();
+		break;
 
 	case 'edit':
 		doEditAppointment();
@@ -43,15 +44,15 @@ switch ($action) {
 function doLoadEvents()
 {
 	global $mydb;
-
-	$sql = "SELECT * FROM `events` ";
+	$pid = isset($_GET['patientId']) ? $_GET['patientId'] : 0;
+	$sql = $pid !== 0 ? "SELECT * FROM `events` where patientId = $pid" : "SELECT * FROM `events` ";
 	$mydb->setQuery($sql);
 	$result = $mydb->loadResultList();
 
 	foreach ($result as $row) {
 		$data[] = array(
 			'id'   => $row->id,
-			'title'   => ' - ' . $row->title,
+			'title'   => ' - ' . $row->title . '' . $pid,
 			'start'   => $row->start_event,
 			'end'   => $row->end_event,
 			'appointmentId'   => $row->appointmentId,
@@ -240,7 +241,7 @@ function doAcceptAppointment()
 
 
 		$events = new Events();
-		$events->patientId = $appointment->patientId;
+		$events->patientId = $patient->userId;
 		$events->title = $patient->first_name . " " . $patient->last_name;
 		$events->start_event = $start;
 		$events->end_event = $end;
@@ -251,7 +252,7 @@ function doAcceptAppointment()
 		$appointments->doctorID = $userId;
 		$updateAppointment = $appointments->update($appointmentId);
 
-		echo json_encode(['code' => 200, 'msg' => "appointment accepted"]);
+		echo json_encode(['code' => 200, 'msg' => "appointment accepted", 'data' => $patient->userId]);
 		// echo json_encode(['code' => 200, 'msg' => $patient]);
 	}
 }
@@ -345,7 +346,7 @@ function doRescheduleAppointment()
 
 
 
-		echo json_encode(['code' => 200, 'msg' => "appointment rescheduled"]);
+		echo json_encode(['code' => 200, 'msg' => "appointment rescheduled", 'data' => $patient->userId]);
 		// echo json_encode(['code' => 200, 'msg' => $patient]);
 	}
 }
@@ -375,12 +376,15 @@ function doCancelAppointment()
 		$appointments->status = "cancelled";
 		$appointments->update($appointmentId);
 
+		$patients = new Patients();
+		$patient = $patients->single_patient($appointmentId);
+
 		$events = new Events();
 		$events->delete($appointmentId);
 
 
 
-		echo json_encode(['code' => 200, 'msg' => "appointment canceled"]);
+		echo json_encode(['code' => 200, 'msg' => "appointment canceled", 'data' => $patient->userId]);
 		// echo json_encode(['code' => 200, 'msg' => $patient]);
 	}
 }
@@ -416,19 +420,29 @@ function dofetchStatus()
 				$seconds = $row["minute"] * 60;
 				$time = secondsToTime($seconds);
 				$output .= '
-		  	<li>
-				<a href="appointment_view.php?action=view&id=' . $row["id"] . '" class="dropdown-item">
-					<div>
-						<i class="fa fa-envelope fa-fw"></i> You have new appointment from ' . $row["first_name"] . ' ' . $row["last_name"] . '
-						<span class="float-right text-muted small">' . $time . ' ago</span>
-					</div>
-				</a>
-			</li>
-		  ';
+						<li>
+							<a href="appointment_view.php?action=view&id=' . $row["id"] . '" class="dropdown-item">
+								<div>
+									<i class="fa fa-envelope fa-fw"></i> You have new appointment from ' . $row["first_name"] . ' ' . $row["last_name"] . '
+									<span class="float-right text-muted small">' . $time . ' ago</span>
+								</div>
+							</a>
+						</li>
+		  				';
 			}
 		} else {
-			$output .= '<li><a href="#" class="text-bold text-italic">No Noti Found</a></li>';
+			$output .= '<li><a href="#" class="text-bold text-italic">No Notification Found</a></li>';
 		}
+
+		$status_query = "SELECT * FROM appointments WHERE notif_status=0";
+		$result_query = mysqli_query($con, $status_query);
+		$count = mysqli_num_rows($result_query);
+
+		$data = array(
+			'notification' => $output,
+			'unseen_notification'  => $count
+		);
+		echo json_encode($data);
 	}
 }
 
@@ -437,19 +451,26 @@ function dofetchClientStatus()
 	include('connect.php');
 	global $mydb;
 
-	if (isset($_POST['view'])) {
-		$patient = $_SESSION['id'];
 
+
+	if (isset($_POST['view'])) {
+
+		$clientUserId = $_GET['clientUserId'];
 		if ($_POST["view"] != '') {
-			$update_query = "UPDATE appointments SET notif_status = 1 WHERE notif_status=0 AND patiendId=$patient";
+			$update_query = "UPDATE appointments
+										JOIN patients
+										ON appointments.patientId = patients.id
+								SET    appointments.notif_status_client = 1
+								WHERE appointments.notif_status_client=0 AND appointments.status in  ('approved','cancelled') AND
+								patients.userId=$clientUserId";
 			mysqli_query($con, $update_query);
 		}
-
-		$query = "SELECT p.first_name,p.last_name,a.id,a.appointmentDate,a.appointmentTime,TIMESTAMPDIFF(MINUTE, a.created_at, NOW()) as minute
-					FROM appointments a
-					LEFT JOIN patients p on a.patientId=p.id
-					WHERE p.id=$patient
-					ORDER BY a.id DESC LIMIT 5";
+		$query = "SELECT p.first_name,p.last_name,a.id,a.appointmentDate,a.appointmentTime,a.resched_details,a.cancel_details,a.doctor_remarks,a.status,
+							TIMESTAMPDIFF(MINUTE, a.created_at, NOW()) as minute
+							FROM appointments a
+							LEFT JOIN patients p on a.patientId=p.id
+							WHERE p.userId=$clientUserId and a.status in ('approved','cancelled')
+							ORDER BY a.id DESC LIMIT 5";
 		$result = mysqli_query($con, $query);
 		$output = '';
 
@@ -457,35 +478,30 @@ function dofetchClientStatus()
 			while ($row = mysqli_fetch_array($result)) {
 				$seconds = $row["minute"] * 60;
 				$time = secondsToTime($seconds);
-				if ($row["status"] = "approved") {
-					$appointmentDate = date_format($row["appointmentDate"], "F d Y");
-					$output .= '
-					<li>
-						<a href="appointment_view.php?action=view&id=' . $row["id"] . '" class="dropdown-item">
-							<div>
-								<i class="fa fa-envelope fa-fw"></i> Your ' . $appointmentDate . ' ' . $row["AppointmentTime"] . ' appointment has been approved
-								<span class="float-right text-muted small">' . $time . ' ago</span>
-							</div>
-						</a>
-					</li>
-					';
-				} elseif ($row["status"] = "cancelled") {
-					$appointmentDate = date_format($row["appointmentDate"], "F d Y");
-					$output .= '
-					<li>
-						<a href="appointment_view.php?action=view&id=' . $row["id"] . '" class="dropdown-item">
-							<div>
-								<i class="fa fa-envelope fa-fw"></i> Your ' . $appointmentDate . ' ' . $row["AppointmentTime"] . ' appointment has been cancelled
-								<span class="float-right text-muted small">' . $time . ' ago</span>
-							</div>
-						</a>
-					</li>
-					';
-				}
+				$output .= '
+						<li>
+							<a href="appointment_view.php?action=view&id=' . $row["id"] . '" class="dropdown-item">
+								<div>
+									<i class="fa fa-envelope fa-fw"></i>Your ' .  date("M d, Y", strtotime($row["appointmentDate"])) . ' appointment  is ' . $row["status"] . '
+									<span class="float-right text-muted small">' . $time . ' ago</span>
+								</div>
+							</a>
+						</li>
+		  				';
 			}
 		} else {
 			$output .= '<li><a href="#" class="text-bold text-italic">No notification found!</a></li>';
 		}
+
+		$status_query = "SELECT * FROM appointments a LEFT JOIN patients p  on a.patientId=p.id WHERE a.notif_status_client=0 and p.userId = $clientUserId and a.status in ('approved','cancelled')";
+		$result_query = mysqli_query($con, $status_query);
+		$count = mysqli_num_rows($result_query);
+
+		$data = array(
+			'notification' => $output,
+			'unseen_notification'  => $count
+		);
+		echo json_encode($data);
 	}
 }
 

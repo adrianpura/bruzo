@@ -70,7 +70,7 @@ $result = $mydb->loadSingleResult($query);
                             <p><strong><i class="fa fa-address-book"></i> <?php echo $result->contact_number; ?></strong></p>
                             <p><strong><i class="fa fa-at"></i> <?php echo $result->email; ?></strong></p>
                             <button class="btn btn-success" data-toggle="modal" data-target="#update-password-modal" id="update-password">Update Password</button>
-                            <a class="btn btn-success" href="profile_update.php" >Edit Profile</a>
+                            <a class="btn btn-success" href="profile_update.php">Edit Profile</a>
                             <button class="btn btn-danger">Delete Account</button>
                         </div>
                     </div>
@@ -103,7 +103,7 @@ $result = $mydb->loadSingleResult($query);
         $(document).ready(function() {
             document.title = "Bruzo | Patient";
             $('#patient').addClass('active').siblings().removeClass('active');
-            $("#update-password").click(function(){
+            $("#update-password").click(function() {
                 $("#update-password-modal").show("modal");
             });
         });
