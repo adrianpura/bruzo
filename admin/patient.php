@@ -100,7 +100,7 @@ include("layouts/header.php");
                                             <th>Name</th>
                                             <th>Email</th>
                                             <th>Age</th>
-                                            <th>Sex</th>
+                                            <th>Gender</th>
                                             <th>Contact Number</th>
                                             <th>Address</th>
                                             <th>Action</th>

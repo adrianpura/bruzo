@@ -3,14 +3,27 @@
     if (!isset($_SESSION['id'])) {
         redirect(web_root . "/admin/login.php");
     }
-    $mydb->setQuery("SELECT status, count(*) as count FROM appointments WHERE status= 'pending'");
-    $pending = $mydb->loadSingleResult();
 
-    $mydb->setQuery("SELECT status, count(*) as count FROM appointments WHERE status= 'approved'");
-    $approved = $mydb->loadSingleResult();
+    if ($_SESSION['role'] === "patient") {
+        $filterId = $_SESSION['id'];
+        $mydb->setQuery("SELECT status, count(*) as count FROM appointments a LEFT JOIN patients p ON a.patientId=p.id WHERE a.status= 'pending' and p.userId = $filterId");
+        $pending = $mydb->loadSingleResult();
 
-    $mydb->setQuery("SELECT status, count(*) as count FROM appointments WHERE status= 'cancelled'");
-    $cancelled = $mydb->loadSingleResult();
+        $mydb->setQuery("SELECT status, count(*) as count FROM appointments a LEFT JOIN patients p ON a.patientId=p.id WHERE a.status= 'approved' and p.userId = $filterId");
+        $approved = $mydb->loadSingleResult();
+
+        $mydb->setQuery("SELECT status, count(*) as count FROM appointments a LEFT JOIN patients p ON a.patientId=p.id WHERE a.status= 'cancelled' and p.userId = $filterId");
+        $cancelled = $mydb->loadSingleResult();
+    } else {
+        $mydb->setQuery("SELECT status, count(*) as count FROM appointments WHERE status= 'pending'");
+        $pending = $mydb->loadSingleResult();
+
+        $mydb->setQuery("SELECT status, count(*) as count FROM appointments WHERE status= 'approved'");
+        $approved = $mydb->loadSingleResult();
+
+        $mydb->setQuery("SELECT status, count(*) as count FROM appointments WHERE status= 'cancelled'");
+        $cancelled = $mydb->loadSingleResult();
+    }
 
     $pendingCount = isset($pending->count) ? $pending->count : 0;
     $approvedCount =  isset($approved->count) ? $approved->count : 0;
@@ -25,6 +38,8 @@
         $display = 'display: none';
     }
     ?>
+
+ </style>
 
  <body>
      <!-- modal -->
@@ -71,11 +86,11 @@
          <div class="wrapper wrapper-content animated fadeInRight">
              <div class="row">
                  <div class="col-lg-3">
-                     <div class="ibox ">
-                         <div class="ibox-title">
+                     <div class="panel panel-primary">
+                         <div class="panel-heading">
                              <h5>Approved</h5>
                          </div>
-                         <div class="ibox-content">
+                         <div class="panel-body">
                              <h1 class="no-margins"><?php echo $approvedCount ?></h1>
                              <!-- <div class="stat-percent font-bold text-success">
                                      0% <i class="fa fa-bolt"></i>
@@ -85,11 +100,11 @@
                      </div>
                  </div>
                  <div class="col-lg-3">
-                     <div class="ibox ">
-                         <div class="ibox-title">
+                     <div class="panel panel-warning">
+                         <div class="panel-heading">
                              <h5>Pending</h5>
                          </div>
-                         <div class="ibox-content">
+                         <div class="panel-body">
                              <h1 class="no-margins"><?php echo $pendingCount ?></h1>
                              <!-- <div class="stat-percent font-bold text-info">
                                      1% <i class="fa fa-level-up"></i>
@@ -99,11 +114,11 @@
                      </div>
                  </div>
                  <div class="col-lg-3">
-                     <div class="ibox ">
-                         <div class="ibox-title">
+                     <div class="panel panel-danger">
+                         <div class="panel-heading">
                              <h5>Cancelled</h5>
                          </div>
-                         <div class="ibox-content">
+                         <div class="panel-body">
                              <h1 class="no-margins"><?php echo $cancelledCount ?></h1>
                              <!-- <div class="stat-percent font-bold text-warning">
                                      0% <i class="fa fa-level-up"></i>
@@ -155,6 +170,11 @@
                                      </thead>
                                      <tbody>
                                          <?php
+                                            $concat = "";
+                                            if ($_SESSION['role'] === "patient") {
+                                                $uid = $_SESSION['id'];
+                                                $concat = " WHERE p.userId = $uid";
+                                            }
                                             $mydb->setQuery("SELECT a.id,
                                                                     a.patientId,
                                                                     p.first_name,
@@ -162,7 +182,7 @@
                                                                     a.appointmentDate,
                                                                     a.appointmentTime,
                                                                     a.status 
-                                                                    FROM appointments as a LEFT JOIN patients as p on a.patientId = p.id");
+                                                                    FROM appointments as a LEFT JOIN patients as p on a.patientId = p.id $concat");
                                             $cur = $mydb->loadResultList();
                                             foreach ($cur as $result) {
                                                 if ($result->status === "approved") {
@@ -192,7 +212,7 @@
                                                 echo '<td>' . $ser . '</td>';
                                                 echo '<td>' .  date("M d, Y", strtotime($result->appointmentDate)) . '</td>';
                                                 echo '<td>' . $result->appointmentTime . '</td>';
-                                                echo '<td><span class="label label-' . $labelClass . '">' . ucfirst($result->status) . '</span></td>';
+                                                echo '<td><span class="span-status label label-' . $labelClass . '">' . ucfirst($result->status) . '</span></td>';
 
 
                                                 echo '<td style="float: right"> 
@@ -240,7 +260,7 @@
      <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
      <script>
          $(document).ready(function() {
-            document.title = "Bruzo | Appointment";
+             document.title = "Bruzo | Appointment";
              $('.dataTables-example').DataTable({
                  pageLength: 25,
                  responsive: true,

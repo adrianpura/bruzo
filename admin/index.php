@@ -6,7 +6,7 @@ if (!isset($_SESSION['id'])) {
 include("layouts/header.php");
 
 $userId = $_SESSION['id'];
-$role = $_SESSION['role'];
+$currentrole = $_SESSION['role'];
 ?>
 
 <body>
@@ -83,11 +83,12 @@ $role = $_SESSION['role'];
             $('#index').addClass('active').siblings().removeClass('active');
             /* initialize the calendar
              -----------------------------------------------------------------*/
-            var currentRole = "<?php echo $role; ?>";
+            var currentRole = "<?php echo $currentrole; ?>";
             var userId = <?php echo $userId; ?>;
+            console.log('userId: ', userId);
             var eventUrl = 'controllers/appointment-controller.php?action=loadevent'
             if (currentRole === "patient") {
-                eventUrl = `controllers/appointment-controller.php?action=loadevent&id=${userId}`;
+                eventUrl = `controllers/appointment-controller.php?action=loadevent&patientId=${userId}`;
             }
 
             var date = new Date();
@@ -108,7 +109,7 @@ $role = $_SESSION['role'];
                 eventClick: function(event) {
                     console.log('eventClick: ', event);
                     console.log('eventClick: ', event.id);
-                    window.location = `appointment_view.php?action=edit&id=${event.appointmentId}`;
+                    window.location = `appointment_view.php?action=view&id=${event.appointmentId}`;
 
                 },
                 dayClick: function(date, jsEvent, view) {

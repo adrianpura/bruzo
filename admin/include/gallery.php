@@ -1,25 +1,16 @@
 <?php
 require_once('database.php');
-class Services
+
+class gallery
 {
-    protected static  $tblname = "services";
+
+    protected static  $tblname = "gallery";
 
     function dbfields()
     {
         global $mydb;
         return $mydb->getfieldsononetable(self::$tblname);
     }
-
-
-    function single_patient($id = "")
-    {
-        global $mydb;
-        $mydb->setQuery("SELECT * FROM " . self::$tblname . " 
-				Where PatientID= '{$id}' LIMIT 1");
-        $cur = $mydb->loadSingleResult();
-        return $cur;
-    }
-
 
 
     /*---Instantiation of Object dynamically---*/
@@ -68,15 +59,6 @@ class Services
         }
         return $clean_attributes;
     }
-
-
-    /*--Create,Update and Delete methods--*/
-    public function save()
-    {
-        // A new record won't have an id yet.
-        return isset($this->id) ? $this->update() : $this->create();
-    }
-
     public function create()
     {
         global $mydb;
@@ -94,37 +76,72 @@ class Services
 
         if ($mydb->executeQuery()) {
             $this->id = $mydb->insert_id();
+            $this->upload($_FILES["fileToUpload"]);
             return $this->id;
         } else {
             return false;
         }
     }
 
-
-    public function update($id = '')
-    {
-        global $mydb;
-        $attributes = $this->sanitized_attributes();
-        $attribute_pairs = array();
-        foreach ($attributes as $key => $value) {
-            $attribute_pairs[] = "{$key}='{$value}'";
-        }
-        $sql = "UPDATE " . self::$tblname . " SET ";
-        $sql .= join(", ", $attribute_pairs);
-        $sql .= " WHERE PatientID='" . $id . "'";
-        $mydb->setQuery($sql);
-        if (!$mydb->executeQuery()) return false;
-    }
-
     public function delete($id = '')
     {
         global $mydb;
         $sql = "DELETE FROM " . self::$tblname;
-        $sql .= " WHERE PatientID='" . $id . "'";
-        $sql .= " LIMIT 1 ";
+        $sql .= " WHERE id='" . $id . "'";
+        // $sql .= " LIMIT 1 ";
         $mydb->setQuery($sql);
 
         if (!$mydb->executeQuery()) return false;
     }
+
+    public function upload($filetoupload)
+    {
+        $target_dir = "./img_uploads/";
+        $target_file = $target_dir . basename($filetoupload["name"]);
+        $uploadOk = 1;
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+        // Check if image file is a actual image or fake image
+            $check = getimagesize($filetoupload["tmp_name"]);
+            if ($check !== false) {
+                echo "File is an image - " . $check["mime"] . ".";
+                $uploadOk = 1;
+            } else {
+                echo "File is not an image.";
+                $uploadOk = 0;
+            }
+
+        // Check if file already exists
+        if (file_exists($target_file)) {
+            echo "Sorry, file already exists.";
+            $uploadOk = 0;
+        }
+
+        // Check file size
+        if ($_FILES["fileToUpload"]["size"] > 500000) {
+            echo "Sorry, your file is too large.";
+            $uploadOk = 0;
+        }
+
+        // Allow certain file formats
+        if (
+            $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+            && $imageFileType != "gif"
+        ) {
+            echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+            $uploadOk = 0;
+        }
+
+        // Check if $uploadOk is set to 0 by an error
+        if ($uploadOk == 0) {
+            echo "Sorry, your file was not uploaded.";
+            // if everything is ok, try to upload file
+        } else {
+            if (move_uploaded_file($filetoupload["tmp_name"], $target_file)) {
+                echo "The file " . htmlspecialchars(basename($filetoupload["name"])) . " has been uploaded.";
+            } else {
+                echo "Sorry, there was an error uploading your file.";
+            }
+        }
+    }
 }
-?>

@@ -1,10 +1,30 @@
 <?php
+function debug_to_console($data, $context = 'Debug in Console')
+{
+
+    // Buffering to solve problems frameworks, like header() in this and not a solid return.
+    ob_start();
+
+    $output  = 'console.info(\'' . $context . ':\');';
+    $output .= 'console.log(' . json_encode($data) . ');';
+    $output  = sprintf('<script>%s</script>', $output);
+
+    echo $output;
+}
 require_once("../admin/include/initialize.php");
 if (!isset($_SESSION['email'])) {
     redirect(web_root . "/admin/login.php");
 }
+require_once("../include/config.php");
+global $mydb;
+if (isset($_GET['action'])) {
+    $id = $_GET['id'];
+    $query = $mydb->setQuery("DELETE FROM cms_services WHERE id=$id");
+    $mydb->executeQuery($query);
+}
 include("layouts/header.php");
 ?>
+
 
 <body>
     <div id="wrapper">
@@ -27,7 +47,7 @@ include("layouts/header.php");
         <div class="wrapper wrapper-content animated fadeInRight">
             <div class="row">
                 <div class="col-lg-12">
-                    <a href="#modal-form" class="btn btn-primary" data-toggle="modal">
+                    <a href="service_add.php" class="btn btn-primary">
                         <i class="fa fa-plus"></i>
                         New Service
                     </a>
@@ -48,48 +68,39 @@ include("layouts/header.php");
                             </div>
                         </div>
                         <div class="ibox-content">
-                            <div id="modal-form" class="modal fade" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-body">
-                                            <h3 class="m-t-none m-b">New Service</h3>
-                                            <form role="form">
-                                                <div class="form-group">
-                                                    <input type="text" placeholder="Service" class="form-control">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="birthdate">Description</label>
-                                                    <textarea class="form-control" name="description" id="description" cols="60" rows="10"></textarea>
-                                                </div>
-                                                <div class="form-group">
-                                                    <input id="logo" type="file">
-                                                </div>
-                                                <button class="btn btn-sm btn-primary float-right m-t-n-xs" type="submit"><strong>Add Service</strong></button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="row">
-                                <div class="col-md-3">
-                                    <div class="ibox">
-                                        <div class="ibox-content product-box">
-                                            <div class="product-imitation">
-                                                <img src="/img_services/3f70e4490e0e72aa7c65d5f30bae6f82luffy.jpg" alt="">
-                                            </div>
-                                            <div class="product-desc">
-                                                <a href="#" class="product-name"> Service Name</a>
-                                                <div class="small m-t-xs">
-                                                    description
+                                <?php
+                                $query = $mydb->setQuery("SELECT * FROM cms_services");
+                                $cur = $mydb->loadResultList($query);
+                                foreach ($cur as $result) {
+                                ?>
+                                    <div class="col-md-3">
+                                        <div class="ibox">
+                                            <div class="ibox-content product-box">
+                                                <div class="product-imitation">
+                                                    <img src="<?php echo $result->image; ?>" alt="" width="200" height="200">
                                                 </div>
-                                                <div class="m-t text-right">
-                                                    <a href="#" class="btn btn-xs btn-primary"><i class="fa fa-pencil"></i> Edit</a>
-                                                    <a href="#" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> Delete</a>
+                                                <div class="product-desc">
+                                                    <input type="hidden" id="service_id" value="<?php echo $result->id; ?>">
+                                                    <h2 id="service_name"><?php echo $result->service_name; ?></h2>
+                                                    <div class="small m-t-xs">
+                                                        <p class="product-description"> <?php echo $result->description; ?></p>
+                                                    </div>
+                                                    <div class="m-t text-right">
+                                                        <a href="service_edit.php?id=<?php echo $result->id; ?>" class="btn btn-xs btn-primary">
+                                                            <i class="fa fa-trash"></i>
+                                                            Edit</a>
+                                                        <a href="" id="<?php echo $result->id; ?>" class="btn btn-xs btn-danger deleteButton">
+                                                            <i class="fa fa-trash"></i>
+                                                            Delete</a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                <?php
+                                }
+                                ?>
                             </div>
                         </div>
                     </div>
@@ -120,8 +131,52 @@ include("layouts/header.php");
     <!-- Page-Level Scripts -->
     <script>
         $(document).ready(function() {
-            document.title = "Bruzo | Services" ;
+            document.title = "Bruzo | Services";
             $('#nav-service').addClass('active').siblings().removeClass('active');
+
+            $('.deleteButton').click(function(e) {
+                 e.preventDefault();
+                 var id = $(this).attr('id');
+                 console.log('id: ', id);
+                 swal({
+                         title: "Delete this service?",
+                         text: "",
+                         type: "success",
+                         showCancelButton: true,
+                         confirmButtonColor: "#1ab394",
+                         confirmButtonText: "Yes",
+                         cancelButtonText: "No",
+                         closeOnConfirm: false,
+                         closeOnCancel: false
+                     },
+                     function(isConfirm) {
+                         if (isConfirm) {
+                             $.ajax({
+                                 type: "GET",
+                                 url: "services.php?action=delete",
+                                 dataType: "json",
+                                 data: {
+                                     id: id,
+                                 },
+                                 success: function(data) {
+                                     console.log('data: ', data);
+                                     if (data.code == "200") {
+                                         swal("Deleted!", "Service deleted", "success");
+                                         setTimeout(function() {
+                                             window.location = "services.php";
+                                         }, 1000);
+
+                                     } else {
+                                         swal("Unable to delete this service", data.msg, "error");
+                                     }
+                                 }
+                             });
+
+                         } else {
+                             swal("Cancelled", "", "error");
+                         }
+                     });
+             });
         });
     </script>
 </body>

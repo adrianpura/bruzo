@@ -77,7 +77,7 @@
 </head>
 
 <body>
-    <header id="header" class="fixed-top d-flex align-items-center header-transparent header-scrolled">
+    <header id="header" class="fixed-top d-flex align-items-center header-transparent">
         <div class="container d-flex justify-content-between align-items-center nav-div">
             <div class="logo">
                 <a href="index.php"><img src="assets/img/bruzo.png" alt="" class="logo"></a>

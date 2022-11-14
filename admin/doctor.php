@@ -1,82 +1,106 @@
 <?php
 require_once("../admin/include/initialize.php");
-if (!isset($_SESSION['email'])) {
+if (!isset($_SESSION['id'])) {
     redirect(web_root . "/admin/login.php");
 }
 include("layouts/header.php");
+global $mydb;
+$id = $_SESSION['id'];
+$query = $mydb->setQuery("SELECT * FROM doctors WHERE id=$id");
+$result = $mydb->loadSingleResult($query);
 ?>
+
 <body>
     <div id="wrapper">
-            <?php include('layouts/navigations.php'); ?>
-            <div class="row wrapper border-bottom white-bg page-heading">
-                <div class="col-lg-10">
-                    <h2>Doctors</h2>
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item">
-                            <a href="index.php">Home</a>
-                        </li>
-                        <li class="breadcrumb-item active">
-                            <strong>Doctors</strong>
-                        </li>
-                    </ol>
-                </div>
-                <div class="col-lg-2">
-                </div>
+        <?php include('layouts/navigations.php'); ?>
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-10">
+                <h2>Profile</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="index.php">Home</a>
+                    </li>
+                    <li class="breadcrumb-item active">
+                        <strong>Profile</strong>
+                    </li>
+                </ol>
             </div>
-            <div class="wrapper wrapper-content animated fadeInRight">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="ibox ">
-                            <div class="ibox-title">
-                                <h5>Doctors</h5>
-                                <div class="ibox-tools">
-                                    <a class="collapse-link">
-                                        <i class="fa fa-chevron-up"></i>
-                                    </a>
-                                </div>
+            <div class="col-lg-2">
+            </div>
+        </div>
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <br>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox ">
+                        <div class="ibox-title">
+                            <h5>Patients</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
                             </div>
-                            <div class="ibox-content">
-                                <div class="table-responsive">
-                                    <table class="table table-striped table-bordered table-hover dataTables-example">
-                                        <thead>
-                                            <tr>
-                                                <th>Doctor ID</th>
-                                                <th>Name</th>
-                                                <th>Birthdate</th>
-                                                <th>Age</th>
-                                                <th>Sex</th>
-                                                <th>Contact Number</th>
-                                                <th>Address</th>
-                                                <th>Email</th>
-                                                <th>Role</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>000001</td>
-                                                <td>Doc Kwak</td>
-                                                <td>01/01/1996</td>
-                                                <td>27</td>
-                                                <td>Male</td>
-                                                <td>09123456789</td>
-                                                <td>Taguig City</td>
-                                                <td>dummy@gmail.com</td>
-                                                <td>Admin</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                        </div>
+                        <div class="ibox-content form_content">
+                            <form role="form" data-toggle="validator" id="appointment_form">
+                                <div class="alert alert-danger display-error" style="display: none"></div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label required">First Name</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control first_name" id="first_name" name="first_name" value="<?php echo $result->first_name ?>">
+                                        <input type="text" class="form-control id" style="display: none" id="id" name="id" value="<?php echo $result->id ?>" disabled>
+                                    </div>
                                 </div>
-                            </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label required">Last Name</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" placeholder="Last Name" class="form-control last_name" id="last_name" name="last_name" value="<?php echo $result->last_name ?>">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="col-lg-12">
+                                    <div class="panel panel-primary">
+                                        <div class="panel-heading">
+                                            Day off Schedule
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label required">Day Schedule</label>
+                                                <div class="col-sm-10">
+                                                    <!-- <span class="input-group-addon"><i class="fa fa-calendar"></i></span> -->
+                                                    <input type="text" class="form-control datepicker appointment_sched_off" id="appointment_sched_off" name="appointment_sched_off">
+                                                </div>
+                                            </div>
+                                            <div class="hr-line-dashed"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+
+                                <div class="form-group row">
+                                    <div class="col-sm-4 col-sm-offset-2">
+                                        <button class="btn btn-primary btn-sm save_changes" type="submit" name="save_changes" id="save_changes">Save Changes</button>
+
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="footer">
-                <div>
-                    <strong>Copyright</strong> Bruzo Denta Care Clinic &copy; 2022
-                </div>
+
+        </div>
+        <div class="footer">
+            <div>
+                <strong>Copyright</strong> Bruzo Denta Care Clinic &copy; 2022
             </div>
         </div>
+    </div>
     </div>
     <!-- Mainly scripts -->
     <script src="js/jquery-3.1.1.min.js"></script>
@@ -92,43 +116,44 @@ include("layouts/header.php");
     <script src="js/inspinia.js"></script>
     <script src="js/plugins/pace/pace.min.js"></script>
     <!-- Page-Level Scripts -->
+    <!-- Select2 -->
+    <script src="js/plugins/select2/select2.full.min.js"></script>
+    <script src="js/plugins/datapicker/bootstrap-datepicker.js"></script>
     <script>
         $(document).ready(function() {
-            document.title = "Bruzo | Doctor";
-            $('.dataTables-example').DataTable({
-                pageLength: 25,
-                responsive: true,
-                dom: '<"html5buttons"B>lTfgitp',
-                buttons: [{
-                        extend: 'copy'
-                    },
-                    {
-                        extend: 'csv'
-                    },
-                    {
-                        extend: 'excel',
-                        title: 'Appointment History'
-                    },
-                    {
-                        extend: 'pdf',
-                        title: 'Appointment History'
-                    },
-
-                    {
-                        extend: 'print',
-                        customize: function(win) {
-                            $(win.document.body).addClass('white-bg');
-                            $(win.document.body).css('font-size', '10px');
-                            $(win.document.body).find('table')
-                                .addClass('compact')
-                                .css('font-size', 'inherit');
-                        }
-                    }
-                ]
-
+            document.title = "Bruzo | Patient";
+            $(".select2_demo_2").select2();
+            $('#patient').addClass('active').siblings().removeClass('active');
+            $("#update-password").click(function() {
+                $("#update-password-modal").show("modal");
             });
-            $('#nav-doctor').addClass('active').siblings().removeClass('active');
+
+            $('#appointment_sched_off').datepicker({
+                todayHighlight: true,
+                keyboardNavigation: false,
+                forceParse: false,
+                calendarWeeks: false,
+                minDate: new Date(),
+                daysOfWeekDisabled: [0, 6],
+                startDate: truncateDate(new Date()),
+                multidate: true
+            });
+
+
+            var date = new Date();
+            $("#appointment_sched_off").val(((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '/' + ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) + '/' + date.getFullYear())
+
+
+            $('#save_changes').click(function(e) {
+                e.preventDefault();
+                var appointment_sched = $("#appointment_sched_off").val();
+            });
+
         });
+
+        function truncateDate(date) {
+            return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+        }
     </script>
 </body>
 

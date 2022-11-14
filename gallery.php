@@ -1,46 +1,207 @@
 <?php
-include('include/config.php');
-$sql = "SELECT * FROM gallery";
-$result = $conn->query($sql);
-include('include/header.php');
-if ($result->num_rows > 0) {
+require_once("./admin/include/initialize.php");
+$mydb->setQuery("SELECT * from gallery");
+$cur = $mydb->loadSingleResult();
+var_dump($cur);
 ?>
-    <main id="main">
-        <section class="breadcrumbs">
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="assets/img/logo.ico" rel="icon">
+    <link href="assets/img/logo.ico" rel="apple-touch-icon">
+    <title>Bruzo Dental Care Clinic</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="admin/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Animation CSS -->
+    <link href="admin/css/animate.css" rel="stylesheet">
+    <link href="admin/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="admin/css/style.css" rel="stylesheet">
+
+    <link href="admin/css/plugins/blueimp/css/blueimp-gallery.min.css" rel="stylesheet">
+
+    <style>
+        #bruzo-logo {
+            background-color: #fff;
+            width: 50px;
+            height: 50px;
+            margin: 1px;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        .book-appointment {
+            background-color: #1ab394;
+            color: #fff !important;
+            border-radius: 0px 0px 10px 10px;
+        }
+
+        .book-appointment:hover {
+            color: #1ab394 !important;
+        }
+    </style>
+</head>
+
+<body id="page-top" class="landing-page no-skin-config bgimg">
+    <div class="navbar-wrapper">
+        <nav class="navbar navbar-default navbar-fixed-top navbar-expand-md" role="navigation">
             <div class="container">
-                <div class="d-flex justify-content-between align-items-center">
-                    <ol>
-                        <li><a href="index.php">Home</a></li>
-                        <li>Gallery</li>
-                    </ol>
+                <a class="navbar-brand" href="index.php">
+                    <!-- <img src="assets/img/bruzo.png" alt="" id="bruzo-logo"> -->
+                    Bruzo Dental Care Clinic
+                </a>
+                <div class="navbar-header page-scroll">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
+                        <i class="fa fa-bars"></i>
+                    </button>
                 </div>
+                <div class="collapse navbar-collapse justify-content-end" id="navbar">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a class="nav-link page-scroll" href="index.php">Home</a></li>
+                        <li><a class="nav-link page-scroll" href="services.php">Services</a></li>
+                        <li><a class="nav-link page-scroll active" href="gallery.php">Gallery</a></li>
+                        <li><a class="nav-link page-scroll" href="about.php">About</a></li>
+                        <li><a class="nav-link page-scroll" href="admin/login.php">Login</a></li>
+                        <li><a class="nav-link page-scroll" href="admin/register.php">Register</a></li>
+                        <li><a class="nav-link page-scroll book-appointment" href="book-appointment.php">Book Appointment</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="bg">
+        <img src="assets/img/background2.jpg" alt="">
+    </div>
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-12">
 
             </div>
-        </section>
-        <section class="portfolio">
-            <div class="container">
-                <div class="row portfolio-container" data-aos="fade-up" data-aos-easing="ease-in-out" data-aos-duration="500">
-                    <?php
-                    while ($row = $result->fetch_assoc()) {
-                    ?>
-                        <div class="col-lg-4 col-md-6 portfolio-wrap filter-app">
-                            <div class="portfolio-item">
-                                <img src="<?php echo $row['image'] ?>" class="img-fluid" alt="">
-                                <div class="portfolio-info">
-                                    <div>
-                                        <a href="<?php echo $row['image'] ?>" data-gallery="portfolioGallery" class="portfolio-lightbox"><i class="bx bx-plus"></i></a>
-                                    </div>
-                                </div>
+        </div>
+    </div>
+    <div class="container" style="margin-top: 100px ;">
+        <h1>Gallery</h1>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox ">
+                    <div class="ibox-content">
+                        <div class="lightBoxGallery">
+                            <?php
+                            if ($result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                    echo '<a href=' . $row['image_path'] . ' title="Image from Unsplash" data-gallery=""><img width="300" height="300" src=' . $row['image_path'] . '></a>';
+                                }
+                            }
+                            ?>
+                            <!-- The Gallery as lightbox dialog, should be a child element of the document body -->
+                            <div id="blueimp-gallery" class="blueimp-gallery">
+                                <div class="slides"></div>
+                                <h3 class="title"></h3>
+                                <a class="prev">‹</a>
+                                <a class="next">›</a>
+                                <a class="close">×</a>
+                                <a class="play-pause"></a>
+                                <ol class="indicator"></ol>
                             </div>
                         </div>
-                    <?php
-                    }
-                    ?>
+                    </div>
                 </div>
             </div>
-        </section>
-    </main>
-<?php
-}
-include('include/footer.php'); 
-?>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center m-t-xl m-b-xl">
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center m-t-xl m-b-xl">
+                <p><strong>&copy; 2022 Bruzo Dental Care Clinic</strong><br /></p>
+            </div>
+        </div>
+    </div>
+    <!-- Mainly scripts -->
+    <script src="admin/js/jquery-3.1.1.min.js"></script>
+    <script src="admin/js/popper.min.js"></script>
+    <script src="admin/js/bootstrap.js"></script>
+    <script src="admin/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="admin/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="admin/js/inspinia.js"></script>
+    <script src="admin/js/plugins/pace/pace.min.js"></script>
+    <script src="admin/js/plugins/wow/wow.min.js"></script>
+    <!-- blueimp gallery -->
+    <script src="admin/js/plugins/blueimp/jquery.blueimp-gallery.min.js"></script>
+
+
+    <script>
+        $(document).ready(function() {
+
+            $('body').scrollspy({
+                target: '#navbar',
+                offset: 80
+            });
+
+            // Page scrolling feature
+            $('a.page-scroll').bind('click', function(event) {
+                var link = $(this);
+                $('html, body').stop().animate({
+                    scrollTop: $(link.attr('href')).offset().top - 50
+                }, 500);
+                event.preventDefault();
+                $("#navbar").collapse('hide');
+            });
+        });
+
+        var cbpAnimatedHeader = (function() {
+            var docElem = document.documentElement,
+                header = document.querySelector('.navbar-default'),
+                didScroll = false,
+                changeHeaderOn = 200;
+
+            function init() {
+                window.addEventListener('scroll', function(event) {
+                    if (!didScroll) {
+                        didScroll = true;
+                        setTimeout(scrollPage, 250);
+                    }
+                }, false);
+            }
+
+            function scrollPage() {
+                var sy = scrollY();
+                if (sy >= changeHeaderOn) {
+                    $(header).addClass('navbar-scroll')
+                } else {
+                    $(header).removeClass('navbar-scroll')
+                }
+                didScroll = false;
+            }
+
+            function scrollY() {
+                return window.pageYOffset || docElem.scrollTop;
+            }
+            init();
+
+        })();
+
+        // Activate WOW.js plugin for animation on scrol
+        new WOW().init();
+    </script>
+
+</body>
+
+</html>
