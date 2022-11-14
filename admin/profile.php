@@ -6,7 +6,7 @@ if (!isset($_SESSION['id'])) {
 include("layouts/header.php");
 global $mydb;
 $id = $_SESSION['id'];
-$query = $mydb->setQuery("SELECT * FROM patients WHERE userId=$id");
+$query = $mydb->setQuery("SELECT * FROM patients p LEFT JOIN users u on p.userId=u.id WHERE p.userId=$id");
 $result = $mydb->loadSingleResult($query);
 ?>
 
@@ -61,7 +61,8 @@ $result = $mydb->loadSingleResult($query);
                             <h5>Account Profile</h5>
                         </div>
                         <div class="ibox-content no-padding border-left-right">
-                            <img src="../img_services/3f70e4490e0e72aa7c65d5f30bae6f82luffy.jpg" class="img-fluid" alt=""><br><br>
+                            <!-- <img src="../img_services/3f70e4490e0e72aa7c65d5f30bae6f82luffy.jpg" class="img-fluid" alt=""><br><br> -->
+                            <img src="<?php echo $result->image ?>" class="img-fluid" alt=""><br><br>
                         </div>
                         <div class="ibox-content profile-content">
                             <h4><strong><?php echo $result->first_name; ?> <?php echo $result->last_name; ?></strong> </h4>

@@ -20,6 +20,15 @@ class Patients
         return $cur;
     }
 
+    function single_patient_userId($id = "")
+    {
+        global $mydb;
+        $mydb->setQuery("SELECT * FROM " . self::$tblname . " 
+				Where userId= '{$id}' LIMIT 1");
+        $cur = $mydb->loadSingleResult();
+        return $cur;
+    }
+
 
 
     /*---Instantiation of Object dynamically---*/
@@ -110,7 +119,7 @@ class Patients
         }
         $sql = "UPDATE " . self::$tblname . " SET ";
         $sql .= join(", ", $attribute_pairs);
-        $sql .= " WHERE id='" . $id . "'";
+        $sql .= " WHERE userId='" . $id . "'";
         $mydb->setQuery($sql);
         if (!$mydb->executeQuery()) return false;
     }

@@ -4,6 +4,66 @@ if (!isset($_SESSION['id'])) {
     redirect(web_root . "/admin/login.php");
 }
 include("layouts/header.php");
+require_once("../include/config.php");
+
+if (isset($_POST['submit'])) {
+
+    $userid = ($_SESSION['id']);
+    $var1 = rand(1111, 9999);
+    $var2 = rand(1111, 9999);
+    $var3 = $var1 . $var2;
+    $var3 = md5($var3);
+    $fnm = $_FILES["imgInp"]["name"];
+    $dst = "user_images/" . $var3 . $fnm;
+    $dst_db = "user_images/" . $var3 . $fnm;
+    $imageFileType = strtolower(pathinfo($dst_db, PATHINFO_EXTENSION));
+
+    if (file_exists($dst)) {
+        echo "Sorry, file already exists.";
+        $uploadOk = 0;
+    }
+
+    if ($_FILES["imgInp"]["size"] > 500000) {
+        echo "Sorry, your file is too large.";
+        $uploadOk = 0;
+    }
+
+    if (
+        $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+        && $imageFileType != "gif"
+    ) {
+        echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+        $uploadOk = 0;
+    }
+
+    move_uploaded_file($_FILES["imgInp"]["tmp_name"], $dst);
+
+    $first_name = trim($_POST['first_name']);
+    $last_name = trim($_POST['last_name']);
+    $address = trim($_POST['address']);
+    $age = trim($_POST['age']);
+    $gender = trim($_POST['gender']);
+    $mobile = trim($_POST['mobile']);
+    $email = trim($_POST['email']);
+
+    $users = new User();
+    $users->first_name = $first_name;
+    $users->last_name = $last_name;
+    $users->email = $email;
+    $users->image = $dst_db;
+    $updateUser = $users->update($userid);
+
+    $patient = new Patients();
+    $patient->first_name = $first_name;
+    $patient->last_name = $last_name;
+    $patient->address = $address;
+    $patient->sex = $gender;
+    $patient->age = $age;
+    $patient->contact_number = $mobile;
+    $patient->email = $email;
+    $updatepatient = $patient->update($userid);
+    header('location:profile.php');
+}
 
 $userId = $_SESSION['id'];
 $mydb->setQuery("SELECT * from patients WHERE userId=$userId");
@@ -39,15 +99,16 @@ $result = $mydb->loadSingleResult();
                             <h5>Update Profile</h5>
                         </div>
                         <div class="ibox-content form_content">
-                            <form role="form ">
+                            <form role="form" id="user-form" enctype="multipart/form-data" method="post">
                                 <div class="form-group">
                                     <img id="blah" src="https://via.placeholder.com/250" alt="" class="img-fluid">
                                 </div>
                                 <div class="form-group row">
                                     <label for="imgInp" class="col-sm-2 col-form-label">Profile Picture</label>
                                     <div class="col-sm-10">
-                                        <input class="form-control" accept="image/*" type="file" id="imgInp">
+                                        <input class="form-control" accept="image/*" type="file" id="imgInp" name="imgInp">
                                     </div>
+
                                 </div>
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group row">
@@ -87,8 +148,8 @@ $result = $mydb->loadSingleResult();
                                     <div class="col-sm-10">
                                         <select class="select2_demo_1 form-control gender" id="gender" name="gender">
                                             <option value=""></option>
-                                            <option value="Male"  <?php if($result->sex=="Male") echo 'selected="selected"';?>>Male</option>
-                                            <option value="Female" <?php if($result->sex=="Femal") echo 'selected="selected"';?>>Female</option>
+                                            <option value="Male" <?php if ($result->sex == "Male") echo 'selected="selected"'; ?>>Male</option>
+                                            <option value="Female" <?php if ($result->sex == "Female") echo 'selected="selected"'; ?>>Female</option>
                                         </select>
                                     </div>
                                 </div>
@@ -110,7 +171,7 @@ $result = $mydb->loadSingleResult();
                                 </div>
                                 <div class="hr-line-dashed"></div>
                                 <button class="btn btn-sm btn-white" onclick="history.back()"><strong>Back</strong></button>
-                                <button class="btn btn-sm btn-primary" type="submit" name="update-profile" id="update-profile"><strong>Update Profile</strong></button>
+                                <button class="btn btn-sm btn-primary" type="submit" name="submit"><strong>Update Profile</strong></button>
                             </form>
                         </div>
 
@@ -139,17 +200,20 @@ $result = $mydb->loadSingleResult();
     <!-- Custom and plugin javascript -->
     <script src="js/inspinia.js"></script>
     <script src="js/plugins/pace/pace.min.js"></script>
+    <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
     <!-- Page-Level Scripts -->
     <script>
         $(document).ready(function() {
             document.title = "Bruzo | Patient";
             $('#patient').addClass('active').siblings().removeClass('active');
             imgInp.onchange = evt => {
-            const [file] = imgInp.files
-            if (file) {
-                blah.src = URL.createObjectURL(file)
+                const [file] = imgInp.files
+                if (file) {
+                    blah.src = URL.createObjectURL(file)
+                }
             }
-            }
+
+
         });
     </script>
 </body>

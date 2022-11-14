@@ -39,6 +39,8 @@
     }
     ?>
 
+ </style>
+
  <body>
      <!-- modal -->
      <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -210,7 +212,7 @@
                                                 echo '<td>' . $ser . '</td>';
                                                 echo '<td>' .  date("M d, Y", strtotime($result->appointmentDate)) . '</td>';
                                                 echo '<td>' . $result->appointmentTime . '</td>';
-                                                echo '<td><span class="label label-' . $labelClass . '">' . ucfirst($result->status) . '</span></td>';
+                                                echo '<td><span class="span-status label label-' . $labelClass . '">' . ucfirst($result->status) . '</span></td>';
 
 
                                                 echo '<td style="float: right"> 

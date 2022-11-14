@@ -60,7 +60,7 @@ if ($role !== "patient") {
                     <span class="nav-label">Gallery</span>
                 </a>
             </li>
-            <li id="patient-profile">
+            <li id="patient-profile" style="<?php echo $role === "patient" ? "" : "display: none" ?>">
                 <a href="profile.php">
                     <i class="fa fa-user"></i>
                     <span class="nav-label">Profile</span>
