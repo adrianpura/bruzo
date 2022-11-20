@@ -224,7 +224,7 @@ include("layouts/header.php");
                                 <div class="hr-line-dashed"></div>
 
                                 <div class="col-lg-12" style="<?php echo $role === "patient" || $role === "doctor" || $action === "edit" ? "" : "display: none"; ?>">
-                                    <div class="panel panel-primary">
+                                    <div class="panel    panel-primary">
                                         <div class="panel-heading">
                                             Dentist Remarks
                                         </div>
