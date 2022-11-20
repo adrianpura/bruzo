@@ -9,13 +9,15 @@ $action = isset($_GET['action']) ? $_GET['action'] : "";
 
 $mydb->setQuery("SELECT * FROM patients WHERE id=$patientId");
 $cur = $mydb->loadSingleResult();
+
 include("layouts/header.php");
 
 $userId = $_SESSION['id'];
 $role = $_SESSION['role'];
-$display = "";
-if ($role === "patient") {
-    $display = 'display: none';
+
+$displayButtons = "";
+if ($action === "view") {
+    $displayButtons = 'display: none';
 }
 ?>
 
@@ -152,7 +154,7 @@ if ($role === "patient") {
                                                                     a.appointmentTime,
                                                                     a.status,a.service_charge
                                                                     FROM appointments as a LEFT JOIN patients as p on a.patientId = p.id
-                                                                    WHERE p.id = $patientId");
+                                                                    WHERE p.userId = $cur->userId");
                                                         $cur = $mydb->loadResultList();
                                                         foreach ($cur as $result) {
                                                             if ($result->status === "approved") {
@@ -207,7 +209,7 @@ if ($role === "patient") {
                                 <div class="form-group row">
                                     <div class="col-sm-4 col-sm-offset-2">
                                         <a href="./patient.php" class="btn btn-white btn-sm"> Back </a>
-                                        <button style="<?php echo $action === "view" ?  "" : "display: none"; ?>" class="btn btn-success btn-sm approve_appointment" type="submit" name="approve_appointment" id="approve_appointment">Accept Appointment</button>
+                                        <button style="<?php echo $displayButtons; ?>" class="btn btn-success btn-sm approve_appointment" type="submit" name="approve_appointment" id="approve_appointment">Accept Appointment</button>
                                         <button style="<?php echo $action === "reschedule" ?  "" : "display: none"; ?>" class="btn btn-warning btn-sm resched_appointment" type="submit" name="resched_appointment" id="resched_appointment">Reschedule Appointment</button>
                                         <button style="<?php echo $action === "cancel" ?  "" : "display: none"; ?>" class="btn btn-danger btn-sm cancel_appointment" type="submit" name="cancel_appointment" id="cancel_appointment">Cancel Appointment</button>
                                         <button style="<?php echo $action === "edit" ?  "" : "display: none"; ?>" class="btn btn-primary btn-sm update_appointment" type="submit" name="update_appointment" id="update_appointment">Update Appointment</button>
