@@ -6,6 +6,50 @@ if (!isset($_SESSION['email'])) {
 include("layouts/header.php");
 $mydb->setQuery("SELECT * FROM gallery");
 $results = $mydb->loadResultList();
+
+if (isset($_POST['submit'])) {
+    $var1 = rand(1111, 9999);
+    $var2 = rand(1111, 9999);
+    $var3 = $var1 . $var2;
+    $var3 = md5($var3);
+    $fnm = $_FILES["new_image"]["name"];
+    $dst = "uploads/gallery/" . $var3 . $fnm;
+    $dst_db = "uploads/gallery/" . $var3 . $fnm;
+    $imageFileType = strtolower(pathinfo($dst_db, PATHINFO_EXTENSION));
+
+    if (file_exists($dst)) {
+        echo "Sorry, file already exists.";
+        $uploadOk = 0;
+    }
+
+    if ($_FILES["new_image"]["size"] > 500000) {
+        echo "Sorry, your file is too large.";
+        $uploadOk = 0;
+    }
+
+    if (
+        $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+        && $imageFileType != "gif"
+    ) {
+        echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+        $uploadOk = 0;
+    }
+
+    move_uploaded_file($_FILES["new_image"]["tmp_name"], $dst);
+    $mydb->setQuery("INSERT INTO `gallery` (`image_path`) VALUES ('$dst_db')");
+    if ($mydb->executeQuery()) {
+        echo "<script>
+            alert('New Image Added !');
+            </script>";
+        header("Refresh:0");
+    } else {
+        echo "<script>
+            alert('Failed Adding New Image !');
+            </script>";
+        header("Refresh:0");
+    }
+    header('location:gallery.php');
+}
 ?>
 
 <body>
@@ -55,12 +99,12 @@ $results = $mydb->loadResultList();
                                     <div class="modal-content">
                                         <div class="modal-body">
                                             <h3 class="m-t-none m-b">New Image</h3>
-                                            <form enctype="multipart/form-data">
+                                            <form enctype="multipart/form-data" method="POST">
                                                 <div class="form-group">
                                                     <input id="new_image" name="new_image" type="file">
                                                 </div>
                                                 <div class="form-group">
-                                                    <button type="submit" name="upload_image" id="upload_image" class="btn btn-sm btn-primary float-right m-t-n-xs">Add Image</button>
+                                                    <button type="submit" name="submit" id="submit" class="btn btn-sm btn-primary float-right m-t-n-xs">Add Image</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -69,14 +113,12 @@ $results = $mydb->loadResultList();
                             </div>
                             <div class="row">
                                 <?php foreach ($results as $result) { ?>
-                                    <!-- <div class="col-md-3"> -->
-                                        <div class="card m-2 p-0" style="width: 18rem;">
-                                            <img src="<?php echo $result->image_path ?>" class="card-img-top" alt="profile">
-                                            <div class="card-body">
-                                                <button class="btn btn-xs btn-danger" name="delete_image" id="delete_image"><i class="fa fa-trash"></i> Delete</button>
-                                            </div>
+                                    <div class="card m-2 p-0" style="width: 18rem;">
+                                        <img src="<?php echo $result->image_path ?>" class="card-img-top" alt="profile" height="200">
+                                        <div class="card-body">
+                                            <a href="" class="btn btn-xs btn-danger deleteButton" id="<?php echo $result->id; ?>"><i class="fa fa-trash"></i> Delete</a>
                                         </div>
-                                    <!-- </div> -->
+                                    </div>
                                 <?php } ?>
                             </div>
                         </div>
@@ -112,36 +154,15 @@ $results = $mydb->loadResultList();
             document.title = "Bruzo | Gallery";
             $('#gallery').addClass('active').siblings().removeClass('active');
 
-            $('#upload_image').click(function(e) {
-                e.preventDefault();
-                $.ajax({
-                    url: 'controllers/gallery-controller.php?action=upload',
-                    type: 'POST',
-                    dataType: json,
-                    data: {
-                        new_image: new FormData($('#new_image')[0])
-                    },
-                    success: function(data) {
-                        if (data.code == "200") {
-                            swal("Image Added!", "Image sucessfully added", "success");
-                            setTimeout(function() {
-                                window.location = "gallery.php";
-                            }, 1000);
 
-                        } else {
-                            swal("Unable to add image", "Please contact the system administrator", "error");
-                        }
-                    }
-                });
-            });
-
-            $('#delete_image').click(function(e) {
+            $('.deleteButton').click(function(e) {
                 e.preventDefault();
-                var id = $('#id').val();
+                var id = $(this).attr('id');
+                console.log('id: ', id);
                 swal({
-                        title: "Delete Image",
-                        text: "Are you sure you want to delete this image",
-                        type: "warning",
+                        title: "Delete this image?",
+                        text: "",
+                        type: "success",
                         showCancelButton: true,
                         confirmButtonColor: "#1ab394",
                         confirmButtonText: "Yes",
@@ -159,17 +180,19 @@ $results = $mydb->loadResultList();
                                     id: id,
                                 },
                                 success: function(data) {
+                                    console.log('data: ', data);
                                     if (data.code == "200") {
-                                        swal("Deleted!", "Image sucessfully deleted", "success");
+                                        swal("Deleted!", "Image deleted", "success");
                                         setTimeout(function() {
                                             window.location = "gallery.php";
                                         }, 1000);
 
                                     } else {
-                                        swal("Unable to delete image", "Please contact the system administrator", "error");
+                                        swal("Unable to delete this image", data.msg, "error");
                                     }
                                 }
                             });
+
                         } else {
                             swal("Cancelled", "", "error");
                         }

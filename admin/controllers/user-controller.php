@@ -10,6 +10,10 @@ switch ($action) {
     case 'update':
         doUpdate();
         break;
+
+    case 'delete':
+        doDelete();
+        break;
 }
 
 function doRegister()
@@ -105,4 +109,18 @@ function doUpdate()
     // } else {
     //     echo json_encode(['code' => 500, 'msg' => "something went wrong"]);
     // }
+}
+
+function doDelete()
+{
+    global $mydb;
+
+    $serviceId = $_POST['id'];
+    $query = $mydb->setQuery("DELETE FROM users WHERE id=$serviceId");
+    $q = $mydb->executeQuery($query);
+    if ($q) {
+        echo json_encode(['code' => 200, 'msg' => "service deleted"]);
+    } else {
+        echo json_encode(['code' => 404, 'msg' => "unable to delete"]);
+    }
 }

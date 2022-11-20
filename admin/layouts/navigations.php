@@ -20,9 +20,9 @@ if ($role !== "patient") {
                 <div class="dropdown profile-element">
                     <img src="../assets/img/bruzo.png" alt="" width="80" height="80">
                 </div>
-                <div class="logo-element">
+                <!-- <div class="logo-element">
                     <img src="../assets/img/bruzo.png" alt="" width="40" height="40">
-                </div>
+                </div> -->
             </li>
             <li id="index">
                 <a href="index.php">
