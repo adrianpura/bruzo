@@ -108,7 +108,7 @@ include("layouts/header.php");
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $mydb->setQuery("SELECT * FROM patients");
+                                        $mydb->setQuery("SELECT * FROM patients GROUP BY userId");
                                         $cur = $mydb->loadResultList();
                                         foreach ($cur as $result) {
 
@@ -160,7 +160,7 @@ include("layouts/header.php");
     <!-- Page-Level Scripts -->
     <script>
         $(document).ready(function() {
-            document.title = "Bruzo | Patient" ;
+            document.title = "Bruzo | Patient";
             $('#patient').addClass('active').siblings().removeClass('active');
             $('.dataTables-example').DataTable({
                 pageLength: 25,

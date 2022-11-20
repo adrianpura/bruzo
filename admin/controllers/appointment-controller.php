@@ -266,6 +266,7 @@ function doRescheduleAppointment()
 	$appointmentDate = $_POST['appointment_date'];
 	$appointmentTime = $_POST['appointment_time'];
 	$resched_details = $_POST['resched_details'];
+	$patient_userid = $_POST['patient_userid'];
 
 	$old_date_timestamp = strtotime($appointmentDate);
 	$new_date = date('Y-m-d H:i:s', $old_date_timestamp);
@@ -322,7 +323,7 @@ function doRescheduleAppointment()
 
 		if ($appointment->status !== "approved") {
 			$events = new Events();
-			$events->patientId = $appointment->patientId;
+			$events->patientId = $patient_userid;
 			$events->title = $patient->first_name . " " . $patient->last_name;
 			$events->start_event = $start;
 			$events->end_event = $end;
@@ -359,9 +360,11 @@ function doCancelAppointment()
 	$userId = $_SESSION['id'];
 	$appointmentId = $_POST['id'];
 	$cancel_details = $_POST['cancel_details'];
+	$patient_userid = $_POST['patient_userid'];
 
 	$mydb->setQuery("SELECT * from users where id =$userId");
 	$user = $mydb->loadSingleResult();
+
 	if ($user->role === "admin") {
 		echo json_encode(['code' => 404, 'msg' => "user admin unable to cancel appointment/s"]);
 	} else {
@@ -376,15 +379,15 @@ function doCancelAppointment()
 		$appointments->status = "cancelled";
 		$appointments->update($appointmentId);
 
-		$patients = new Patients();
-		$patient = $patients->single_patient($appointmentId);
+		// $patients = new Patients();
+		// $patient = $patients->single_patient_userId($patient_userid);
+
 
 		$events = new Events();
 		$events->delete($appointmentId);
 
 
-
-		echo json_encode(['code' => 200, 'msg' => "appointment canceled", 'data' => $patient->userId]);
+		echo json_encode(['code' => 200, 'msg' => "appointment canceled", 'data' => $patient_userid]);
 		// echo json_encode(['code' => 200, 'msg' => $patient]);
 	}
 }
@@ -478,11 +481,17 @@ function dofetchClientStatus()
 			while ($row = mysqli_fetch_array($result)) {
 				$seconds = $row["minute"] * 60;
 				$time = secondsToTime($seconds);
+				$notifDescription = "";
+				if (isset($row["resched_details"])) {
+					$notifDescription = 'Your ' .  date("M d, Y", strtotime($row["appointmentDate"])) . ' appointment  is rescheduled and ' . $row["status"] . '';
+				} else {
+					$notifDescription = 'Your ' .  date("M d, Y", strtotime($row["appointmentDate"])) . ' appointment  is ' . $row["status"] . '';
+				}
 				$output .= '
 						<li>
 							<a href="appointment_view.php?action=view&id=' . $row["id"] . '" class="dropdown-item">
 								<div>
-									<i class="fa fa-envelope fa-fw"></i>Your ' .  date("M d, Y", strtotime($row["appointmentDate"])) . ' appointment  is ' . $row["status"] . '
+									<i class="fa fa-envelope fa-fw"></i>' . $notifDescription . '
 									<span class="float-right text-muted small">' . $time . ' ago</span>
 								</div>
 							</a>

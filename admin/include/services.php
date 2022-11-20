@@ -127,4 +127,3 @@ class Services
         if (!$mydb->executeQuery()) return false;
     }
 }
-?>
