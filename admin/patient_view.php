@@ -7,7 +7,7 @@ if (!isset($_SESSION['id'])) {
 $patientId = isset($_GET['id']) ? $_GET['id'] : "";
 $action = isset($_GET['action']) ? $_GET['action'] : "";
 
-$mydb->setQuery("SELECT * FROM patients WHERE id=$patientId");
+$mydb->setQuery("SELECT * FROM patients p INNER JOIN users u ON p.userId = u.id WHERE p.id=$patientId");
 $cur = $mydb->loadSingleResult();
 
 include("layouts/header.php");
@@ -55,6 +55,19 @@ if ($action === "view") {
                         </div>
                         <div class="ibox-content form_content">
                             <form role="form" data-toggle="validator" id="appointment_form">
+                                <div class="form-group row">
+                                    <div class="col-sm-10">
+                                        <?php
+                                        if (empty($cur->image)) {
+                                            echo '<img src="uploads/no_image.jpg" class="img-fluid" alt="" width="400" height="400"><br><br>';
+                                        } else {
+                                            echo '<img src=' . $cur->image . ' class="img-fluid" alt="" width="400" height="400"><br><br>';
+                                        }
+                                        ?>
+                                    </div>
+                                </div>
+
+
                                 <div class="alert alert-danger display-error" style="display: none"></div>
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label required">First Name</label>
