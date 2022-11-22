@@ -4,6 +4,52 @@ if (!isset($_SESSION['email'])) {
     redirect(web_root . "/admin/login.php");
 }
 include("layouts/header.php");
+$mydb->setQuery("SELECT * FROM gallery");
+$results = $mydb->loadResultList();
+
+if (isset($_POST['submit'])) {
+    $var1 = rand(1111, 9999);
+    $var2 = rand(1111, 9999);
+    $var3 = $var1 . $var2;
+    $var3 = md5($var3);
+    $fnm = $_FILES["new_image"]["name"];
+    $dst = "uploads/gallery/" . $var3 . $fnm;
+    $dst_db = "uploads/gallery/" . $var3 . $fnm;
+    $imageFileType = strtolower(pathinfo($dst_db, PATHINFO_EXTENSION));
+
+    if (file_exists($dst)) {
+        echo "Sorry, file already exists.";
+        $uploadOk = 0;
+    }
+
+    if ($_FILES["new_image"]["size"] > 500000) {
+        echo "Sorry, your file is too large.";
+        $uploadOk = 0;
+    }
+
+    if (
+        $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+        && $imageFileType != "gif"
+    ) {
+        echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+        $uploadOk = 0;
+    }
+
+    move_uploaded_file($_FILES["new_image"]["tmp_name"], $dst);
+    $mydb->setQuery("INSERT INTO `gallery` (`image_path`) VALUES ('$dst_db')");
+    if ($mydb->executeQuery()) {
+        echo "<script>
+            alert('New Image Added !');
+            </script>";
+        header("Refresh:0");
+    } else {
+        echo "<script>
+            alert('Failed Adding New Image !');
+            </script>";
+        header("Refresh:0");
+    }
+    header('location:gallery.php');
+}
 ?>
 
 <body>
@@ -53,31 +99,27 @@ include("layouts/header.php");
                                     <div class="modal-content">
                                         <div class="modal-body">
                                             <h3 class="m-t-none m-b">New Image</h3>
-                                            <form role="form">
+                                            <form enctype="multipart/form-data" method="POST">
                                                 <div class="form-group">
-                                                    <input id="new_image" type="file">
+                                                    <input id="new_image" name="new_image" type="file">
                                                 </div>
-                                                <button class="btn btn-sm btn-primary float-right m-t-n-xs" type="submit" name="upload_image" id="upload_image"><strong>Add Image</strong></button>
+                                                <div class="form-group">
+                                                    <button type="submit" name="submit" id="submit" class="btn btn-sm btn-primary float-right m-t-n-xs">Add Image</button>
+                                                </div>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-3">
-                                    <div class="ibox">
-                                        <div class="ibox-content product-box">
-                                            <div class="product-imitation">
-                                                <img src="/img_services/3f70e4490e0e72aa7c65d5f30bae6f82luffy.jpg" alt="">
-                                            </div>
-                                            <div class="product-desc">
-                                                <div class="text-right">
-                                                    <a href="#" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> Delete</a>
-                                                </div>
-                                            </div>
+                                <?php foreach ($results as $result) { ?>
+                                    <div class="card m-2 p-0" style="width: 18rem;">
+                                        <img src="<?php echo $result->image_path ?>" class="card-img-top" alt="profile" height="200">
+                                        <div class="card-body">
+                                            <a href="" class="btn btn-xs btn-danger deleteButton" id="<?php echo $result->id; ?>"><i class="fa fa-trash"></i> Delete</a>
                                         </div>
                                     </div>
-                                </div>
+                                <?php } ?>
                             </div>
                         </div>
                     </div>
@@ -106,38 +148,55 @@ include("layouts/header.php");
     <script src="js/inspinia.js"></script>
     <script src="js/plugins/pace/pace.min.js"></script>
     <!-- Page-Level Scripts -->
+    <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
     <script>
         $(document).ready(function() {
             document.title = "Bruzo | Gallery";
             $('#gallery').addClass('active').siblings().removeClass('active');
 
-            $('#upload_image').click(function(e) {
+
+            $('.deleteButton').click(function(e) {
                 e.preventDefault();
-                var img_path = $("#new_image").val();
+                var id = $(this).attr('id');
+                console.log('id: ', id);
+                swal({
+                        title: "Delete this image?",
+                        text: "",
+                        type: "success",
+                        showCancelButton: true,
+                        confirmButtonColor: "#1ab394",
+                        confirmButtonText: "Yes",
+                        cancelButtonText: "No",
+                        closeOnConfirm: false,
+                        closeOnCancel: false
+                    },
+                    function(isConfirm) {
+                        if (isConfirm) {
+                            $.ajax({
+                                type: "POST",
+                                url: "controllers/gallery-controller.php?action=delete",
+                                dataType: "json",
+                                data: {
+                                    id: id,
+                                },
+                                success: function(data) {
+                                    console.log('data: ', data);
+                                    if (data.code == "200") {
+                                        swal("Deleted!", "Image deleted", "success");
+                                        setTimeout(function() {
+                                            window.location = "gallery.php";
+                                        }, 1000);
 
-                if (img_path !== "") {
-                    $.ajax({
-                        type: "POST",
-                        url: "include/gallery.php?action=add",
-                        dataType: "json",
-                        data: {
-                            img_path: img_path,
-                        },
-                        success: function(data) {
-                            if (data.code == "200") {
-                                swal("Saved!", "Appointment created, we will contact you after confirming your appointment", "success");
-                                setTimeout(function() {
-                                    window.location = "appointment.php";
-                                }, 1000);
+                                    } else {
+                                        swal("Unable to delete this image", data.msg, "error");
+                                    }
+                                }
+                            });
 
-                            } else {
-                                swal("Unable to create an appointment", "Please contact the system administrator", "error");
-                            }
+                        } else {
+                            swal("Cancelled", "", "error");
                         }
                     });
-                } else {
-                    swal("Unable to create an appointment", "Please fill up the required fields", "error");
-                }
             });
         });
     </script>

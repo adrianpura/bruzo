@@ -87,7 +87,7 @@ $result = $conn->query($sql);
             </div>
         </div>
     </div>
-    <div class="container" style="margin-top: 100px ;">
+    <div class="container" style="margin-top: 100px ;height:100%;">
         <h1>About</h1>
         <div class="row">
             <div class="col-lg-12">
@@ -123,13 +123,7 @@ $result = $conn->query($sql);
             </div>
         </div>
     </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 text-center m-t-xl m-b-xl">
-                <p><strong>&copy; 2022 Bruzo Dental Care Clinic</strong><br /></p>
-            </div>
-        </div>
-    </div>
+    
     <!-- Mainly scripts -->
     <script src="admin/js/jquery-3.1.1.min.js"></script>
     <script src="admin/js/popper.min.js"></script>
@@ -143,63 +137,13 @@ $result = $conn->query($sql);
     <script src="admin/js/plugins/wow/wow.min.js"></script>
     <!-- blueimp gallery -->
     <script src="admin/js/plugins/blueimp/jquery.blueimp-gallery.min.js"></script>
-
-
-    <script>
-        $(document).ready(function() {
-
-            $('body').scrollspy({
-                target: '#navbar',
-                offset: 80
-            });
-
-            // Page scrolling feature
-            $('a.page-scroll').bind('click', function(event) {
-                var link = $(this);
-                $('html, body').stop().animate({
-                    scrollTop: $(link.attr('href')).offset().top - 50
-                }, 500);
-                event.preventDefault();
-                $("#navbar").collapse('hide');
-            });
-        });
-
-        var cbpAnimatedHeader = (function() {
-            var docElem = document.documentElement,
-                header = document.querySelector('.navbar-default'),
-                didScroll = false,
-                changeHeaderOn = 200;
-
-            function init() {
-                window.addEventListener('scroll', function(event) {
-                    if (!didScroll) {
-                        didScroll = true;
-                        setTimeout(scrollPage, 250);
-                    }
-                }, false);
-            }
-
-            function scrollPage() {
-                var sy = scrollY();
-                if (sy >= changeHeaderOn) {
-                    $(header).addClass('navbar-scroll')
-                } else {
-                    $(header).removeClass('navbar-scroll')
-                }
-                didScroll = false;
-            }
-
-            function scrollY() {
-                return window.pageYOffset || docElem.scrollTop;
-            }
-            init();
-
-        })();
-
-        // Activate WOW.js plugin for animation on scrol
-        new WOW().init();
-    </script>
+    <script src="admin/js/scroller.js"></script>
 
 </body>
+<footer>
+<div class="bruzo-footer text-center">
+        <p><strong>&copy; 2022 Bruzo Dental Care Clinic</strong><br /></p>
+    </div>
+</footer>
 
 </html>

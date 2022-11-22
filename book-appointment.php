@@ -1,10 +1,5 @@
 <?php
 require_once("admin/include/initialize.php");
-// if (!isset($_SESSION['id'])) {
-//     redirect(web_root . "admin/login.php");
-// }
-
-// include("layouts/header.php");
 ?>
 
 <!DOCTYPE html>
@@ -290,12 +285,8 @@ require_once("admin/include/initialize.php");
                     });
 
             });
-
-
             var date = new Date();
             $("#appointment_date").val(((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '/' + ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) + '/' + date.getFullYear())
-
-
         });
 
         function truncateDate(date) {

@@ -14,8 +14,8 @@ if (isset($_POST['submit'])) {
     $var3 = $var1 . $var2;
     $var3 = md5($var3);
     $fnm = $_FILES["imgInp"]["name"];
-    $dst = "user_images/" . $var3 . $fnm;
-    $dst_db = "user_images/" . $var3 . $fnm;
+    $dst = "uploads/user_images/" . $var3 . $fnm;
+    $dst_db = "uploads/user_images/" . $var3 . $fnm;
     $imageFileType = strtolower(pathinfo($dst_db, PATHINFO_EXTENSION));
 
     if (file_exists($dst)) {
@@ -66,7 +66,7 @@ if (isset($_POST['submit'])) {
 }
 
 $userId = $_SESSION['id'];
-$mydb->setQuery("SELECT * from patients WHERE userId=$userId");
+$mydb->setQuery("SELECT * from patients p INNER JOIN users u ON p.userId=u.id WHERE p.userId=$userId");
 $result = $mydb->loadSingleResult();
 ?>
 
@@ -101,7 +101,13 @@ $result = $mydb->loadSingleResult();
                         <div class="ibox-content form_content">
                             <form role="form" id="user-form" enctype="multipart/form-data" method="post">
                                 <div class="form-group">
-                                    <img id="blah" src="https://via.placeholder.com/250" alt="" class="img-fluid">
+                                    <?php if (empty($result->image)) {
+                                        echo '<img id="blah" src="uploads/no_image.jpg" alt="" class="img-fluid" width="300" height="300">';
+                                    }else {
+                                        echo '<img id="blah" src="'.$result->image.'" alt="" class="img-fluid"  width="300" height="300">';
+                                    }
+                                    ?>
+                                    
                                 </div>
                                 <div class="form-group row">
                                     <label for="imgInp" class="col-sm-2 col-form-label">Profile Picture</label>
