@@ -8310,7 +8310,7 @@ body.landing-page {
   background-color: #1dc5a3;
   border-color: #1dc5a3;
 }
-@media (min-width: 768px) {
+@media (min-width: 1000px) {
   .landing-page {
     /* Navbar positioning foo */
     /* The navbar becomes detached from the top, so we round the corners */
@@ -8341,7 +8341,7 @@ body.landing-page {
     display: none;
   }
 }
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
   .landing-page .carousel-caption,
   .landing-page .carousel-caption.blank {
     left: 5%;
@@ -8404,7 +8404,7 @@ body.landing-page {
     margin-top: 120px;
   }
 }
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
   .landing-page .navbar .navbar-header {
     display: block;
     float: none;
@@ -9452,7 +9452,7 @@ body.md-skin {
     margin-left: auto;
   }
 }
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
   #page-wrapper {
     position: inherit;
     margin: 0 0 0 0;
@@ -9589,4 +9589,12 @@ body.md-skin {
   background: url('../../assets/img/background2.jpg') 50% 0;
   background-repeat: repeat-y;
   opacity: 0.08;
+}
+
+.bruzo-footer {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin-bottom: 60px;
+  padding-bottom: 10px;
 }

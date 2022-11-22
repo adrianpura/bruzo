@@ -55,14 +55,23 @@ $result = $mydb->loadSingleResult($query);
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-4">
+                <div class="col-lg-5">
                     <div class="ibox ">
                         <div class="ibox-title">
                             <h5>Account Profile</h5>
                         </div>
                         <div class="ibox-content no-padding border-left-right">
                             <!-- <img src="../img_services/3f70e4490e0e72aa7c65d5f30bae6f82luffy.jpg" class="img-fluid" alt=""><br><br> -->
-                            <img src="<?php echo $result->image ?>" class="img-fluid" alt=""><br><br>
+                            <?php
+                            if (empty($result->image)) {
+                                echo '<img src="uploads/no_image.jpg" class="img-fluid" alt=""><br><br>';
+                            }
+                            else {
+                                echo '<img src='.$result->image.' class="img-fluid" alt=""><br><br>';
+                            }
+                            ?>
+                            
+                           
                         </div>
                         <div class="ibox-content profile-content">
                             <h4><strong><?php echo $result->first_name; ?> <?php echo $result->last_name; ?></strong> </h4>
@@ -72,7 +81,7 @@ $result = $mydb->loadSingleResult($query);
                             <p><strong><i class="fa fa-at"></i> <?php echo $result->email; ?></strong></p>
                             <button class="btn btn-success" data-toggle="modal" data-target="#update-password-modal" id="update-password">Update Password</button>
                             <a class="btn btn-success" href="profile_update.php">Edit Profile</a>
-                            <button class="btn btn-danger">Delete Account</button>
+                            <a href="" class="btn btn-danger deleteButton" id="<?php echo $result->id; ?>"><i class="fa fa-trash"></i> Delete</a>
                         </div>
                     </div>
                 </div>
@@ -99,6 +108,7 @@ $result = $mydb->loadSingleResult($query);
     <!-- Custom and plugin javascript -->
     <script src="js/inspinia.js"></script>
     <script src="js/plugins/pace/pace.min.js"></script>
+    <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
     <!-- Page-Level Scripts -->
     <script>
         $(document).ready(function() {
@@ -106,6 +116,50 @@ $result = $mydb->loadSingleResult($query);
             $('#patient').addClass('active').siblings().removeClass('active');
             $("#update-password").click(function() {
                 $("#update-password-modal").show("modal");
+            });
+
+            $('.deleteButton').click(function(e) {
+                e.preventDefault();
+                var id = $(this).attr('id');
+                console.log('id: ', id);
+                swal({
+                        title: "Delete Account",
+                        text: "Do you really want to delete your account? This process cannot be undone.",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#ff0000",
+                        confirmButtonText: "Delete",
+                        cancelButtonText: "Cancel",
+                        closeOnConfirm: false,
+                        closeOnCancel: false
+                    },
+                    function(isConfirm) {
+                        if (isConfirm) {
+                            $.ajax({
+                                type: "POST",
+                                url: "controllers/user-controller.php?action=delete",
+                                dataType: "json",
+                                data: {
+                                    id: id,
+                                },
+                                success: function(data) {
+                                    console.log('data: ', data);
+                                    if (data.code == "200") {
+                                        swal("Deleted!", "Account deleted", "success");
+                                        setTimeout(function() {
+                                            window.location = "../index.php";
+                                        }, 1000);
+
+                                    } else {
+                                        swal("Unable to delete account", data.msg, "error");
+                                    }
+                                }
+                            });
+
+                        } else {
+                            swal("Cancelled", "", "error");
+                        }
+                    });
             });
         });
     </script>

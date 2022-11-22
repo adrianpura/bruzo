@@ -49,20 +49,21 @@ $services_result = $mydb->loadSingleResult();
 
 ?>
 <script>
-        // Get a reference to our file input
-        const fileInput = document.querySelector('input[type="file"]');
-    
-        // Create a new File object
-        const myFile = new File(['Hello World!'], <?php $services_result->image ?>, {
-            type: 'text/plain',
-            lastModified: new Date(),
-        });
-    
-        // Now let's create a DataTransfer to get a FileList
-        const dataTransfer = new DataTransfer();
-        dataTransfer.items.add(myFile);
-        fileInput.files = dataTransfer.files;
-    </script>
+    // Get a reference to our file input
+    const fileInput = document.querySelector('input[type="file"]');
+
+    // Create a new File object
+    const myFile = new File(['Hello World!'], <?php $services_result->image ?>, {
+        type: 'text/plain',
+        lastModified: new Date(),
+    });
+
+    // Now let's create a DataTransfer to get a FileList
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(myFile);
+    fileInput.files = dataTransfer.files;
+</script>
+
 <body>
     <div id="wrapper">
         <?php include('layouts/navigations.php'); ?>
@@ -105,7 +106,7 @@ $services_result = $mydb->loadSingleResult();
                                     <textarea class="form-control" name="description" id="description" cols="60" rows="10"><?php echo $services_result->service_name; ?></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <input name="img" type="file"/>
+                                    <input name="img" type="file" />
                                 </div>
                                 <div class="form-group">
                                     <button class="btn btn-sm btn-danger" type="button" onclick="history.back()"><strong>Back</strong></button>

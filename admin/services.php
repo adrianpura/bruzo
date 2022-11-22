@@ -16,12 +16,7 @@ if (!isset($_SESSION['email'])) {
     redirect(web_root . "/admin/login.php");
 }
 require_once("../include/config.php");
-global $mydb;
-if (isset($_GET['action'])) {
-    $id = $_GET['id'];
-    $query = $mydb->setQuery("DELETE FROM cms_services WHERE id=$id");
-    $mydb->executeQuery($query);
-}
+
 include("layouts/header.php");
 ?>
 
@@ -129,54 +124,56 @@ include("layouts/header.php");
     <script src="js/inspinia.js"></script>
     <script src="js/plugins/pace/pace.min.js"></script>
     <!-- Page-Level Scripts -->
+    <!-- Sweet alert -->
+    <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
     <script>
         $(document).ready(function() {
             document.title = "Bruzo | Services";
             $('#nav-service').addClass('active').siblings().removeClass('active');
 
             $('.deleteButton').click(function(e) {
-                 e.preventDefault();
-                 var id = $(this).attr('id');
-                 console.log('id: ', id);
-                 swal({
-                         title: "Delete this service?",
-                         text: "",
-                         type: "success",
-                         showCancelButton: true,
-                         confirmButtonColor: "#1ab394",
-                         confirmButtonText: "Yes",
-                         cancelButtonText: "No",
-                         closeOnConfirm: false,
-                         closeOnCancel: false
-                     },
-                     function(isConfirm) {
-                         if (isConfirm) {
-                             $.ajax({
-                                 type: "GET",
-                                 url: "services.php?action=delete",
-                                 dataType: "json",
-                                 data: {
-                                     id: id,
-                                 },
-                                 success: function(data) {
-                                     console.log('data: ', data);
-                                     if (data.code == "200") {
-                                         swal("Deleted!", "Service deleted", "success");
-                                         setTimeout(function() {
-                                             window.location = "services.php";
-                                         }, 1000);
+                e.preventDefault();
+                var id = $(this).attr('id');
+                console.log('id: ', id);
+                swal({
+                        title: "Delete this service?",
+                        text: "",
+                        type: "success",
+                        showCancelButton: true,
+                        confirmButtonColor: "#1ab394",
+                        confirmButtonText: "Yes",
+                        cancelButtonText: "No",
+                        closeOnConfirm: false,
+                        closeOnCancel: false
+                    },
+                    function(isConfirm) {
+                        if (isConfirm) {
+                            $.ajax({
+                                type: "POST",
+                                url: "./controllers/services-controller.php?action=delete",
+                                dataType: "json",
+                                data: {
+                                    id: id,
+                                },
+                                success: function(data) {
+                                    console.log('data: ', data);
+                                    if (data.code == "200") {
+                                        swal("Deleted!", "Service deleted", "success");
+                                        setTimeout(function() {
+                                            window.location = "services.php";
+                                        }, 1000);
 
-                                     } else {
-                                         swal("Unable to delete this service", data.msg, "error");
-                                     }
-                                 }
-                             });
+                                    } else {
+                                        swal("Unable to delete this service", data.msg, "error");
+                                    }
+                                }
+                            });
 
-                         } else {
-                             swal("Cancelled", "", "error");
-                         }
-                     });
-             });
+                        } else {
+                            swal("Cancelled", "", "error");
+                        }
+                    });
+            });
         });
     </script>
 </body>
