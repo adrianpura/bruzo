@@ -61,9 +61,9 @@
                         <li><a class="nav-link page-scroll" href="services.php">Services</a></li>
                         <li><a class="nav-link page-scroll" href="gallery.php">Gallery</a></li>
                         <li><a class="nav-link page-scroll" href="about.php">About</a></li>
-                        <li><a class="nav-link page-scroll" href="admin/login.php">Login</a></li>
-                        <li><a class="nav-link page-scroll" href="admin/register.php">Register</a></li>
-                        <li><a class="nav-link page-scroll book-appointment" href="book-appointment.php">Book Appointment</a></li>
+                        <!-- <li><a class="nav-link page-scroll" href="admin/login.php">Login</a></li> -->
+                        <!-- <li><a class="nav-link page-scroll" href="admin/register.php">Register</a></li> -->
+                        <li><a class="nav-link page-scroll book-appointment" href="admin/login.php">Login</a></li>
                     </ul>
                 </div>
             </div>
@@ -83,7 +83,7 @@
                             removal.</p>
                         <br>
                         <p>
-                            <a class="btn btn-lg btn-primary" href="book-appointment.php" role="button">Book Appointment</a>
+                            <a class="btn btn-lg btn-primary" href="admin/register.php" role="button">Register</a>
                             <!-- <a class="caption-link" href="#" role="button">Inspinia Theme</a> -->
                         </p>
                     </div>
@@ -132,7 +132,7 @@
                 </div>
             </div>
         </div>
-        <div class="row"  style="height: 100%;">
+        <div class="row" style="height: 100%;">
             <div class="col-lg-12 text-center">
                 <!-- map here -->
             </div>
@@ -153,8 +153,9 @@
 
 </body>
 <footer>
-<div class="bruzo-footer text-center">
+    <div class="bruzo-footer text-center">
         <p><strong>&copy; 2022 Bruzo Dental Care Clinic</strong><br /></p>
     </div>
 </footer>
+
 </html>
