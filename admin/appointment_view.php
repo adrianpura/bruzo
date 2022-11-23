@@ -38,9 +38,7 @@ if ($action === "view" || $cur->status === "cancelled") {
     $displayDentistRemarks = "display: none";
 }
 
-if ($action === "view" || $cur->status === "approved") {
-    $displayDentistRemarks = "";
-}
+
 
 
 $displayButton = "";
@@ -54,6 +52,11 @@ if ($action === "view" || $cur->status === "cancelled") {
 
 if ($action === "view" || $cur->status === "pending") {
     $displayButton = "";
+}
+
+if ($action === "view" || $cur->status === "approved") {
+    $displayDentistRemarks = "";
+    $displayButton = "display: none";
 }
 
 $cancelRemarksDisplay = "display: none";
