@@ -58,10 +58,10 @@ if ($action === "view") {
                                 <div class="form-group row">
                                     <div class="col-sm-10">
                                         <?php
-                                        if (empty($cur->image)) {
-                                            echo '<img src="uploads/no_image.jpg" class="img-fluid" alt="" width="400" height="400"><br><br>';
+                                        if ($cur->image) {
+                                            echo '<img src="../admin/' . $cur->image . '" class="rounded-circle circle-border m-b-md" alt="profile" width="200" height="200">';
                                         } else {
-                                            echo '<img src=' . $cur->image . ' class="img-fluid" alt="" width="400" height="400"><br><br>';
+                                            echo '<img src="../admin/uploads/user_images/no-image.png" class="rounded-circle circle-border m-b-md" alt="profile" width="200" height="200">';
                                         }
                                         ?>
                                     </div>

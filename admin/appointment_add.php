@@ -280,12 +280,14 @@ include("layouts/header.php");
                                         details: details,
                                     },
                                     success: function(data) {
+                                        console.log('data: ', data);
                                         if (data.code == "200") {
                                             swal("Saved!", "Appointment created, we will contact you after confirming your appointment", "success");
                                             setTimeout(function() {
                                                 window.location = "appointment.php";
                                             }, 1000);
-
+                                        } else if (data.code == "409") {
+                                            swal("Unable to create an appointment", data.msg, "error");
                                         } else {
                                             swal("Unable to create an appointment", "Please contact the system administrator", "error");
                                         }
@@ -304,13 +306,13 @@ include("layouts/header.php");
 
 
             var date = new Date();
-            $("#appointment_date").val(((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '/' + ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) + '/' + date.getFullYear())
+            $("#appointment_date").val(((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '/' + ((date.getDate() > 9) ? date.getDate() + 1 : ('0' + date.getDate())) + '/' + date.getFullYear())
 
 
         });
 
         function truncateDate(date) {
-            return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+            return new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1)
         }
     </script>
 </body>

@@ -1,8 +1,8 @@
 <?php
 require_once('database.php');
-class Appointments
+class Dayoff
 {
-    protected static  $tblname = "appointments";
+    protected static  $tblname = "day_offs";
 
     function dbfields()
     {
@@ -11,21 +11,11 @@ class Appointments
     }
 
 
-    function single_appointment($id = "")
+    function single_dayoff($id = "")
     {
         global $mydb;
         $mydb->setQuery("SELECT * FROM " . self::$tblname . " 
 				Where id= '{$id}' LIMIT 1");
-        $cur = $mydb->loadSingleResult();
-        return $cur;
-    }
-
-
-    function single_appointment_time_date($date = "", $time = "")
-    {
-        global $mydb;
-        $mydb->setQuery("SELECT * FROM " . self::$tblname . " 
-				Where appointmentDate= '{$date}' AND appointmentTime = '{$time}' AND status = 'approved' LIMIT 1");
         $cur = $mydb->loadSingleResult();
         return $cur;
     }

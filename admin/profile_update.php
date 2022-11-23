@@ -103,11 +103,11 @@ $result = $mydb->loadSingleResult();
                                 <div class="form-group">
                                     <?php if (empty($result->image)) {
                                         echo '<img id="blah" src="uploads/no_image.jpg" alt="" class="img-fluid" width="300" height="300">';
-                                    }else {
-                                        echo '<img id="blah" src="'.$result->image.'" alt="" class="img-fluid"  width="300" height="300">';
+                                    } else {
+                                        echo '<img id="blah" src="' . $result->image . '" alt="" class="img-fluid"  width="300" height="300">';
                                     }
                                     ?>
-                                    
+
                                 </div>
                                 <div class="form-group row">
                                     <label for="imgInp" class="col-sm-2 col-form-label">Profile Picture</label>

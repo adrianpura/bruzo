@@ -45,7 +45,7 @@ if ($role !== "patient") {
             <li id="nav-doctor" style="<?php echo $display; ?>">
                 <a href="doctor.php">
                     <i class="fa fa-history"></i>
-                    <span class="nav-label">Dentist Profile</span>
+                    <span class="nav-label">Dentist Off</span>
                 </a>
             </li>
             <li id="nav-service" style="<?php echo $display; ?>">

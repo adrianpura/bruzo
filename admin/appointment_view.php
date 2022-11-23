@@ -21,8 +21,10 @@ if ($role === "patient") {
 
 $mydb->setQuery("SELECT p.first_name,p.last_name,p.address,p.sex,p.age,p.contact_number,p.email,p.userId,
 a.appointmentDate,a.appointmentTime,a.status,a.patientId,a.details,a.id,a.resched_details,a.cancel_details,a.service_charge,a.doctor_remarks,a.status
+,u.image
 FROM appointments a 
 LEFT JOIN patients p on a.patientId = p.id 
+LEFT JOIN users u on p.userId = u.id
 WHERE a.id=$appointmentNumber");
 $cur = $mydb->loadSingleResult();
 include("layouts/header.php");
@@ -36,6 +38,16 @@ if ($action === "cancel" || $action === "reschedule") {
 $displayButton = "";
 if ($cur->status === "approved") {
     $displayButton = "display: none";
+}
+
+$cancelRemarksDisplay = "display: none";
+$cancelRemarkDisable = "";
+if ($action === "view") {
+    $cancelRemarkDisable = "disabled";
+}
+
+if ($action === "cancel" || $cur->status === "cancelled") {
+    $cancelRemarksDisplay = "";
 }
 ?>
 
@@ -87,6 +99,20 @@ if ($cur->status === "approved") {
                         <div class="ibox-content form_content">
                             <form role="form" data-toggle="validator" id="appointment_form">
                                 <div class="alert alert-danger display-error" style="display: none"></div>
+                                <div class="form-group row">
+                                    <!-- <label class="col-sm-2 col-form-label required">Last Name</label> -->
+                                    <div class="col-sm-5">
+                                        <?php
+                                        if ($cur->image) {
+                                            echo '<img src="../admin/' . $cur->image . '" class="rounded-circle circle-border m-b-md" alt="profile" width="200" height="200">';
+                                        } else {
+                                            echo '<img src="../admin/uploads/user_images/no-image.png" class="rounded-circle circle-border m-b-md" alt="profile" width="200" height="200">';
+                                        }
+                                        ?>
+
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label required">First Name</label>
                                     <div class="col-sm-10">
@@ -236,10 +262,10 @@ if ($cur->status === "approved") {
 
                                 <div class="hr-line-dashed"></div>
 
-                                <div class="form-group row" style="<?php echo $action === "cancel" ? "" : "display: none"; ?>">
+                                <div class="form-group row" style="<?php echo $cancelRemarksDisplay; ?>">
                                     <label class="col-sm-2 col-form-label">Cancel Details</label>
                                     <div class="col-sm-10">
-                                        <input type="text" placeholder="cancel_details" class="form-control cancel_details" id="cancel_details" name="cancel_details" value="<?php echo $cur->cancel_details ?>">
+                                        <input type="text" placeholder="cancel_details" class="form-control cancel_details" id="cancel_details" name="cancel_details" value="<?php echo $cur->cancel_details ?>" <?php echo $cancelRemarkDisable; ?>>
                                     </div>
                                 </div>
 
