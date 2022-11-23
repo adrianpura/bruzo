@@ -45,19 +45,45 @@ function doLoadEvents()
 {
 	global $mydb;
 	$pid = isset($_GET['patientId']) ? $_GET['patientId'] : 0;
-	$sql = $pid !== 0 ? "SELECT * FROM `events` where patientId = $pid" : "SELECT * FROM `events` ";
+	$sql = $pid !== 0 ? "SELECT * FROM `events` where patientId in ($pid,0) " : "SELECT * FROM `events` ";
 	$mydb->setQuery($sql);
 	$result = $mydb->loadResultList();
 
+	// $recursiveDate = array(
+	// 	'id'   => 0,
+	// 	'title'   => "8 Slots",
+	// 	'start'   => "00:00",
+	// 	'end'   => "17:00",
+	// 	'appointmentId'   => 0,
+	// 	'dow'   => [1, 2, 3, 4, 5],
+	// 	'ranges' => [array(
+	// 		'start' => '2022/11/26',
+	// 		'end' => '2022/12/31',
+	// 	)]
+	// );
+
+
+
 	foreach ($result as $row) {
+		$oldStart = strtotime($row->start_event);
+		$newStart = date('g a', $oldStart);
+
+		$oldEnd = strtotime($row->end_event);
+		$newEnd = date('g a', $oldEnd);
+
+
+		$title = $row->appointmentId === "0" ?   $row->count . '  ' . $row->title : ' ' . $row->title . ' ' . $newStart . '-' . $newEnd;
+
+
 		$data[] = array(
 			'id'   => $row->id,
-			'title'   => ' - ' . $row->title . '' . $pid,
+			'title'   => $title,
 			'start'   => $row->start_event,
 			'end'   => $row->end_event,
 			'appointmentId'   => $row->appointmentId,
 		);
 	}
+	// array_push($data, $recursiveDate);
 
 	echo json_encode($data);
 }
@@ -271,6 +297,8 @@ function doAcceptAppointment()
 			$patient = $patients->single_patient($appointment->patientId);
 
 
+
+
 			$events = new Events();
 			$events->patientId = $patient->userId;
 			$events->title = $patient->first_name . " " . $patient->last_name;
@@ -278,6 +306,26 @@ function doAcceptAppointment()
 			$events->end_event = $end;
 			$events->appointmentId = $appointmentId;
 			$eventCreate = $events->create();
+
+
+			$old_timestamp = strtotime($appointment->appointmentDate);
+			$newApDate = date('Y-m-d', $old_timestamp);
+
+			//count events based on date
+			$mydb->setQuery("SELECT * from events where appointmentId <> 0 AND start_event like '%$newApDate%'");
+			$eventDatas = $mydb->loadResultList();
+			$appointmentCount = count($eventDatas);
+
+			//get current event count based on date
+			$mydb->setQuery("SELECT * from events where appointmentId= 0 AND start_event like '%$newApDate%'");
+			$eventCurrentCount = $mydb->loadSingleResult();
+			$currentAppointmentCount = $eventCurrentCount->count;
+
+			$newEventCount = $currentAppointmentCount - $appointmentCount;
+
+			$sqlEvent = "UPDATE events set count = $newEventCount WHERE appointmentId= 0 AND start_event like '%$newApDate%'";
+			$mydb->setQuery($sqlEvent);
+			$mydb->executeQuery();
 
 			$appointments->status = "approved";
 			$appointments->doctorID = $userId;

@@ -7,6 +7,35 @@ include("layouts/header.php");
 
 $userId = $_SESSION['id'];
 $currentrole = $_SESSION['role'];
+
+
+// $sql = "SELECT * FROM `events`";
+// $mydb->setQuery($sql);
+// $result = $mydb->loadResultList();
+// $recursiveDate = array(
+//     'id'   => 0,
+//     'title'   => "8 Slots",
+//     'start'   => "00:00",
+//     'end'   => "17:00",
+//     'appointmentId'   => 0,
+//     'dow'   => [1, 2, 3, 4, 5],
+// );
+
+// foreach ($result as $row) {
+//     $data[] = array(
+//         'id'   => $row->id,
+//         'title'   => ' - ' . $row->title . '',
+//         'start'   => $row->start_event,
+//         'end'   => $row->end_event,
+//         'appointmentId'   => $row->appointmentId,
+//         'dow'   => [],
+//     );
+// }
+
+// var_dump(array_push($data, $recursiveDate));
+// var_dump($recursiveDate);
+// var_dump($data);
+
 ?>
 
 <body>
@@ -145,7 +174,18 @@ $currentrole = $_SESSION['role'];
                     console.log('select: ', end);
                     console.log('select: ', allDay);
                 },
+                eventAfterRender: function(event, element) {
+                    var sloTSpan = $('span[class="fc-time"]').html();
+                    if (sloTSpan === "12a") {
+                        $('span[class="fc-time"]').html("");
+                    }
+                }
+
             });
+
+
+
+
             var mem = $('#date .input-group.date').datepicker({
                 todayBtn: "linked",
                 keyboardNavigation: false,

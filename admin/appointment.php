@@ -37,6 +37,11 @@
     if ($role === "patient") {
         $display = 'display: none';
     }
+
+    $appointmentButtonDisplay = "display: none";
+    if ($role === "patient") {
+        $appointmentButtonDisplay = "";
+    }
     ?>
 
  </style>
@@ -132,7 +137,7 @@
                  <div class="col-lg-12">
                      <div class="row">
                          <div class="col-lg-12">
-                             <a href="appointment_add.php" class="btn btn-primary add-appointment" id="add-appointment">
+                             <a href="appointment_add.php" class="btn btn-primary add-appointment" id="add-appointment" style="<?php echo $appointmentButtonDisplay; ?>">
                                  <i class="fa fa-plus"></i>
                                  Add Apointment
                              </a>

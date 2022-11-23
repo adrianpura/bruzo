@@ -20,6 +20,15 @@ class Events
         return $cur;
     }
 
+    function single_event_slot($id = "", $date = "")
+    {
+        global $mydb;
+        $mydb->setQuery("SELECT * FROM " . self::$tblname . " 
+				Where appointmentId= '{$id}' AND start_event = '{$date}' LIMIT 1");
+        $cur = $mydb->loadSingleResult();
+        return $cur;
+    }
+
 
 
     /*---Instantiation of Object dynamically---*/
@@ -112,6 +121,21 @@ class Events
         $sql = "UPDATE " . self::$tblname . " SET ";
         $sql .= join(", ", $attribute_pairs);
         $sql .= " WHERE appointmentId='" . $id . "'";
+        $mydb->setQuery($sql);
+        if (!$mydb->executeQuery()) return false;
+    }
+
+    public function updateSlot($id = '', $date = "")
+    {
+        global $mydb;
+        $attributes = $this->sanitized_attributes();
+        $attribute_pairs = array();
+        foreach ($attributes as $key => $value) {
+            $attribute_pairs[] = "{$key}='{$value}'";
+        }
+        $sql = "UPDATE " . self::$tblname . " SET ";
+        $sql .= join(", ", $attribute_pairs);
+        $sql .= " WHERE appointmentId='" . $id . "'  AND start_event like '%" . $date . "%'";
         $mydb->setQuery($sql);
         if (!$mydb->executeQuery()) return false;
     }
