@@ -321,7 +321,7 @@ function doAcceptAppointment()
 			$eventCurrentCount = $mydb->loadSingleResult();
 			$currentAppointmentCount = $eventCurrentCount->count;
 
-			$newEventCount = $currentAppointmentCount - $appointmentCount;
+			$newEventCount = (int) $currentAppointmentCount - (int) $appointmentCount;
 
 			$sqlEvent = "UPDATE events set count = $newEventCount WHERE appointmentId= 0 AND start_event like '%$newApDate%'";
 			$mydb->setQuery($sqlEvent);
