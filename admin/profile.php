@@ -63,15 +63,14 @@ $result = $mydb->loadSingleResult($query);
                         <div class="ibox-content no-padding border-left-right">
                             <!-- <img src="../img_services/3f70e4490e0e72aa7c65d5f30bae6f82luffy.jpg" class="img-fluid" alt=""><br><br> -->
                             <?php
-                            if (empty($result->image)) {
-                                echo '<img src="uploads/no_image.jpg" class="img-fluid" alt=""><br><br>';
-                            }
-                            else {
-                                echo '<img src='.$result->image.' class="img-fluid" alt=""><br><br>';
+                            if ($result->image) {
+                                echo '<img src="../admin/' . $result->image . '" class="rounded-circle circle-border m-b-md" alt="profile" width="200" height="200">';
+                            } else {
+                                echo '<img src="../admin/uploads/user_images/no-image.png" class="rounded-circle circle-border m-b-md" alt="profile" width="200" height="200">';
                             }
                             ?>
-                            
-                           
+
+
                         </div>
                         <div class="ibox-content profile-content">
                             <h4><strong><?php echo $result->first_name; ?> <?php echo $result->last_name; ?></strong> </h4>
