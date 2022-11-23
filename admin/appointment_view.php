@@ -34,9 +34,17 @@ if ($action === "cancel" || $action === "reschedule") {
     $displayDentistRemarks = "display: none";
 }
 
+if ($action === "view" || $cur->status === "cancelled") {
+    $displayDentistRemarks = "display: none";
+}
+
 
 $displayButton = "";
 if ($cur->status === "approved") {
+    $displayButton = "display: none";
+}
+
+if ($action === "view" || $cur->status === "cancelled") {
     $displayButton = "display: none";
 }
 
