@@ -67,17 +67,18 @@ setlocale(LC_MONETARY, "English_Philippines");
                         <li><a class="nav-link page-scroll active" href="services.php">Services</a></li>
                         <li><a class="nav-link page-scroll" href="gallery.php">Gallery</a></li>
                         <li><a class="nav-link page-scroll" href="about.php">About</a></li>
-                        <li><a class="nav-link page-scroll" href="admin/login.php">Login</a></li>
+                        <!-- <li><a class="nav-link page-scroll" href="admin/login.php">Login</a></li>
                         <li><a class="nav-link page-scroll" href="admin/register.php">Register</a></li>
-                        <li><a class="nav-link page-scroll book-appointment" href="book-appointment.php">Book Appointment</a></li>
+                        <li><a class="nav-link page-scroll book-appointment" href="book-appointment.php">Book Appointment</a></li> -->
+                        <li><a class="nav-link page-scroll book-appointment" href="admin/login.php">Login</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
     </div>
     <div class="bg">
-            <img src="assets/img/background2.jpg" alt="">
-        </div>
+        <img src="assets/img/background2.jpg" alt="">
+    </div>
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -86,7 +87,7 @@ setlocale(LC_MONETARY, "English_Philippines");
         </div>
     </div>
     <div class="container features" style="margin-top: 100px;">
-        
+
         <h1>Services</h1>
         <div class="row">
             <div class="col-lg-12 text-center wow fadeInLeft m-b-xl">
@@ -140,12 +141,13 @@ setlocale(LC_MONETARY, "English_Philippines");
     <script src="admin/js/inspinia.js"></script>
     <script src="admin/js/plugins/pace/pace.min.js"></script>
     <script src="admin/js/plugins/wow/wow.min.js"></script>
-    <script src="admin/js/scroller.js"></script>    
+    <script src="admin/js/scroller.js"></script>
 
 </body>
 <footer>
-<div class="bruzo-footer text-center">
+    <div class="bruzo-footer text-center">
         <p><strong>&copy; 2022 Bruzo Dental Care Clinic</strong><br /></p>
     </div>
 </footer>
+
 </html>

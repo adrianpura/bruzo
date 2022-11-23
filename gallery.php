@@ -69,9 +69,10 @@ $result = $mydb->loadResultList();
                         <li><a class="nav-link page-scroll" href="services.php">Services</a></li>
                         <li><a class="nav-link page-scroll active" href="gallery.php">Gallery</a></li>
                         <li><a class="nav-link page-scroll" href="about.php">About</a></li>
-                        <li><a class="nav-link page-scroll" href="admin/login.php">Login</a></li>
+                        <!-- <li><a class="nav-link page-scroll" href="admin/login.php">Login</a></li>
                         <li><a class="nav-link page-scroll" href="admin/register.php">Register</a></li>
-                        <li><a class="nav-link page-scroll book-appointment" href="book-appointment.php">Book Appointment</a></li>
+                        <li><a class="nav-link page-scroll book-appointment" href="book-appointment.php">Book Appointment</a></li> -->
+                        <li><a class="nav-link page-scroll book-appointment" href="admin/login.php">Login</a></li>
                     </ul>
                 </div>
             </div>
@@ -94,9 +95,9 @@ $result = $mydb->loadResultList();
                     <div class="ibox-content">
                         <div class="lightBoxGallery text-left">
                             <?php
-                                foreach($result as $row){
-                                    echo '<a href="admin/' . $row->image_path . '" title="Image from Unsplash" data-gallery=""><img width="300" height="300" src="admin/' . $row->image_path . '"></a>';
-                                }
+                            foreach ($result as $row) {
+                                echo '<a href="admin/' . $row->image_path . '" title="Image from Unsplash" data-gallery=""><img width="300" height="300" src="admin/' . $row->image_path . '"></a>';
+                            }
                             ?>
                             <!-- The Gallery as lightbox dialog, should be a child element of the document body -->
                             <div id="blueimp-gallery" class="blueimp-gallery">
@@ -136,8 +137,9 @@ $result = $mydb->loadResultList();
     <script src="admin/js/scroller.js"></script>
 </body>
 <footer>
-<div class="bruzo-footer text-center">
+    <div class="bruzo-footer text-center">
         <p><strong>&copy; 2022 Bruzo Dental Care Clinic</strong><br /></p>
     </div>
 </footer>
+
 </html>

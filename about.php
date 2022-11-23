@@ -69,9 +69,10 @@ $result = $conn->query($sql);
                         <li><a class="nav-link page-scroll" href="services.php">Services</a></li>
                         <li><a class="nav-link page-scroll" href="gallery.php">Gallery</a></li>
                         <li><a class="nav-link page-scroll active" href="about.php">About</a></li>
-                        <li><a class="nav-link page-scroll" href="admin/login.php">Login</a></li>
-                        <li><a class="nav-link page-scroll" href="admin/register.php">Register</a></li>
-                        <li><a class="nav-link page-scroll book-appointment" href="book-appointment.php">Book Appointment</a></li>
+                        <!-- <li><a class="nav-link page-scroll" href="admin/login.php">Login</a></li> -->
+                        <!-- <li><a class="nav-link page-scroll" href="admin/register.php">Register</a></li> -->
+                        <!-- <li><a class="nav-link page-scroll book-appointment" href="book-appointment.php">Book Appointment</a></li> -->
+                        <li><a class="nav-link page-scroll book-appointment" href="admin/login.php">Login</a></li>
                     </ul>
                 </div>
             </div>
@@ -123,7 +124,7 @@ $result = $conn->query($sql);
             </div>
         </div>
     </div>
-    
+
     <!-- Mainly scripts -->
     <script src="admin/js/jquery-3.1.1.min.js"></script>
     <script src="admin/js/popper.min.js"></script>
@@ -141,7 +142,7 @@ $result = $conn->query($sql);
 
 </body>
 <footer>
-<div class="bruzo-footer text-center">
+    <div class="bruzo-footer text-center">
         <p><strong>&copy; 2022 Bruzo Dental Care Clinic</strong><br /></p>
     </div>
 </footer>
