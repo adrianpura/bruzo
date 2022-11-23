@@ -280,12 +280,14 @@ include("layouts/header.php");
                                         details: details,
                                     },
                                     success: function(data) {
+                                        console.log('data: ', data);
                                         if (data.code == "200") {
                                             swal("Saved!", "Appointment created, we will contact you after confirming your appointment", "success");
                                             setTimeout(function() {
                                                 window.location = "appointment.php";
                                             }, 1000);
-
+                                        } else if (data.code == "409") {
+                                            swal("Unable to create an appointment", data.msg, "error");
                                         } else {
                                             swal("Unable to create an appointment", "Please contact the system administrator", "error");
                                         }

@@ -35,7 +35,7 @@ if (isset($_POST['submit'])) {
 
     move_uploaded_file($_FILES["img"]["tmp_name"], $dst);
     $name = trim($_POST['service_name']);
-    $desc = trim($_POST['description']);
+    $desc = $_POST['description'];
     $mydb->setQuery("INSERT INTO `cms_services` (`service_name`, `description`,`image`) VALUES ('$name', '$desc', '$dst_db')");
     if ($mydb->executeQuery()) {
         echo "<script>

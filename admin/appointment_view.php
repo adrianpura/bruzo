@@ -37,6 +37,16 @@ $displayButton = "";
 if ($cur->status === "approved") {
     $displayButton = "display: none";
 }
+
+$cancelRemarksDisplay = "display: none";
+$cancelRemarkDisable = "";
+if ($action === "view") {
+    $cancelRemarkDisable = "disabled";
+}
+
+if ($action === "cancel" || $cur->status === "cancelled") {
+    $cancelRemarksDisplay = "";
+}
 ?>
 
 <style>
@@ -236,10 +246,10 @@ if ($cur->status === "approved") {
 
                                 <div class="hr-line-dashed"></div>
 
-                                <div class="form-group row" style="<?php echo $action === "cancel" ? "" : "display: none"; ?>">
+                                <div class="form-group row" style="<?php echo $cancelRemarksDisplay; ?>">
                                     <label class="col-sm-2 col-form-label">Cancel Details</label>
                                     <div class="col-sm-10">
-                                        <input type="text" placeholder="cancel_details" class="form-control cancel_details" id="cancel_details" name="cancel_details" value="<?php echo $cur->cancel_details ?>">
+                                        <input type="text" placeholder="cancel_details" class="form-control cancel_details" id="cancel_details" name="cancel_details" value="<?php echo $cur->cancel_details ?>" <?php echo $cancelRemarkDisable; ?>>
                                     </div>
                                 </div>
 
