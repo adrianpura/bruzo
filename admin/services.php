@@ -15,7 +15,6 @@ require_once("../admin/include/initialize.php");
 if (!isset($_SESSION['email'])) {
     redirect(web_root . "/admin/login.php");
 }
-require_once("../include/config.php");
 
 include("layouts/header.php");
 ?>
@@ -69,11 +68,11 @@ include("layouts/header.php");
                                 $cur = $mydb->loadResultList($query);
                                 foreach ($cur as $result) {
                                 ?>
-                                    <div class="col-md-3">
+                                    <div class="col">
                                         <div class="ibox">
                                             <div class="ibox-content product-box">
                                                 <div class="product-imitation">
-                                                    <img src="<?php echo $result->image; ?>" alt="" width="200" height="200">
+                                                    <img src="<?php echo $result->image; ?>" alt="" width="300px" height="300px" class="service_image" id="<?php echo $result->image; ?>">
                                                 </div>
                                                 <div class="product-desc">
                                                     <input type="hidden" id="service_id" value="<?php echo $result->id; ?>">
@@ -134,11 +133,10 @@ include("layouts/header.php");
             $('.deleteButton').click(function(e) {
                 e.preventDefault();
                 var id = $(this).attr('id');
-                console.log('id: ', id);
                 swal({
                         title: "Delete this service?",
                         text: "",
-                        type: "success",
+                        type: "warning",
                         showCancelButton: true,
                         confirmButtonColor: "#1ab394",
                         confirmButtonText: "Yes",

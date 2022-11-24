@@ -1,8 +1,7 @@
 <?php
-include('include/config.php');
-$sql = "SELECT * FROM cms_services";
-$result = $conn->query($sql);
-setlocale(LC_MONETARY, "English_Philippines");
+require_once("admin/include/initialize.php");
+$mydb->setQuery("SELECT * FROM cms_services");
+$results = $mydb->loadResultList();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,26 +25,6 @@ setlocale(LC_MONETARY, "English_Philippines");
 
     <!-- Custom styles for this template -->
     <link href="admin/css/style.css" rel="stylesheet">
-    <style>
-        #bruzo-logo {
-            background-color: #fff;
-            width: 50px;
-            height: 50px;
-            margin: 1px;
-            padding: 5px;
-            border-radius: 5px;
-        }
-
-        .book-appointment {
-            background-color: #1ab394;
-            color: #fff !important;
-            border-radius: 0px 0px 10px 10px;
-        }
-
-        .book-appointment:hover {
-            color: #1ab394 !important;
-        }
-    </style>
 </head>
 
 <body id="page-top" class="landing-page no-skin-config">
@@ -95,25 +74,24 @@ setlocale(LC_MONETARY, "English_Philippines");
                     <div class="ibox-content">
                         <div class="row">
                             <?php
-                            if ($result->num_rows > 0) {
-                                while ($row = $result->fetch_assoc()) {
-                                    echo '<div class="col-lg-4">';
-                                    echo '<div class="panel panel-primary" style="height:400px;">';
-                                    echo '<div class="panel-heading">';
-                                    echo '' . $row['service_name'] . '';
-                                    echo '</div>';
-                                    echo '<div class="panel-body">';
-                                    if ($row['image'] != "") {
-                                        echo '<img width="60px" height="60px" src="data:image/jpeg;base64,' . base64_encode($row['image']) . '"/>';
-                                    } else {
-                                        echo '<img width="60px" height="60px" src="' . $row['image'] . '"/>';
-                                    }
-                                    echo '<p  class="m-b-xl m-t-xl">' . $row['description'] . '</p>';
-                                    echo '</div>';
-                                    echo '</div>';
-                                    echo '</div>';
+                            foreach ($results as $result) {
+                                echo '<div class="col-lg-4">';
+                                echo '<div class="panel panel-primary">';
+                                echo '<div class="panel-heading">';
+                                echo '<strong>' . $result->service_name . '</strong>';
+                                echo '</div>';
+                                echo '<div class="panel-body">';
+                                if ($result->image != "") {
+                                    echo '<img class="img-fluid" src="admin/' . $result->image . '"/>';
+                                } else {
+                                    echo '<img class="img-fluid" src="admin/uploads/user_images/no-image.jpg"/>';
                                 }
-                            };
+                                echo '<h3 class="m-t-xl p-t-xl">' . $result->service_name . '</h3>';
+                                echo '<p class="m-b-xl">' . $result->description . '</p>';
+                                echo '</div>';
+                                echo '</div>';
+                                echo '</div>';
+                            }
                             ?>
                         </div>
                     </div>
