@@ -114,7 +114,7 @@ if (isset($_POST['submit'])) {
                             <div class="row">
                                 <?php foreach ($results as $result) { ?>
                                     <div class="card m-2 p-0" style="width: 18rem;">
-                                        <img src="<?php echo $result->image_path ?>" class="card-img-top" alt="profile" height="200">
+                                        <img src="<?php echo $result->image_path ?>" class="card-img-top gallery-img" alt="profile" height="200">
                                         <div class="card-body">
                                             <a href="" class="btn btn-xs btn-danger deleteButton" id="<?php echo $result->id; ?>"><i class="fa fa-trash"></i> Delete</a>
                                         </div>
@@ -158,11 +158,10 @@ if (isset($_POST['submit'])) {
             $('.deleteButton').click(function(e) {
                 e.preventDefault();
                 var id = $(this).attr('id');
-                console.log('id: ', id);
                 swal({
                         title: "Delete this image?",
                         text: "",
-                        type: "success",
+                        type: "warning",
                         showCancelButton: true,
                         confirmButtonColor: "#1ab394",
                         confirmButtonText: "Yes",

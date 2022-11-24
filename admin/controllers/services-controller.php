@@ -17,6 +17,14 @@ function deleteService()
     global $mydb;
 
     $serviceId = $_POST['id'];
+
+    $mydb->setQuery("SELECT image FROM cms_services WHERE id=$serviceId");
+    $result = $mydb->loadSingleResult();
+    $filename ="../".$result->image;
+    if (file_exists($filename)) {
+        unlink($filename);
+    } 
+
     $query = $mydb->setQuery("DELETE FROM cms_services WHERE id=$serviceId");
     $q = $mydb->executeQuery($query);
     if ($q) {

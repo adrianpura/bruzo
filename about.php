@@ -1,8 +1,3 @@
-<?php
-include('include/config.php');
-$sql = "SELECT * FROM gallery";
-$result = $conn->query($sql);
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,39 +10,14 @@ $result = $conn->query($sql);
     <link href="assets/img/logo.ico" rel="icon">
     <link href="assets/img/logo.ico" rel="apple-touch-icon">
     <title>Bruzo Dental Care Clinic</title>
-
     <!-- Bootstrap core CSS -->
     <link href="admin/css/bootstrap.min.css" rel="stylesheet">
-
     <!-- Animation CSS -->
     <link href="admin/css/animate.css" rel="stylesheet">
     <link href="admin/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-
     <!-- Custom styles for this template -->
     <link href="admin/css/style.css" rel="stylesheet">
-
     <link href="admin/css/plugins/blueimp/css/blueimp-gallery.min.css" rel="stylesheet">
-
-    <style>
-        #bruzo-logo {
-            background-color: #fff;
-            width: 50px;
-            height: 50px;
-            margin: 1px;
-            padding: 5px;
-            border-radius: 5px;
-        }
-
-        .book-appointment {
-            background-color: #1ab394;
-            color: #fff !important;
-            border-radius: 0px 0px 10px 10px;
-        }
-
-        .book-appointment:hover {
-            color: #1ab394 !important;
-        }
-    </style>
 </head>
 
 <body id="page-top" class="landing-page no-skin-config bgimg">

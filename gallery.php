@@ -1,5 +1,5 @@
 <?php
-require_once("./admin/include/initialize.php");
+require_once("admin/include/initialize.php");
 $mydb->setQuery("SELECT * from gallery");
 $result = $mydb->loadResultList();
 ?>
@@ -25,7 +25,7 @@ $result = $mydb->loadResultList();
 
     <!-- Custom styles for this template -->
     <link href="admin/css/style.css" rel="stylesheet">
-
+    <link href="admin/css/plugins/blueimp/css/blueimp-gallery.css" rel="stylesheet">
     <link href="admin/css/plugins/blueimp/css/blueimp-gallery.min.css" rel="stylesheet">
 
     <style>
@@ -81,46 +81,42 @@ $result = $mydb->loadResultList();
     <div class="bg">
         <img src="assets/img/background2.jpg" alt="">
     </div>
-    <div class="container">
+    <div class="container m-t-xl">
         <div class="row">
             <div class="col-lg-12">
             </div>
         </div>
     </div>
-    <div class="container" style="margin-top: 100px;height:100%;">
+    <div class="container m-t-xl">
         <h1>Gallery</h1>
         <div class="row">
             <div class="col-lg-12">
                 <div class="ibox ">
                     <div class="ibox-content">
-                        <div class="lightBoxGallery text-left">
+                        <div class="lightBoxGallery text-center">
                             <?php
                             foreach ($result as $row) {
-                                echo '<a href="admin/' . $row->image_path . '" title="Image from Unsplash" data-gallery=""><img width="300" height="300" src="admin/' . $row->image_path . '"></a>';
+                                echo '<a href="admin/' . $row->image_path . '" title="' . $row->image_path . '" data-gallery=""><img width="300" height="300" src="admin/' . $row->image_path . '" class="gallery-box"></a>';
                             }
                             ?>
-                            <!-- The Gallery as lightbox dialog, should be a child element of the document body -->
-                            <div id="blueimp-gallery" class="blueimp-gallery">
-                                <div class="slides"></div>
+                            
+                        </div>
+                        <!-- The Gallery as lightbox dialog, should be a child element of the document body -->
+                        <div id="blueimp-gallery" class="blueimp-gallery" aria-label="image gallery" aria-modal="true" role="dialog">
+                                <div class="slides" aria-live="polite"></div>
                                 <h3 class="title"></h3>
-                                <a class="prev">‹</a>
-                                <a class="next">›</a>
-                                <a class="close">×</a>
-                                <a class="play-pause"></a>
+                                <a class="prev" aria-controls="blueimp-gallery" aria-label="previous slide" aria-keyshortcuts="ArrowLeft"></a>
+                                <a class="next" aria-controls="blueimp-gallery" aria-label="next slide" aria-keyshortcuts="ArrowRight"></a>
+                                <a class="close" aria-controls="blueimp-gallery" aria-label="close" aria-keyshortcuts="Escape"></a>
+                                <a class="play-pause" aria-controls="blueimp-gallery" aria-label="play slideshow" aria-keyshortcuts="Space" aria-pressed="false" role="button"></a>
                                 <ol class="indicator"></ol>
                             </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 text-center m-t-xl m-b-xl">
-            </div>
-        </div>
-    </div>
+
     <!-- Mainly scripts -->
     <script src="admin/js/jquery-3.1.1.min.js"></script>
     <script src="admin/js/popper.min.js"></script>
@@ -135,6 +131,19 @@ $result = $mydb->loadResultList();
     <!-- blueimp gallery -->
     <script src="admin/js/plugins/blueimp/jquery.blueimp-gallery.min.js"></script>
     <script src="admin/js/scroller.js"></script>
+    <script>
+        document.getElementById('links').onclick = function(event) {
+            event = event || window.event
+            var target = event.target || event.srcElement
+            var link = target.src ? target.parentNode : target
+            var options = {
+                index: link,
+                event: event
+            }
+            var links = this.getElementsByTagName('a')
+            blueimp.Gallery(links, options)
+        }
+    </script>
 </body>
 <footer>
     <div class="bruzo-footer text-center">
