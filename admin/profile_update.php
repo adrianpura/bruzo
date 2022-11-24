@@ -218,8 +218,6 @@ $result = $mydb->loadSingleResult();
                     blah.src = URL.createObjectURL(file)
                 }
             }
-
-
         });
     </script>
 </body>
