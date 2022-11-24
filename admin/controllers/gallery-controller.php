@@ -12,6 +12,14 @@ switch ($action) {
 function doDelete(){
     global $mydb;
     $id = $_POST['id'];
+    
+    $mydb->setQuery("SELECT image_path FROM gallery WHERE id=$id");
+    $result = $mydb->loadSingleResult();
+    $filename ="../".$result->image_path;
+    if (file_exists($filename)) {
+        unlink($filename);
+    } 
+
     $query = $mydb->setQuery("DELETE FROM gallery WHERE id=$id");
     $q = $mydb->executeQuery($query);
     if ($q) {

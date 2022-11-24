@@ -4,15 +4,14 @@ require_once("../admin/include/initialize.php");
 if (!isset($_SESSION['email'])) {
     redirect(web_root . "/admin/login.php");
 }
-require_once("../include/config.php");
 if (isset($_POST['submit'])) {
     $var1 = rand(1111, 9999);
     $var2 = rand(1111, 9999);
     $var3 = $var1 . $var2;
     $var3 = md5($var3);
     $fnm = $_FILES["img"]["name"];
-    $dst = "./uploads/services_images/" . $var3 . $fnm;
-    $dst_db = "./uploads/services_images/" . $var3 . $fnm;
+    $dst = "uploads/services_images/" . $var3 . $fnm;
+    $dst_db = "uploads/services_images/" . $var3 . $fnm;
     $imageFileType = strtolower(pathinfo($dst_db, PATHINFO_EXTENSION));
 
     if (file_exists($dst)) {
@@ -35,7 +34,7 @@ if (isset($_POST['submit'])) {
 
     move_uploaded_file($_FILES["img"]["tmp_name"], $dst);
     $name = trim($_POST['service_name']);
-    $desc = $_POST['description'];
+    $desc = $mydb->escape_value(trim($_POST['description']));
     $mydb->setQuery("INSERT INTO `cms_services` (`service_name`, `description`,`image`) VALUES ('$name', '$desc', '$dst_db')");
     if ($mydb->executeQuery()) {
         echo "<script>

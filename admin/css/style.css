@@ -9598,3 +9598,31 @@ body.md-skin {
   margin-bottom: 60px;
   padding-bottom: 10px;
 }
+#bruzo-logo {
+  background-color: #fff;
+  width: 50px;
+  height: 50px;
+  margin: 1px;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.book-appointment {
+  background-color: #1ab394;
+  color: #fff !important;
+  border-radius: 0px 0px 10px 10px;
+}
+
+.book-appointment:hover {
+  color: #1ab394 !important;
+}
+
+.gallery-box{
+  border: 2px solid #e7eaec;
+  border-radius: 15px;
+  transition: 0.3s;
+}
+
+.gallery-box:hover{
+  box-shadow: 5px 5px 15px #888888;
+}
