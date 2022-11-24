@@ -5,14 +5,8 @@ defined('user') ? null : define("user", "root");
 defined('pass') ? null : define("pass", "bruzo_admin");
 defined('database_name') ? null : define("database_name", "bruzodb");
 
-// defined('server') ? null : define("server", "localhost");
-// defined('user') ? null : define("user", "root");
-// defined('pass') ? null : define("pass", "");
-// defined('database_name') ? null : define("database_name", "bruzo");
-
-// $web_root = "http://localhost/bruzo";
-$web_root = "http://bruzodental.site";
-// $web_root = "http://ec2-18-143-172-70.ap-southeast-1.compute.amazonaws.com/";
+$web_root = "http://localhost/bruzo";
+// $web_root = "http://bruzodental.site";
 
 
 define('web_root', $web_root);
