@@ -72,7 +72,7 @@ include("layouts/header.php");
                                         <div class="ibox">
                                             <div class="ibox-content product-box">
                                                 <div class="product-imitation">
-                                                    <img src="<?php echo $result->image; ?>" alt="" width="300px" height="300px" class="service_image" id="<?php echo $result->image; ?>">
+                                                    <img src="../admin/<?php echo $result->image; ?>" alt="" width="300px" height="300px" class="service_image" id="<?php echo $result->image; ?>">
                                                 </div>
                                                 <div class="product-desc">
                                                     <input type="hidden" id="service_id" value="<?php echo $result->id; ?>">
