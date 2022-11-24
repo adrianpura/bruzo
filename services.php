@@ -82,7 +82,7 @@ $results = $mydb->loadResultList();
                                 echo '</div>';
                                 echo '<div class="panel-body">';
                                 if ($result->image != "") {
-                                    echo '<img class="img-fluid" src='.$_SERVER['DOCUMENT_ROOT'] .'"admin/' . $result->image . '"/>';
+                                    echo '<img class="img-fluid" src=' . $result->image . '"/>';
                                 } else {
                                     echo '<img class="img-fluid" src='.$_SERVER['DOCUMENT_ROOT'] .'"admin/uploads/user_images/no-image.jpg"/>';
                                 }

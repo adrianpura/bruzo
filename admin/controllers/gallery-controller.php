@@ -15,7 +15,7 @@ function doDelete(){
     
     $mydb->setQuery("SELECT image_path FROM gallery WHERE id=$id");
     $result = $mydb->loadSingleResult();
-    $filename ="../".$result->image_path;
+    $filename =$result->image_path;
     if (file_exists($filename)) {
         unlink($filename);
     } 
