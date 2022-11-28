@@ -59,6 +59,10 @@ if ($action === "view" || $cur->status === "approved") {
     $displayButton = "display: none";
 }
 
+if ($action === "reschedule") {
+    $displayButton = "display: none";
+}
+
 $cancelRemarksDisplay = "display: none";
 $cancelRemarkDisable = "";
 if ($action === "view") {
@@ -67,6 +71,13 @@ if ($action === "view") {
 
 if ($action === "cancel" || $cur->status === "cancelled") {
     $cancelRemarksDisplay = "";
+}
+
+$reschedRemarksDisplay = "display: none";
+$reschedRemarkDisable = "";
+if ($action === "view" || $cur->resched_details !== "") {
+    $reschedRemarksDisplay = "";
+    $reschedRemarkDisable = "disabled";
 }
 ?>
 
@@ -272,10 +283,10 @@ if ($action === "cancel" || $cur->status === "cancelled") {
 
                                 <div class="hr-line-dashed"></div>
 
-                                <div class="form-group row" style="<?php echo $style; ?>">
+                                <div class="form-group row" style="<?php echo $reschedRemarksDisplay; ?>">
                                     <label class="col-sm-2 col-form-label">Reschedule Details</label>
                                     <div class="col-sm-10">
-                                        <input type="text" placeholder="resched_details" class="form-control resched_details" id="resched_details" name="resched_details" value="<?php echo $cur->resched_details ?>">
+                                        <input type="text" placeholder="resched_details" class="form-control resched_details" id="resched_details" name="resched_details" value="<?php echo $cur->resched_details ?>" <?php echo $reschedRemarkDisable; ?>>
                                     </div>
                                 </div>
 
