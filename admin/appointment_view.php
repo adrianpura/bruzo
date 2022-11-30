@@ -97,6 +97,12 @@ if ($action === "view" && $role === "patient") {
     $reschedRemarksDisplay = "";
     $reschedRemarkDisable = "disabled";
 }
+
+
+if ($action === "view" && $role === "doctor") {
+    $reschedRemarksDisplay = "";
+    $reschedRemarkDisable = "disabled";
+}
 ?>
 
 <style>
