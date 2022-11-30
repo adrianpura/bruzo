@@ -93,10 +93,14 @@ if ($action === "reschedule") {
     $reschedRemarksDisplay = "";
 }
 
-if ($action === "view" && $role === "patient") {
+if ($action === "view" && $role === "doctor") {
     $reschedRemarksDisplay = "";
     $reschedRemarkDisable = "disabled";
 }
+
+// if ($action === "view" && $cur->status === "cancelled") {
+//     $reschedRemarksDisplay = "display: none";
+// }
 
 
 if ($action === "view" && $role === "doctor") {
