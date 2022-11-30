@@ -96,7 +96,7 @@ $result = $mydb->loadResultList();
                         <div class="lightBoxGallery text-center">
                             <?php
                             foreach ($result as $row) {
-                                echo '<a href='.$_SERVER['DOCUMENT_ROOT'] .'"admin/' . $row->image_path . '" title="' . $row->image_path . '" data-gallery=""><img width="300" height="300" src="admin/' . $row->image_path . '" class="gallery-box"></a>';
+                                echo '<a href=' . $row->image_path . '" title="' . $row->image_path . '" data-gallery=""><img width="300" height="300" src="../admin/' . $row->image_path . '" class="gallery-box"></a>';
                             }
                             ?>
                             
