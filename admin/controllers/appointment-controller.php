@@ -418,6 +418,25 @@ function doRescheduleAppointment()
 			$events->update($appointmentId);
 		}
 
+		$old_timestamp = strtotime($appointmentDate);
+		$newApDate = date('Y-m-d', $old_timestamp);
+
+		//count events based on date
+		$mydb->setQuery("SELECT * from events where appointmentId <> 0 AND start_event like '%$newApDate%'");
+		$eventDatas = $mydb->loadResultList();
+		$appointmentCount = count($eventDatas);
+
+		//get current event count based on date
+		$mydb->setQuery("SELECT * from events where appointmentId= 0 AND start_event like '%$newApDate%'");
+		$eventCurrentCount = $mydb->loadSingleResult();
+		$currentAppointmentCount = $eventCurrentCount->count;
+
+		$newEventCount = (int) $currentAppointmentCount - (int) $appointmentCount;
+
+		$sqlEvent = "UPDATE events set count = $newEventCount WHERE appointmentId= 0 AND start_event like '%$newApDate%'";
+		$mydb->setQuery($sqlEvent);
+		$mydb->executeQuery();
+
 
 
 		$appointments->appointmentDate = $new_date;
