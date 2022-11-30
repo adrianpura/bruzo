@@ -13,8 +13,8 @@ if (isset($_POST['submit'])) {
     $var3 = $var1 . $var2;
     $var3 = md5($var3);
     $fnm = $_FILES["new_image"]["name"];
-    $dst = "../uploads/gallery_images/" . $var3 . $fnm;
-    $dst_db = "../uploads/gallery_images/" . $var3 . $fnm;
+    $dst = "uploads/gallery_images/" . $var3 . $fnm;
+    $dst_db = "uploads/gallery_images/" . $var3 . $fnm;
     $imageFileType = strtolower(pathinfo($dst_db, PATHINFO_EXTENSION));
 
     if (file_exists($dst)) {
