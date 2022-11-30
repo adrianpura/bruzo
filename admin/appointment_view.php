@@ -63,6 +63,17 @@ if ($action === "reschedule") {
     $displayButton = "display: none";
 }
 
+if ($action === "edit") {
+    $displayButton = "display: none";
+}
+
+if ($action === "view" && $cur->status === "pending") {
+    $displayButton = "";
+}
+if ($action === "cancel") {
+    $displayButton = "display: none";
+}
+
 $cancelRemarksDisplay = "display: none";
 $cancelRemarkDisable = "";
 if ($action === "view") {
