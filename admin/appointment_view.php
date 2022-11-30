@@ -92,6 +92,11 @@ if ($action === "cancel") {
 if ($action === "reschedule") {
     $reschedRemarksDisplay = "";
 }
+
+if ($action === "view" && $role === "patient") {
+    $reschedRemarksDisplay = "";
+    $reschedRemarkDisable = "disabled";
+}
 ?>
 
 <style>
