@@ -20,7 +20,7 @@ function deleteService()
 
     $mydb->setQuery("SELECT image FROM cms_services WHERE id=$serviceId");
     $result = $mydb->loadSingleResult();
-    $filename ="../".$result->image;
+    $filename =$result->image;
     if (file_exists($filename)) {
         unlink($filename);
     } 

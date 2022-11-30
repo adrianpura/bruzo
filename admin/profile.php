@@ -36,16 +36,16 @@ $result = $mydb->loadSingleResult($query);
                         <div class="modal-body">
                             <h3 class="m-t-none m-b">Update Password</h3>
                             <form role="form">
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <label for="old-password">First Name</label>
                                     <input class="form-control" type="password" name="old-password" id="old-password">
                                 </div>
                                 <div class="form-group">
                                     <label for="new-password">Last Name</label>
                                     <input class="form-control" type="password" name="new-password" id="new-password">
-                                </div>
+                                </div> -->
                                 <div class="form-group">
-                                    <label for="confirm-password">Confirm Password</label>
+                                    <label for="confirm-password">New Password</label>
                                     <input class="form-control" type="password" name="confirm-password" id="confirm-password">
                                 </div>
                                 <button class="btn btn-sm btn-primary float-right m-t-n-xs" type="submit" name="update-password" id="update-password"><strong>Update Password</strong></button>
@@ -78,8 +78,8 @@ $result = $mydb->loadSingleResult($query);
                             <p><strong><i class="fa fa-venus-mars"></i> <?php echo $result->sex; ?>, <?php echo $result->age; ?></strong></p>
                             <p><strong><i class="fa fa-address-book"></i> <?php echo $result->contact_number; ?></strong></p>
                             <p><strong><i class="fa fa-at"></i> <?php echo $result->email; ?></strong></p>
-                            <button class="btn btn-success" data-toggle="modal" data-target="#update-password-modal" id="update-password">Update Password</button>
-                            <a class="btn btn-success" href="profile_update.php">Edit Profile</a>
+                            <!-- <button class="btn btn-success" data-toggle="modal" data-target="#update-password-modal" id="update-password">Update Password</button> -->
+                            <a class="btn btn-success" href="../admin/profile_update.php">Edit Profile</a>
                             <a href="" class="btn btn-danger deleteButton" id="<?php echo $result->id; ?>"><i class="fa fa-trash"></i> Delete</a>
                         </div>
                     </div>

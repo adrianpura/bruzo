@@ -166,11 +166,11 @@
                                          <tr>
                                              <th style="width: 20px;">Id</th>
                                              <th>Patient Name</th>
-                                             <th>Service</th>
+                                             <th class="text-center">Service</th>
                                              <th>Date</th>
                                              <th>Time</th>
-                                             <th>Status</th>
-                                             <th>Action</th>
+                                             <th class="text-center">Status</th>
+                                             <th class="text-center">Action</th>
                                          </tr>
                                      </thead>
                                      <tbody>
@@ -214,13 +214,13 @@
                                                 // `Fullname`, `CompanyName`, `F_Address`, `S_Address`, `ContactNo`
                                                 echo '<td>' . $result->id . '</td>';
                                                 echo '<td>' . $result->first_name . ' ' . $result->last_name . '</td>';
-                                                echo '<td>' . $ser . '</td>';
+                                                echo '<td class="text-center">' . $ser . '</td>';
                                                 echo '<td>' .  date("M d, Y", strtotime($result->appointmentDate)) . '</td>';
                                                 echo '<td>' . $result->appointmentTime . '</td>';
-                                                echo '<td><span class="span-status label label-' . $labelClass . '">' . ucfirst($result->status) . '</span></td>';
+                                                echo '<td class="text-center"><span class="span-status label label-' . $labelClass . '">' . ucfirst($result->status) . '</span></td>';
 
 
-                                                echo '<td style="float: right"> 
+                                                echo '<td class="text-center"> 
 				  		<a title="View" href="appointment_view.php?action=view&id=' . $result->id . '" class="btn btn-info"> <i class="fa fa-eye"></i></a>
 				  		<a title="Edit" href="appointment_view.php?action=edit&id=' . $result->id . '" class="btn btn-primary" style="' . $display . '"> <i class="fa fa-edit"></i></a>
 				  		<a title="Approve" id="' . $result->id . '" href="" title="Approved" class="btn btn-success approve_appointment" style="' . $display . '"> <i class="fa fa-check"></i></a>

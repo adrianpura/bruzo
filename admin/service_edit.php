@@ -125,7 +125,7 @@ $services_result = $mydb->loadSingleResult();
                                 <div class="form-group">
                                     <?php
                                     if (empty($services_result->image)) {
-                                        echo '<img id="blah" src="uploads/user_images/no-image.png" alt="" class="img-fluid form-control" width="300" height="300">';
+                                        echo '<img id="blah" src="../uploads/user_images/no-image.png" alt="" class="img-fluid form-control" width="300" height="300">';
                                     } else {
                                         echo '<img id="blah" src="' . $services_result->image . '" alt="" class="img-fluid form-control"  width="300" height="300">';
                                     }
