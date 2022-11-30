@@ -96,21 +96,21 @@ $result = $mydb->loadResultList();
                         <div class="lightBoxGallery text-center">
                             <?php
                             foreach ($result as $row) {
-                                echo '<a href="admin/' . $row->image_path . '" title="' . $row->image_path . '" data-gallery=""><img width="300" height="300" src="admin/' . $row->image_path . '" class="gallery-box"></a>';
+                                echo '<a href="../admin/' . $row->image_path . '" title="' . $row->image_path . '" data-gallery=""><img width="300" height="300" src="admin/' . $row->image_path . '" class="gallery-box"></a>';
                             }
                             ?>
-                            
+
                         </div>
                         <!-- The Gallery as lightbox dialog, should be a child element of the document body -->
                         <div id="blueimp-gallery" class="blueimp-gallery" aria-label="image gallery" aria-modal="true" role="dialog">
-                                <div class="slides" aria-live="polite"></div>
-                                <h3 class="title"></h3>
-                                <a class="prev" aria-controls="blueimp-gallery" aria-label="previous slide" aria-keyshortcuts="ArrowLeft"></a>
-                                <a class="next" aria-controls="blueimp-gallery" aria-label="next slide" aria-keyshortcuts="ArrowRight"></a>
-                                <a class="close" aria-controls="blueimp-gallery" aria-label="close" aria-keyshortcuts="Escape"></a>
-                                <a class="play-pause" aria-controls="blueimp-gallery" aria-label="play slideshow" aria-keyshortcuts="Space" aria-pressed="false" role="button"></a>
-                                <ol class="indicator"></ol>
-                            </div>
+                            <div class="slides" aria-live="polite"></div>
+                            <h3 class="title"></h3>
+                            <a class="prev" aria-controls="blueimp-gallery" aria-label="previous slide" aria-keyshortcuts="ArrowLeft"></a>
+                            <a class="next" aria-controls="blueimp-gallery" aria-label="next slide" aria-keyshortcuts="ArrowRight"></a>
+                            <a class="close" aria-controls="blueimp-gallery" aria-label="close" aria-keyshortcuts="Escape"></a>
+                            <a class="play-pause" aria-controls="blueimp-gallery" aria-label="play slideshow" aria-keyshortcuts="Space" aria-pressed="false" role="button"></a>
+                            <ol class="indicator"></ol>
+                        </div>
                     </div>
                 </div>
             </div>
