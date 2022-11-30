@@ -138,7 +138,11 @@ $currentrole = $_SESSION['role'];
                 eventClick: function(event) {
                     console.log('eventClick: ', event);
                     console.log('eventClick: ', event.id);
-                    window.location = `appointment_view.php?action=view&id=${event.appointmentId}`;
+                    console.log('eventClick: ', event.appointmentId);
+                    if (event.appointmentId !== "0") {
+                        window.location = `appointment_view.php?action=view&id=${event.appointmentId}`;
+                    }
+
 
                 },
                 dayClick: function(date, jsEvent, view) {

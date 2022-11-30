@@ -4,7 +4,8 @@ if (!isset($_SESSION['id'])) {
     redirect(web_root . "/admin/login.php");
 }
 include("layouts/header.php");
-require_once("../include/config.php");
+require_once("./include/config.php");
+// require_once("../include/config.php");
 
 if (isset($_POST['submit'])) {
 
@@ -45,12 +46,16 @@ if (isset($_POST['submit'])) {
     $gender = trim($_POST['gender']);
     $mobile = trim($_POST['mobile']);
     $email = trim($_POST['email']);
+    $password = trim($_POST['password']);
+
+    $hashPassword = sha1($password);
 
     $users = new User();
     $users->first_name = $first_name;
     $users->last_name = $last_name;
     $users->email = $email;
     $users->image = $dst_db;
+    $users->password = $hashPassword;
     $updateUser = $users->update($userid);
 
     $patient = new Patients();
@@ -173,6 +178,13 @@ $result = $mydb->loadSingleResult();
                                     <label class="col-sm-2 col-form-label required">Mobile</label>
                                     <div class="col-sm-10">
                                         <input type="tel" placeholder="Mobile Number" class="form-control mobile" id="mobile" name="mobile" value="<?php echo $result->contact_number ?>">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label required">Password</label>
+                                    <div class="col-sm-10">
+                                        <input type="password" placeholder="password" class="form-control password" id="password" name="password" value="">
                                     </div>
                                 </div>
                                 <div class="hr-line-dashed"></div>
