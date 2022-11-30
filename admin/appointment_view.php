@@ -82,10 +82,15 @@ if ($action === "view" || $cur->resched_details !== "") {
 
 if ($action === "view" || $cur->status === "pending") {
     $reschedRemarkDisable = "";
+    $reschedRemarksDisplay = "display: none";
 }
 
 if ($action === "cancel") {
     $reschedRemarksDisplay = "display: none";
+}
+
+if ($action === "reschedule") {
+    $reschedRemarksDisplay = "";
 }
 ?>
 
