@@ -84,7 +84,7 @@ $results = $mydb->loadResultList();
                                 if ($result->image != "") {
                                     echo '<img class="img-fluid" src="../admin/' . $result->image . '"/>';
                                 } else {
-                                    echo '<img class="img-fluid" src="admin/uploads/user_images/no-image.jpg"/>';
+                                    echo '<img class="img-fluid" src="../admin/uploads/user_images/no-image.jpg"/>';
                                 }
                                 echo '<h3 class="m-t-xl p-t-xl">' . $result->service_name . '</h3>';
                                 echo '<p class="m-b-xl">' . $result->description . '</p>';
