@@ -22,7 +22,7 @@ $result = $mydb->loadResultList();
     <!-- Animation CSS -->
     <link href="admin/css/animate.css" rel="stylesheet">
     <link href="admin/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-
+    <link href="admin/css/plugins/blueimp/css/blueimp-gallery.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="admin/css/style.css" rel="stylesheet">
     <link href="admin/css/plugins/blueimp/css/blueimp-gallery.css" rel="stylesheet">
@@ -96,7 +96,7 @@ $result = $mydb->loadResultList();
                         <div class="lightBoxGallery text-center">
                             <?php
                             foreach ($result as $row) {
-                                echo '<a href="../admin/' . $row->image_path . '" title="' . $row->image_path . '" data-gallery=""><img width="300" height="300" src="admin/' . $row->image_path . '" class="gallery-box"></a>';
+                                echo '<a href="admin/' . $row->image_path . '" title="' . $row->image_path . '" data-gallery="" id="links"><img width="300" height="300" src="admin/' . $row->image_path . '" class="gallery-box"></a>';
                             }
                             ?>
 
@@ -132,17 +132,20 @@ $result = $mydb->loadResultList();
     <script src="admin/js/plugins/blueimp/jquery.blueimp-gallery.min.js"></script>
     <script src="admin/js/scroller.js"></script>
     <script>
-        document.getElementById('links').onclick = function(event) {
-            event = event || window.event
-            var target = event.target || event.srcElement
-            var link = target.src ? target.parentNode : target
-            var options = {
-                index: link,
-                event: event
-            }
-            var links = this.getElementsByTagName('a')
-            blueimp.Gallery(links, options)
-        }
+        // document.getElementById('links').onclick = function(event) {
+        //     event = event || window.event
+        //     var target = event.target || event.srcElement
+        //     var link = target.src ? target.parentNode : target
+        //     var options = {
+        //         index: link,
+        //         event: event
+        //     }
+
+        //     var links = this.getElementsByTagName('a')
+        //     console.log('links: ', links);
+        //     blueimp.Gallery(links, options)
+
+        // }
     </script>
 </body>
 <footer>
@@ -152,3 +155,13 @@ $result = $mydb->loadResultList();
 </footer>
 
 </html>
+
+<!-- <script>
+    $(document).ready(function() {
+        document.title = "Bruzo | Gallery";
+        $('#gallery').addClass('active').siblings().removeClass('active');
+
+
+
+    });
+</script> -->
