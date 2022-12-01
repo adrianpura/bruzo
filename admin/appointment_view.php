@@ -115,9 +115,9 @@ if ($action === "edit" && $cur->resched_details !== "") {
 }
 
 
-if ($action === "view" && $role === "doctor") {
-    $reschedRemarksDisplay = "";
-    $reschedRemarkDisable = "disabled";
+if ($action === "view" && $role === "doctor" && $cur->status === "pending") {
+    $reschedRemarksDisplay = "display: none";
+    // $reschedRemarkDisable = "disabled";
 }
 ?>
 
