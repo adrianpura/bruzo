@@ -86,12 +86,12 @@ if ($action === "cancel" || $cur->status === "cancelled") {
 
 $reschedRemarksDisplay = "display: none";
 $reschedRemarkDisable = "";
-if ($action === "view" || $cur->resched_details !== "") {
+if ($action === "view" && $cur->resched_details !== "") {
     $reschedRemarksDisplay = "";
     $reschedRemarkDisable = "disabled";
 }
 
-if ($action === "view" || $cur->status === "pending") {
+if ($action === "view" && $cur->status === "pending") {
     $reschedRemarkDisable = "";
     $reschedRemarksDisplay = "display: none";
 }
@@ -109,9 +109,10 @@ if ($action === "view" && $role === "doctor") {
     $reschedRemarkDisable = "disabled";
 }
 
-// if ($action === "view" && $cur->status === "cancelled") {
-//     $reschedRemarksDisplay = "display: none";
-// }
+if ($action === "edit" && $cur->resched_details !== "") {
+    $reschedRemarksDisplay = "";
+    $reschedRemarkDisable = "disabled";
+}
 
 
 if ($action === "view" && $role === "doctor") {
