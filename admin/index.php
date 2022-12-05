@@ -130,7 +130,7 @@ $currentrole = $_SESSION['role'];
                     center: 'title',
                     // right: 'month,agendaWeek,agendaDay'
                 },
-                weekends: false,
+                // weekends: false,
                 editable: true,
                 // droppable: true, // this allows things to be dropped onto the calendar
 

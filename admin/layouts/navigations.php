@@ -1,9 +1,9 @@
 <?php
 $userId = $_SESSION['id'];
 $role = $_SESSION['role'];
+$name = $_SESSION['first_name'] . ' ' . $_SESSION['last_name'];
 $display = "";
 $display2 = "";
-
 if ($role === "patient") {
     $display = 'display: none';
 }
@@ -82,6 +82,9 @@ if ($role !== "patient") {
                 <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
             </div>
             <ul class="nav navbar-top-links navbar-right">
+                <li>
+                    <span class="m-r-sm text-muted welcome-message">Welcome <b><?php echo $name; ?></b></span>
+                </li>
                 <li class="dropdown" style="<?php echo $display; ?>">
                     <a class="dropdown-toggle count-info" id="a-admin-notif" data-toggle="dropdown" href="#">
                         <i class="fa fa-envelope"></i> <span class="label label-warning count" id="a-admin-count">0</span>
@@ -101,7 +104,7 @@ if ($role !== "patient") {
                 </li>
 
                 <li>
-                    <a href="<?php echo web_root; ?>/admin/logout.php">
+                    <a id="logout" href="<?php echo web_root; ?>/admin/logout.php">
                         <i class="fa fa-sign-out"></i>Log out
                     </a>
                 </li>

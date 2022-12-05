@@ -226,6 +226,7 @@
 				  		<a title="Approve" id="' . $result->id . '" href="" title="Approved" class="btn btn-success approve_appointment" style="' . $display . '"> <i class="fa fa-check"></i></a>
 				  		<a title="Reschedule" href="appointment_view.php?action=reschedule&id=' . $result->id . '" class="btn btn-warning" style="' . $display . '"> <i class="fa fa-repeat"></i></a>
 				  		<a title="Cancel" href="appointment_view.php?action=cancel&id=' . $result->id . '" class="btn btn-danger" style="' . $display . '"> <i class="fa fa-times"></i></a>
+				  		<a title="Prescription" target="_blank" href="prescription.php?action=view&appointmentId=' . $result->id . '" class="btn btn-outline btn-primary dim" style="' . $display . '"> <i class="fa fa-stethoscope"></i></a>
                                                     </td>';
 
                                                 echo '</tr>';

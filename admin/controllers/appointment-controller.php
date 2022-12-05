@@ -202,12 +202,14 @@ function doEditAppointment()
 
 	$appointmentId = $_POST['id'];
 	$doctor_remarks = trim($_POST['doctor_remarks']);
+	$prescription = trim($_POST['prescription']);
 	$service_charge = trim($_POST['service_charge']);
 	$tooth_tags = isset($_POST['tooth_tags']) ? array($_POST['tooth_tags']) : '';
 
 	$success = false;
 	$appointment = new Appointments();
 	$appointment->doctor_remarks = $doctor_remarks;
+	$appointment->prescription = $prescription;
 	$appointment->service_charge = $service_charge;
 	$appointmentUpdate = $appointment->update($appointmentId);
 
