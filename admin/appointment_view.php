@@ -20,7 +20,7 @@ if ($role === "patient") {
 
 
 $mydb->setQuery("SELECT p.first_name,p.last_name,p.address,p.sex,p.age,p.contact_number,p.email,p.userId,
-a.appointmentDate,a.appointmentTime,a.status,a.patientId,a.details,a.id,a.resched_details,a.cancel_details,a.service_charge,a.doctor_remarks,a.status
+a.appointmentDate,a.appointmentTime,a.status,a.patientId,a.details,a.id,a.resched_details,a.cancel_details,a.service_charge,a.doctor_remarks,a.status,a.prescription
 ,u.image
 FROM appointments a 
 LEFT JOIN patients p on a.patientId = p.id 
@@ -350,7 +350,14 @@ if ($action === "view" && $role === "doctor" && $cur->status === "pending") {
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label">Doctor Remarks</label>
                                                 <div class="col-sm-10">
-                                                    <input type="text" placeholder="doctor_remarks" class="form-control doctor_remarks" id="doctor_remarks" name="doctor_remarks" value="<?php echo $cur->doctor_remarks ?>" <?php echo $role === "patient" ? "disabled" : ""; ?>>
+                                                    <!-- <input type="text" placeholder="doctor_remarks" class="form-control doctor_remarks" id="doctor_remarks" name="doctor_remarks" value="<?php echo $cur->doctor_remarks ?>" <?php echo $role === "patient" ? "disabled" : ""; ?>> -->
+                                                    <textarea id="doctor_remarks" placeholder="doctor_remarks" class="form-control doctor_remarks" name="doctor_remarks" <?php echo $role === "patient" ? "disabled" : ""; ?>><?php echo $cur->doctor_remarks ?></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">Prescription</label>
+                                                <div class="col-sm-10">
+                                                    <textarea id="prescription" placeholder="prescription" class="form-control prescription" name="prescription" <?php echo $role === "patient" ? "disabled" : ""; ?>><?php echo $cur->prescription ?></textarea>
                                                 </div>
                                             </div>
                                             <div class="hr-line-dashed"></div>
@@ -405,7 +412,7 @@ if ($action === "view" && $role === "doctor" && $cur->status === "pending") {
                                         <button style="<?php echo $action === "reschedule" ?  "" : "display: none"; ?>" class="btn btn-warning btn-sm resched_appointment" type="submit" name="resched_appointment" id="resched_appointment">Reschedule Appointment</button>
                                         <button style="<?php echo $action === "cancel" ?  "" : "display: none"; ?>" class="btn btn-danger btn-sm cancel_appointment" type="submit" name="cancel_appointment" id="cancel_appointment">Cancel Appointment</button>
                                         <button style="<?php echo $action === "edit" ?  "" : "display: none"; ?>" class="btn btn-primary btn-sm update_appointment" type="submit" name="update_appointment" id="update_appointment">Update Appointment</button>
-
+                                        <a style="<?php echo $action === "view" || $action === "edit" ?  "" : "display: none"; ?>" target="_blank" href="prescription.php?action=view&appointmentId=<?php echo $cur->id ?>" class="btn btn-info btn-sm"> Print Prescription </a>
                                     </div>
                                 </div>
                             </form>
@@ -633,6 +640,7 @@ if ($action === "view" && $role === "doctor" && $cur->status === "pending") {
                 e.preventDefault();
                 var id = $("#id").val();
                 var doctor_remarks = $("#doctor_remarks").val();
+                var prescription = $("#prescription").val();
                 var tooth_tags = $("#tooth_tags").val();
                 var service_charge = $("#service_charge").val();
                 swal({
@@ -648,7 +656,7 @@ if ($action === "view" && $role === "doctor" && $cur->status === "pending") {
                     },
                     function(isConfirm) {
                         if (isConfirm) {
-                            if (doctor_remarks === "" && service_charge === "") {
+                            if (doctor_remarks === "" && service_charge === "" && prescription === "") {
                                 swal("Please provide a remarks and service charge", "", "error");
                             } else {
                                 $.ajax({
@@ -660,6 +668,7 @@ if ($action === "view" && $role === "doctor" && $cur->status === "pending") {
                                         doctor_remarks: doctor_remarks,
                                         tooth_tags: tooth_tags,
                                         service_charge: service_charge,
+                                        prescription: prescription,
                                     },
                                     success: function(data) {
                                         console.log('data: ', data);

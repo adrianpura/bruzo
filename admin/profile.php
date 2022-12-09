@@ -73,11 +73,13 @@ $result = $mydb->loadSingleResult($query);
 
                         </div>
                         <div class="ibox-content profile-content">
+                            <input type="hidden" id="user_id" value="<?php echo $id; ?>">
                             <h4><strong><?php echo $result->first_name; ?> <?php echo $result->last_name; ?></strong> </h4>
                             <p><strong><i class="fa fa-map-marker"></i> <?php echo $result->address; ?></strong></p>
                             <p><strong><i class="fa fa-venus-mars"></i> <?php echo $result->sex; ?>, <?php echo $result->age; ?></strong></p>
                             <p><strong><i class="fa fa-address-book"></i> <?php echo $result->contact_number; ?></strong></p>
                             <p><strong><i class="fa fa-at"></i> <?php echo $result->email; ?></strong></p>
+                            <p><strong><i class="fa fa-dot-circle-o"></i> <?php echo $result->status; ?></strong></p>
                             <!-- <button class="btn btn-success" data-toggle="modal" data-target="#update-password-modal" id="update-password">Update Password</button> -->
                             <a class="btn btn-success" href="../admin/profile_update.php">Edit Profile</a>
                             <a href="" class="btn btn-danger deleteButton" id="<?php echo $result->id; ?>"><i class="fa fa-trash"></i> Delete</a>
@@ -119,7 +121,9 @@ $result = $mydb->loadSingleResult($query);
 
             $('.deleteButton').click(function(e) {
                 e.preventDefault();
-                var id = $(this).attr('id');
+                // var id = $(this).attr('id');
+                var id = $("#user_id").val();
+
                 console.log('id: ', id);
                 swal({
                         title: "Delete Account",
@@ -143,11 +147,25 @@ $result = $mydb->loadSingleResult($query);
                                 },
                                 success: function(data) {
                                     console.log('data: ', data);
-                                    if (data.code == "200") {
-                                        swal("Deleted!", "Account deleted", "success");
-                                        setTimeout(function() {
-                                            window.location = "../index.php";
-                                        }, 1000);
+                                    console.log('data.code === "200": ', data.code === 200);
+                                    console.log('data.msg === "user deleted": ', data.msg === "user deleted");
+                                    if (data.code === 200) {
+
+
+                                        if (data.msg === "user deactivated") {
+                                            console.log("deactivated");
+                                            swal("Deactivated!", "Account Deactivated", "success");
+                                            setTimeout(function() {
+                                                window.location = "profile.php";
+                                            }, 1000);
+                                        }
+                                        if (data.msg === "user deleted") {
+                                            console.log("deleted");
+                                            swal("Deleted!", "Account Deleted", "success");
+                                            setTimeout(function() {
+                                                window.location = "../logout.php";
+                                            }, 1000);
+                                        }
 
                                     } else {
                                         swal("Unable to delete account", data.msg, "error");

@@ -40,6 +40,7 @@ function doRegister()
         $user->last_name = $last_name;
         $user->email = $email;
         $user->role = "patient";
+        $user->status = "Active";
         $user->password = $hashPassword;
         $userId = $user->create();
         if ($userId !== false) {
@@ -114,13 +115,28 @@ function doUpdate()
 function doDelete()
 {
     global $mydb;
-
-    $serviceId = $_POST['id'];
-    $query = $mydb->setQuery("DELETE FROM users WHERE id=$serviceId");
-    $q = $mydb->executeQuery($query);
-    if ($q) {
-        echo json_encode(['code' => 200, 'msg' => "service deleted"]);
+    $userId = $_POST['id'];
+    // $userId = 65;
+    $mydb->setQuery("select * from appointments a left join patients p on a.patientId = p.id where p.userId = '" . $userId . "'");
+    $userAppointment = $mydb->loadResultList();
+    $count = count($userAppointment);
+    if ($count === 0) {
+        $query = $mydb->setQuery("DELETE FROM users WHERE id= '" . $userId . "'");
+        $q = $mydb->executeQuery($query);
+        // $q = true;
+        if ($q) {
+            echo json_encode(['code' => 200, 'msg' => "user deleted"]);
+        } else {
+            echo json_encode(['code' => 404, 'msg' => "unable to delete"]);
+        }
     } else {
-        echo json_encode(['code' => 404, 'msg' => "unable to delete"]);
+        $users = new User();
+        $users->status = "Inactive";
+        $updateUser = $users->update($userId);
+        if ($updateUser !== false) {
+            echo json_encode(['code' => 200, 'msg' => "user deactivated", 'data' => $count]);
+        } else {
+            echo json_encode(['code' => 404, 'msg' => "unable to delete"]);
+        }
     }
 }
